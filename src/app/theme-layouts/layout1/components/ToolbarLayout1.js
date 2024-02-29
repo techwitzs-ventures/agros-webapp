@@ -10,7 +10,6 @@ import { selectFuseNavbar } from 'app/store/fuse/navbarSlice';
 import NotificationPanelToggleButton from '../../shared-components/notificationPanel/NotificationPanelToggleButton';
 import NavbarToggleButton from '../../shared-components/NavbarToggleButton';
 import UserMenu from '../../shared-components/UserMenu';
-import settingsConfig from 'app/configs/settingsConfig';
 
 function ToolbarLayout1(props) {
   const config = useSelector(selectFuseCurrentLayoutConfig);
@@ -56,7 +55,6 @@ function ToolbarLayout1(props) {
           <div className="flex items-center px-8 h-full overflow-x-auto">
 
             {/* <NotificationPanelToggleButton /> */}
-            {settingsConfig.enableMockAPI ? "Mock" : "Backend"}
             <UserMenu />
           </div>
 

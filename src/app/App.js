@@ -16,16 +16,17 @@ import withAppProviders from './withAppProviders';
 import { AuthProvider } from './main/apps/accounts/auth/AuthContext';
 import axios from 'axios';
 
-if(settingsConfig.enableMockAPI){
+console.log(process.env.REACT_APP_ENV_NAME)
+if (process.env.REACT_APP_ENV_NAME === 'dev' && process.env.REACT_APP_ENABLE_MOCK_API) {
   import('@mock-api')
-} 
-
-/**
- * Axios HTTP Request defaults
- */
-axios.defaults.baseURL = settingsConfig.backendAPIUrl;
-// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-axios.defaults.headers.common['Content-Type'] = 'application/json';
+} else {
+  /**
+   * Axios HTTP Request defaults
+   */
+  axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL
+  // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+  axios.defaults.headers.common['Content-Type'] = 'application/json';
+}
 
 const emotionCacheOptions = {
   rtl: {

@@ -28,7 +28,7 @@ import {
 import InvoicesTableHead from "./invoices_TableHead";
 import { showMessage } from "app/store/fuse/messageSlice";
 import { selectOrganization } from "app/store/organizationSlice";
-import { INVprocessingStatus } from "app/configs/inv_processingStatusConfig";
+import InvoiceStatus from "../invoice_ui/invoice_status";
 
 function InvoicesTable(props) {
   const dispatch = useDispatch();
@@ -271,19 +271,7 @@ function InvoicesTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {n.processing_status === "paid" ? (
-                        <span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
-                          <FuseSvgIcon className="text-green" size={20}>
-                            heroicons-outline:check-circle
-                          </FuseSvgIcon><span className='ps-2'>{INVprocessingStatus[1].label}</span>
-                        </span>
-                      ) : (
-                        <span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
-                          <FuseSvgIcon className="text-red" size={20}>
-                            heroicons-outline:minus-circle
-                          </FuseSvgIcon><span className='ps-2'>{INVprocessingStatus[0].label}</span>
-                        </span>
-                      )}
+                      <InvoiceStatus value={n.processing_status}/>
                     </TableCell>
 
                     <TableCell

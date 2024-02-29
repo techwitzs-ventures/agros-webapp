@@ -1,6 +1,5 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { saveSinglePurchaseOrder } from "./single_purchase_order_Slice";
 
 export const getPurchaseOrders = createAsyncThunk("orderApp/purchaseorders/getPurchaseOrders",
   async (get_purchaseorders_obj) => {
@@ -45,7 +44,6 @@ const purchaseordersSlice = createSlice({
   },
   extraReducers: {
     [getPurchaseOrders.fulfilled]: purchaseordersAdapter.setAll,
-    [saveSinglePurchaseOrder.fulfilled]: purchaseordersAdapter.addOne,
     [removePurchaseOrders.fulfilled]: (state, action) =>
       purchaseordersAdapter.removeMany(state, action.payload)
   },

@@ -164,12 +164,12 @@ function SignInWithMobileNumberPage() {
                                 Sign in
                             </Typography>
                         </div>
-                        <div className="flex justify-center items-baseline mt-2 font-medium">
+                        {/* <div className="flex justify-center items-baseline mt-2 font-medium">
                             <Typography>Don't have an account?</Typography>
                             <Link className="ml-4" to="/sign-up">
                                 Sign up
                             </Link>
-                        </div>
+                        </div> */}
 
                         {userdataForPasswordPage !== '' ? (
                             <SignInWithUsernamePasswordPage usercredential={userdataForPasswordPage} />

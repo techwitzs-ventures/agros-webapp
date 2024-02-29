@@ -30,9 +30,9 @@ import {
 import RecievedSalesOrdersTableHead from "./recieved_sales_orders_TableHead";
 import { showMessage } from "app/store/fuse/messageSlice";
 import { selectOrganization } from "app/store/organizationSlice";
-import { SOprocessingStatus } from "app/configs/so_processingStatusConfig";
 import CircularProgress from '@mui/material/CircularProgress';
 import { grey } from '@mui/material/colors';
+import SOOrdersStatus from "../single_sales_order/single_sales_order_status";
 
 function RecievedSalesOrdersTable(props) {
   const dispatch = useDispatch();
@@ -340,18 +340,7 @@ function RecievedSalesOrdersTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {SOprocessingStatus.map((processing_status) => {
-                        if (processing_status.value === n.processing_status) {
-                          return (
-                            <span key={processing_status.value} className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
-                              <FuseSvgIcon className="text-green" size={20}>
-                                heroicons-outline:check-circle
-                              </FuseSvgIcon><span className='ps-2'>{processing_status.label}</span>
-                            </span>
-                          )
-                        }
-                      })
-                      }
+                      <SOOrdersStatus value={n.processing_status} />
                     </TableCell>
 
                     <TableCell
