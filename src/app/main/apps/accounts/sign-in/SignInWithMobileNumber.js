@@ -55,6 +55,7 @@ function SignInWithMobileNumberPage() {
             const result = await jwtService.getUserByMobileNumber({ body: { mobilenumber: mobileno } });
             if (result.response !== null) {
                 setUserdataForOTPPage(mobileno)
+                dispatch(showMessage({ message: "OTP Sent", variant: "success" }))
                 await jwtService.signIn({ body: { mobilenumber: mobileno } });
                 setloading(false);
             } else {
