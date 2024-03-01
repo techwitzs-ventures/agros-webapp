@@ -4,7 +4,6 @@ import { Navigate } from 'react-router-dom';
 import settingsConfig from 'app/configs/settingsConfig';
 import appsConfigs from '../main/apps/appsConfig';
 import SignInConfig from '../main/apps/accounts/sign-in/SignInConfig';
-import SignUpConfig from '../main/apps/accounts/sign-up/SignUpConfig';
 import OtpPageConfig from '../main/apps/accounts/otp/otpConfig';
 import SignOutConfig from '../main/apps/accounts/sign-out/SignOutConfig';
 import dashboardsConfigs from '../main/dashboards/dashboardsConfigs';
@@ -14,7 +13,6 @@ const routeConfigs = [
   ...dashboardsConfigs,
   SignOutConfig,
   SignInConfig,
-  SignUpConfig,
   OtpPageConfig,
 ];
 

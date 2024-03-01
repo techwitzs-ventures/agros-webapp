@@ -53,13 +53,15 @@ function SignInWithMobileNumberPage() {
         setloading(true)
         try {
             const result = await jwtService.getUserByMobileNumber({ body: { mobilenumber: mobileno } });
-            if (result.response!==null) {
+            if (result.response !== null) {
                 setUserdataForOTPPage(mobileno)
                 await jwtService.signIn({ body: { mobilenumber: mobileno } });
                 setloading(false);
             } else {
                 dispatch(showMessage({ message: 'Mobile Number Not Registered!' }));
-                navigate('/sign-up');
+                setTimeout(() => {
+                    window.location.href = 'https://onboard.dev.ecomsaas.click/'
+                }, 500)
                 setloading(false);
             }
             reset(defaultValues);
@@ -78,12 +80,14 @@ function SignInWithMobileNumberPage() {
         const mobileno = getValues('mobileno');
         try {
             const result = await jwtService.getUserByMobileNumber({ body: { mobilenumber: mobileno } });
-            if (result.response!==null) {
+            if (result.response !== null) {
                 setuserdataForPasswordPage(mobileno)
                 setPasswordLoading(false);
             } else {
                 dispatch(showMessage({ message: 'Mobile Number Not Registered!' }));
-                navigate('/sign-up');
+                setTimeout(() => {
+                    window.location.href = 'https://onboard.dev.ecomsaas.click/'
+                }, 500)
                 setPasswordLoading(false);
             }
             reset(defaultValues);
@@ -165,10 +169,7 @@ function SignInWithMobileNumberPage() {
                             </Typography>
                         </div>
                         <div className="flex justify-center items-baseline mt-2 font-medium">
-                            <Typography>Don't have an account?</Typography>
-                            <Link className="ml-4" to="/sign-up">
-                                Sign up
-                            </Link>
+                            <Typography>to your account</Typography>
                         </div>
 
                         {userdataForPasswordPage !== '' ? (
