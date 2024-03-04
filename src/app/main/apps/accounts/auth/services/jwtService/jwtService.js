@@ -81,14 +81,14 @@ class JwtService extends FuseUtils.EventEmitter {
     }
   };
 
-  updateUserCredentialByUUID = async (data, organization_id) => {
+  updateUserCredentialByUUID = async (data, tenant_id) => {
     return new Promise((resolve, reject) => {
       Auth.currentAuthenticatedUser()
         .then(async (response) => {
           if (response) {
             const result = await API.patch(
               jwtServiceConfig.updateuserbyuuid.apiname,
-              `${jwtServiceConfig.updateuserbyuuid.path}/?uuid=${response.signInUserSession.accessToken.payload.sub}&organization_id=${organization_id}`,
+              `${jwtServiceConfig.updateuserbyuuid.path}/?uuid=${response.signInUserSession.accessToken.payload.sub}&tenant_id=${tenant_id}`,
               data
             );
             this.emit("onUpdate", result.response);
