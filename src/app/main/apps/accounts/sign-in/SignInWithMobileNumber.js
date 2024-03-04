@@ -19,10 +19,10 @@ import SignInWithUsernamePasswordPage from './SignInWithUsernamePassword';
 const schema = yup.object().shape({
     mobileno: yup
         .string()
-        .required('Enter your Mobile Number')
+        .required('Enter your Mob.no')
         .matches(
-            /^(?:\+\d{1,3}\s?)?(?:\d{10}|\d{3}[-\s]?\d{4}[-\s]?\d{3})$/,
-            'Invalid mobile number format'
+            /^\+91\d{10}$/,
+            'Invalid Mob.no format (e.g. +91930***4906)'
         )
 });
 
@@ -39,7 +39,6 @@ function SignInWithMobileNumberPage() {
     const [PasswordLoading, setPasswordLoading] = useState(false)
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const { control, formState, handleSubmit, setError, reset, getValues } = useForm({
         mode: 'onChange',
@@ -52,20 +51,18 @@ function SignInWithMobileNumberPage() {
     async function onSubmit({ mobileno }) {
         setloading(true)
         try {
-            const result = await jwtService.getUserByMobileNumber({ body: { mobilenumber: mobileno } });
-            if (result.response !== null) {
+            const result = await jwtService.signIn(mobileno);
+            if (!result.status && result.code === 0) {
+                dispatch(showMessage({ message: 'Mobile Number Not Registered!', variant: "warning" }));
+                setloading(false);
+            } else if (result.status && result.code === 1) {
                 setUserdataForOTPPage(mobileno)
                 dispatch(showMessage({ message: "OTP Sent", variant: "success" }))
-                await jwtService.signIn({ body: { mobilenumber: mobileno } });
                 setloading(false);
+                reset(defaultValues);
             } else {
-                dispatch(showMessage({ message: 'Mobile Number Not Registered!' }));
-                setTimeout(() => {
-                    window.location.href = 'https://onboard.dev.ecomsaas.click/'
-                }, 500)
-                setloading(false);
+                console.log(result)
             }
-            reset(defaultValues);
         } catch (_errors) {
             _errors.forEach((error) => {
                 setError(error.type, {
@@ -80,18 +77,17 @@ function SignInWithMobileNumberPage() {
         setPasswordLoading(true)
         const mobileno = getValues('mobileno');
         try {
-            const result = await jwtService.getUserByMobileNumber({ body: { mobilenumber: mobileno } });
-            if (result.response !== null) {
+            const result = await jwtService.signInWithEmailPassword(mobileno)
+            if (!result.status && result.code === 0) {
+                dispatch(showMessage({ message: 'Mobile Number Not Registered!', variant: "warning" }));
+                setPasswordLoading(false);
+            } else if (result.status && result.code === 1) {
                 setuserdataForPasswordPage(mobileno)
                 setPasswordLoading(false);
+                reset(defaultValues);
             } else {
-                dispatch(showMessage({ message: 'Mobile Number Not Registered!' }));
-                setTimeout(() => {
-                    window.location.href = 'https://onboard.dev.ecomsaas.click/'
-                }, 500)
-                setPasswordLoading(false);
+                console.log(result)
             }
-            reset(defaultValues);
         } catch (_errors) {
             _errors.forEach((error) => {
                 setError(error.type, {
@@ -170,7 +166,10 @@ function SignInWithMobileNumberPage() {
                             </Typography>
                         </div>
                         <div className="flex justify-center items-baseline mt-2 font-medium">
-                            <Typography>to your account</Typography>
+                            <Typography>Don't have an account?</Typography>
+                            <Link className="ml-4" to={`https://${process.env.REACT_APP_ONBOARDING_URL}.${process.env.REACT_APP_HOST_NAME}/`}>
+                                Create Account
+                            </Link>
                         </div>
 
                         {userdataForPasswordPage !== '' ? (

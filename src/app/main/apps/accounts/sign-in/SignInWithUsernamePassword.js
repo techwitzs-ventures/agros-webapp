@@ -12,10 +12,10 @@ import { showMessage } from 'app/store/fuse/messageSlice';
 const schema = yup.object().shape({
     mobileno: yup
         .string()
-        .required('Enter your Mobile Number')
+        .required('Enter your Mob.no')
         .matches(
-            /^(?:\+\d{1,3}\s?)?(?:\d{10}|\d{3}[-\s]?\d{4}[-\s]?\d{3})$/,
-            'Invalid mobile number format'
+            /^\+91\d{10}$/,
+            'Invalid Mob.no format (e.g. +91930***4906)'
         ),
     password: yup
         .string()
@@ -24,7 +24,7 @@ const schema = yup.object().shape({
 
 
 
-function SignInWithUsernamePasswordPage({usercredential}) {
+function SignInWithUsernamePasswordPage({ usercredential }) {
 
     const defaultValues = {
         mobileno: usercredential,
@@ -45,9 +45,9 @@ function SignInWithUsernamePasswordPage({usercredential}) {
     async function onSubmit({ mobileno, password }) {
         setloading(true)
         try {
-            const noerror = await jwtService.signWithEmailPassword(mobileno, password)
-            if (!noerror) {
-                dispatch(showMessage({ message: "Incorrect Username Password" }))
+            const result = await jwtService.signInWithEmailPassword(mobileno, password)
+            if (!result.status && result.code === 2) {
+                dispatch(showMessage({ message: "Incorrect Username Password", variant: "error" }))
             }
             setloading(false);
             reset(defaultValues);
@@ -62,62 +62,62 @@ function SignInWithUsernamePasswordPage({usercredential}) {
     }
 
     return (
-                <form
-                    name="loginForm"
-                    noValidate
-                    className="flex flex-col justify-center w-full mt-32"
-                    onSubmit={handleSubmit(onSubmit)}
-                >
-                    <Controller
-                        name="mobileno"
-                        control={control}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                className="mb-24"
-                                label="Mobile No"
-                                disabled={loading}
-                                type="text"
-                                error={!!errors.mobileno}
-                                helperText={errors?.mobileno?.message}
-                                variant="outlined"
-                                required
-                                fullWidth
-                            />
-                        )}
+        <form
+            name="loginForm"
+            noValidate
+            className="flex flex-col justify-center w-full mt-32"
+            onSubmit={handleSubmit(onSubmit)}
+        >
+            <Controller
+                name="mobileno"
+                control={control}
+                render={({ field }) => (
+                    <TextField
+                        {...field}
+                        className="mb-24"
+                        label="Mobile No"
+                        disabled={loading}
+                        type="text"
+                        error={!!errors.mobileno}
+                        helperText={errors?.mobileno?.message}
+                        variant="outlined"
+                        required
+                        fullWidth
                     />
-                    <Controller
-                        name="password"
-                        control={control}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                className="mb-24"
-                                label="Password"
-                                type="password"
-                                autoFocus={true}
-                                disabled={loading}
-                                error={!!errors.password}
-                                helperText={errors?.password?.message}
-                                variant="outlined"
-                                required
-                                fullWidth
-                            />
-                        )}
+                )}
+            />
+            <Controller
+                name="password"
+                control={control}
+                render={({ field }) => (
+                    <TextField
+                        {...field}
+                        className="mb-24"
+                        label="Password"
+                        type="password"
+                        autoFocus={true}
+                        disabled={loading}
+                        error={!!errors.password}
+                        helperText={errors?.password?.message}
+                        variant="outlined"
+                        required
+                        fullWidth
                     />
-                    <LoadingButton
-                        variant="contained"
-                        color="secondary"
-                        className=" w-full mt-16"
-                        aria-label="Sign in"
-                        disabled={_.isEmpty(dirtyFields) || !isValid}
-                        type="submit"
-                        size="large"
-                        loading={loading}
-                    >
-                        <span>Sign In</span>
-                    </LoadingButton>
-                </form>
+                )}
+            />
+            <LoadingButton
+                variant="contained"
+                color="secondary"
+                className=" w-full mt-16"
+                aria-label="Sign in"
+                disabled={_.isEmpty(dirtyFields) || !isValid}
+                type="submit"
+                size="large"
+                loading={loading}
+            >
+                <span>Sign In</span>
+            </LoadingButton>
+        </form>
     );
 }
 

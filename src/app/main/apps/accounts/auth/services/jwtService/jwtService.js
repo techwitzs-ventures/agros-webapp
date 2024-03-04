@@ -57,53 +57,17 @@ class JwtService extends FuseUtils.EventEmitter {
   };
 
   // User Table Enpoints
-  createUser = async (data) => {
-    try {
-      const response = await API.post(
-        jwtServiceConfig.signup.apiname,
-        jwtServiceConfig.signup.path,
-        data
-      );
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  getUserByOrganizationId = async (org_id) => {
-    try {
-      return await API.get(
-        jwtServiceConfig.getuserbyorganizationid.apiname,
-        `${jwtServiceConfig.getuserbyorganizationid.path}/?organization_id=${org_id}`
-      )
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  getUserByMobileNumber = async (data) => {
-    try {
-      return await API.post(
-        jwtServiceConfig.getuserbymobile.apiname,
-        jwtServiceConfig.getuserbymobile.path,
-        data
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  getUserByEmail = async (data) => {
-    try {
-      return await API.post(
-        jwtServiceConfig.getuserbyemail.apiname,
-        jwtServiceConfig.getuserbyemail.path,
-        data
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // getUserByOrganizationId = async (org_id) => {
+  //   try {
+  //     return await API.get(
+  //       jwtServiceConfig.getuserbyorganizationid.apiname,
+  //       `${jwtServiceConfig.getuserbyorganizationid.path}/?organization_id=${org_id}`
+  //     )
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   getSingleUserDetailsByUUID = async (data) => {
     try {
@@ -140,13 +104,12 @@ class JwtService extends FuseUtils.EventEmitter {
         });
     });
   };
-  
+
   // Cognito Authentication Endpoints
   verifyAuth = () => {
     return new Promise((resolve, reject) => {
       Auth.currentAuthenticatedUser()
         .then(async (response) => {
-          this.sessionvariable = null;
           if (response) {
             const user = await this.getSingleUserDetailsByUUID({
               body: {
@@ -167,58 +130,50 @@ class JwtService extends FuseUtils.EventEmitter {
     });
   };
 
-  signWithEmailPassword = async (username, password) => {
-    return await Auth.signIn({ username, password })
-      .then(async (response) => {
+  signInWithEmailPassword = async (username, password) => {
+    try {
+      const result = await Auth.signIn({ username, password });
+      if (result.signInUserSession !== null) {
         const user = await this.getSingleUserDetailsByUUID({
-          body: { uuid: response.signInUserSession.accessToken.payload.sub },
+          body: { uuid: result.signInUserSession.accessToken.payload.sub },
         });
-        this.setSession(response.signInUserSession.accessToken.jwtToken);
+        this.setSession(result.signInUserSession.accessToken.jwtToken);
         this.emit("onLogin", user.response);
-        return true;
-      })
-      .catch((e) => {
-        if (e.code === "UserNotFoundException") {
-          this.signUpInCognito(username);
-        } else if (e.code === "UsernameExistsException") {
-          this.signWithEmailPassword(username, password);
-        } else if (e.code === "NotAuthorizedException") {
-          return false;
-        } else {
-          console.log(e.code);
-          console.log(e.message);
-        }
-      });
+        return { code: 4, status: true };
+      } else {
+        return { code: 1, status: true };
+      }
+    } catch (e) {
+      if (e.code === "UserNotFoundException") {
+        return { code: 0, status: false };
+      } else if (e.code === "UsernameExistsException") {
+        this.signInWithEmailPassword(username, password);
+      } else if (e.code === "NotAuthorizedException") {
+        return { code: 2, status: false };
+      } else {
+        console.log(e.message);
+        return { code: 3, status: false };
+      }
+    }
   };
 
-  signIn = async (request) => {
-    await Auth.signIn(request.body.mobilenumber)
-      .then((result) => {
-        this.sessionvariable = result;
-      })
-      .catch((e) => {
-        if (e.code === "UserNotFoundException") {
-          this.signUpInCognito(request);
-        } else if (e.code === "UsernameExistsException") {
-          this.signIn(request);
-        } else if (e.code === "NotAuthorizedException") {
-          console.log("UnAuthenticated Access");
-        } else {
-          console.log(e.message);
-        }
-      });
-  };
-
-  signUpInCognito = async (request) => {
-    const result = await Auth.signUp({
-      username: request.body.mobilenumber,
-      password: this.password,
-      attributes: {
-        phone_number: request.body.mobilenumber,
-        email: request.body.email,
-      },
-    }).then(() => this.signIn(request));
-    return result;
+  signIn = async (mobilenumber) => {
+    try {
+      const result = await Auth.signIn(mobilenumber);
+      this.sessionvariable = result;
+      return { code: 1, status: true };
+    } catch (e) {
+      if (e.code === "UserNotFoundException") {
+        return { code: 0, status: false };
+      } else if (e.code === "UsernameExistsException") {
+        this.signIn(mobilenumber);
+      } else if (e.code === "NotAuthorizedException") {
+        return { code: 2, status: false };
+      } else {
+        console.log(e.message);
+        return { code: 3, status: false };
+      }
+    }
   };
 
   sendEmailOTPForResetPassword = async () => {
@@ -299,52 +254,22 @@ class JwtService extends FuseUtils.EventEmitter {
       });
   };
 
-  verifyOtp = async (otp, email, mob, fn, ln) => {
-    if (
-      email === undefined &&
-      mob === undefined &&
-      fn === undefined &&
-      ln === undefined
-    ) {
-      return await Auth.sendCustomChallengeAnswer(this.sessionvariable, otp)
-        .then(async (response) => {
-          this.sessionvariable = null;
-          const user = await this.getSingleUserDetailsByUUID({
-            body: { uuid: response.signInUserSession.accessToken.payload.sub },
-          });
-          this.setSession(response.signInUserSession.accessToken.jwtToken);
-          this.emit("onLogin", user.response);
-          return true;
-        })
-        .catch((err) => {
-          if (err.code === "NotAuthorizedException") {
-            return false;
-          }
+  verifyOtp = async (otp) => {
+    return await Auth.sendCustomChallengeAnswer(this.sessionvariable, otp)
+      .then(async (response) => {
+        this.sessionvariable = null;
+        const user = await this.getSingleUserDetailsByUUID({
+          body: { uuid: response.signInUserSession.accessToken.payload.sub },
         });
-    } else {
-      return await Auth.sendCustomChallengeAnswer(this.sessionvariable, otp)
-        .then(async (response) => {
-          this.sessionvariable = null;
-          const request = {
-            body: {
-              email,
-              mobilenumber: mob,
-              firstname: fn,
-              lastname: ln,
-              uuid: response.signInUserSession.accessToken.payload.sub,
-            },
-          };
-          const result = await this.createUser(request);
-          this.setSession(response.signInUserSession.accessToken.jwtToken);
-          this.emit("onLogin", result.response);
-          return true;
-        })
-        .catch((err) => {
-          if (err.code === "NotAuthorizedException") {
-            return false;
-          }
-        });
-    }
+        this.setSession(response.signInUserSession.accessToken.jwtToken);
+        this.emit("onLogin", user.response);
+        return true;
+      })
+      .catch((err) => {
+        if (err.code === "NotAuthorizedException") {
+          return false;
+        }
+      });
   };
 
   logout = () => {

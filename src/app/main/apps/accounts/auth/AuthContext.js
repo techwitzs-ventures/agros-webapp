@@ -36,7 +36,7 @@ function AuthProvider({ children }) {
     });
 
     jwtService.on('onLogin', (user) => {
-      success(user, 'Signed in');
+      success(user, 'Signed In');
     });
 
     jwtService.on('onUpdate', (user) => {
@@ -44,7 +44,7 @@ function AuthProvider({ children }) {
     })
 
     jwtService.on('onLogout', () => {
-      pass('Signed out');
+      pass('Signed Out');
       dispatch(logoutUser());
     });
 

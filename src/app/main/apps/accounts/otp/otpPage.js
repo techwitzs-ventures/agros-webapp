@@ -40,51 +40,32 @@ function OtpPage({ usercredential }) {
     setLoading(true);
     try {
       const sendotp = otp.toString();
-      if (typeof (usercredential) !== 'string') {
-        if (!OTPText.success) {
-          reset(defaultValues);
-          setLoading(true);
-          setOTPText({ text: 'Verify OTP', success: true });
-          await JwtService.signIn({ body: { mobilenumber: usercredential.mobilenumber } });
+      if (!OTPText.success) {
+        reset(defaultValues);
+        setLoading(true);
+        setOTPText({ text: 'Verify OTP', success: true });
+        const result = await JwtService.signIn(usercredential);
+        if (result.status && result.code === 1) {
           setLoading(false)
         } else {
-          const response = await JwtService.verifyOtp(
-            sendotp,
-            usercredential.email,
-            usercredential.mobilenumber,
-            usercredential.firstname,
-            usercredential.lastname
-          );
-          if (response !== true) {
-            dispatch(showMessage({ message: 'Incorrect OTP' }));
-            setOTPText({ text: 'Resend OTP', success: false });
-            setLoading(false);
-          } else {
-            reset(defaultValues);
-          }
+          console.log(result)
         }
       } else {
-        if (!OTPText.success) {
-          reset(defaultValues);
-          setLoading(true);
-          setOTPText({ text: 'Verify OTP', success: true });
-          await JwtService.signIn({ body: { mobilenumber: usercredential } });
-          setLoading(false)
+        const response = await JwtService.verifyOtp(sendotp);
+        if (response !== true) {
+          dispatch(showMessage({ message: 'Incorrect OTP', variant: "error" }));
+          setOTPText({ text: 'Resend OTP', success: false })
+          setLoading(false);
         } else {
-          const response = await JwtService.verifyOtp(sendotp);
-          if (response !== true) {
-            dispatch(showMessage({ message: 'Incorrect OTP' }));
-            setOTPText({ text: 'Resend OTP', success: false })
-            setLoading(false);
-          } else {
-            reset(defaultValues);
-          }
+          reset(defaultValues);
+          setLoading(false)
         }
       }
     } catch (error) {
       console.log(error);
     }
   }
+
   return (
     <Paper className="h-full sm:h-auto md:flex md:items-center w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none rtl:border-r-1 ltr:border-l-1">
       <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
@@ -110,7 +91,7 @@ function OtpPage({ usercredential }) {
           :
           <div className="flex flex-col justify-center items-center mt-2 font-medium">
             <Typography>Send the OTP again</Typography>
-            <Typography>{typeof (usercredential) !== 'string' ? `(Mobile Number: ${usercredential.mobilenumber})` : `(Mobile Number: ${usercredential})`}</Typography>
+            <Typography>{`(Mobile Number: ${usercredential})`}</Typography>
           </div>
         }
         <form

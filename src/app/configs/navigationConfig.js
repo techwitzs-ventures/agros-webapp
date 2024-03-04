@@ -123,7 +123,6 @@ const navigationConfig = [
     id: 'marketplace.users',
     title: 'All Users',
     type: 'item',
-    disabled: true,
     auth: authRoles.plateformadmin
   },
   {
