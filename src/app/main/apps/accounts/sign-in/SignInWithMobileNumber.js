@@ -5,16 +5,14 @@ import { Controller, useForm } from 'react-hook-form';
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import _ from '@lodash';
 import config from '../../../../configs/navigation-i18n/en'
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import OtpPage from '../otp/otpPage';
 import jwtService from '../auth/services/jwtService';
 import { showMessage } from 'app/store/fuse/messageSlice';
-import SignInWithUsernamePasswordPage from './SignInWithUsernamePassword';
 
 const schema = yup.object().shape({
     mobileno: yup
@@ -23,24 +21,24 @@ const schema = yup.object().shape({
         .matches(
             /^\+91\d{10}$/,
             'Invalid Mob.no format (e.g. +91930***4906)'
-        )
+        ),
+    password: yup
+        .string()
+        .required('Please enter your password.')
 });
 
 const defaultValues = {
-    mobileno: ''
+    mobileno: '',
+    password: ''
 };
 
 function SignInWithMobileNumberPage() {
 
-    const [userdataForOTPPage, setUserdataForOTPPage] = useState('');
-    const [userdataForPasswordPage, setuserdataForPasswordPage] = useState('')
-
-    const [loading, setloading] = useState(false);
     const [PasswordLoading, setPasswordLoading] = useState(false)
 
     const dispatch = useDispatch();
 
-    const { control, formState, handleSubmit, setError, reset, getValues } = useForm({
+    const { control, formState, handleSubmit, setError, reset } = useForm({
         mode: 'onChange',
         defaultValues,
         resolver: yupResolver(schema),
@@ -48,53 +46,40 @@ function SignInWithMobileNumberPage() {
 
     const { isValid, dirtyFields, errors } = formState;
 
-    async function onSubmit({ mobileno }) {
-        setloading(true)
-        try {
-            const result = await jwtService.signIn(mobileno);
-            if (!result.status && result.code === 0) {
-                dispatch(showMessage({ message: 'Mobile Number Not Registered!', variant: "warning" }));
-                setloading(false);
-            } else if (result.status && result.code === 1) {
-                setUserdataForOTPPage(mobileno)
-                dispatch(showMessage({ message: "OTP Sent", variant: "success" }))
-                setloading(false);
-                reset(defaultValues);
-            } else {
-                console.log(result)
-            }
-        } catch (_errors) {
-            _errors.forEach((error) => {
-                setError(error.type, {
-                    type: 'manual',
-                    message: error.message,
-                });
-            });
-        }
-    }
-
-    const handleUsernamePasswordSignInButton = async () => {
+    async function onSubmit({ mobileno, password }) {
         setPasswordLoading(true)
-        const mobileno = getValues('mobileno');
         try {
-            const result = await jwtService.signInWithEmailPassword(mobileno)
-            if (!result.status && result.code === 0) {
+            const result = await jwtService.signInWithEmailPassword(mobileno, password)
+
+            if (!result.status && result.code === 2) {
+
+                dispatch(showMessage({ message: "Incorrect Username Password", variant: "error" }));
+                setPasswordLoading(false);
+
+            } else if (!result.status && result.code === 0) {
+
                 dispatch(showMessage({ message: 'Mobile Number Not Registered!', variant: "warning" }));
                 setPasswordLoading(false);
+
             } else if (result.status && result.code === 1) {
-                setuserdataForPasswordPage(mobileno)
+                
                 setPasswordLoading(false);
                 reset(defaultValues);
+
             } else {
+
                 console.log(result)
             }
+
         } catch (_errors) {
+
             _errors.forEach((error) => {
                 setError(error.type, {
                     type: 'manual',
                     message: error.message,
                 });
             });
+
         }
     }
 
@@ -155,82 +140,80 @@ function SignInWithMobileNumberPage() {
                     </div>
                 </div>
             </Box>
-            {userdataForOTPPage !== '' ? (
-                <OtpPage usercredential={userdataForOTPPage} />
-            ) : (
-                <Paper className="h-full sm:h-auto md:flex md:items-center w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none rtl:border-r-1 ltr:border-l-1">
-                    <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
-                        <div className="flex justify-center">
-                            <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
-                                Sign in
-                            </Typography>
-                        </div>
-                        <div className="flex justify-center items-baseline mt-2 font-medium">
-                            <Typography>Don't have an account?</Typography>
-                            <Link className="ml-4" to={`https://${process.env.REACT_APP_ONBOARDING_URL}.${process.env.REACT_APP_HOST_NAME}/`}>
-                                Create Account
-                            </Link>
-                        </div>
-
-                        {userdataForPasswordPage !== '' ? (
-                            <SignInWithUsernamePasswordPage usercredential={userdataForPasswordPage} />
-                        ) : (<form
-                            name="loginForm"
-                            noValidate
-                            className="flex flex-col justify-center w-full mt-32"
-                            onSubmit={handleSubmit(onSubmit)}
-                        >
-                            <Controller
-                                name="mobileno"
-                                control={control}
-                                render={({ field }) => (
-                                    <TextField
-                                        {...field}
-                                        className="mb-24"
-                                        label="Mobile No"
-                                        autoFocus
-                                        disabled={loading || PasswordLoading}
-                                        type="text"
-                                        error={!!errors.mobileno}
-                                        helperText={errors?.mobileno?.message}
-                                        variant="outlined"
-                                        required
-                                        fullWidth
-                                    />
-                                )}
-                            />
-
-                            <LoadingButton
-                                variant="contained"
-                                color="secondary"
-                                className=" w-full mt-16"
-                                aria-label="Sign in"
-                                disabled={_.isEmpty(dirtyFields) || !isValid || PasswordLoading}
-                                type="submit"
-                                size="large"
-                                loading={loading}
-                            >
-                                <span>Sign In with OTP</span>
-                            </LoadingButton>
-                        </form>)}
-
-                        {userdataForPasswordPage === '' && <div className='flex justify-center'>
-                            <LoadingButton
-                                variant="contained"
-                                color="secondary"
-                                className=" w-full mt-16"
-                                aria-label="Sign in"
-                                disabled={_.isEmpty(dirtyFields) || !isValid || loading}
-                                size="large"
-                                onClick={handleUsernamePasswordSignInButton}
-                                loading={PasswordLoading}
-                            >
-                                <span>Sign in with Password</span>
-                            </LoadingButton>
-                        </div>}
+            <Paper className="h-full sm:h-auto md:flex md:items-center w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none rtl:border-r-1 ltr:border-l-1">
+                <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
+                    <div className="flex justify-center">
+                        <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
+                            Sign in
+                        </Typography>
                     </div>
-                </Paper>
-            )}
+                    <div className="flex justify-center items-baseline mt-2 font-medium">
+                        <Typography>Don't have an account?</Typography>
+                        <Link className="ml-4" to={`https://${process.env.REACT_APP_ONBOARDING_URL}.${process.env.REACT_APP_HOST_NAME}/`}>
+                            Create Account
+                        </Link>
+                    </div>
+
+                    <form
+                        name="loginForm"
+                        noValidate
+                        className="flex flex-col justify-center w-full mt-32"
+                        onSubmit={handleSubmit(onSubmit)}
+                    >
+                        <Controller
+                            name="mobileno"
+                            control={control}
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    className="mb-24"
+                                    label="Mobile No"
+                                    autoFocus={true}
+                                    disabled={PasswordLoading}
+                                    type="text"
+                                    error={!!errors.mobileno}
+                                    helperText={errors?.mobileno?.message}
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                />
+                            )}
+                        />
+
+                        <Controller
+                            name="password"
+                            control={control}
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    className="mb-24"
+                                    label="Password"
+                                    type="password"
+                                    disabled={PasswordLoading}
+                                    error={!!errors.password}
+                                    helperText={errors?.password?.message}
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                />
+                            )}
+                        />
+
+                        <LoadingButton
+                            variant="contained"
+                            color="secondary"
+                            className=" w-full mt-16"
+                            aria-label="Sign in"
+                            disabled={_.isEmpty(dirtyFields) || !isValid}
+                            type="submit"
+                            size="large"
+                            loading={PasswordLoading}
+                        >
+                            <span>Sign In</span>
+                        </LoadingButton>
+                    </form>
+                </div>
+            </Paper>
         </div>
     );
 }

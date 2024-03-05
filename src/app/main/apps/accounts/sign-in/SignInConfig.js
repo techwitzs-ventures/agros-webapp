@@ -1,6 +1,5 @@
 import authRoles from '../auth/authRoles';
 import SignInWithMobileNumberPage from './SignInWithMobileNumber';
-import SignInWithUsernamePasswordPage from './SignInWithUsernamePassword';
 
 const SignInConfig = {
   settings: {
@@ -29,10 +28,6 @@ const SignInConfig = {
     {
       path: 'sign-in',
       element: <SignInWithMobileNumberPage />,
-    },
-    {
-      path: 'username-sign-in',
-      element: <SignInWithUsernamePasswordPage />
     }
   ],
 };

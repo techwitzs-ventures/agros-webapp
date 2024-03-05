@@ -69,6 +69,7 @@ class JwtService extends FuseUtils.EventEmitter {
   //   }
   // }
 
+  // Fetching user's details from the user dynamodb or table
   getSingleUserDetailsByUUID = async (data) => {
     try {
       return await API.post(
@@ -81,6 +82,7 @@ class JwtService extends FuseUtils.EventEmitter {
     }
   };
 
+  // User Table API to update the user's credentials
   updateUserCredentialByUUID = async (data, tenant_id) => {
     return new Promise((resolve, reject) => {
       Auth.currentAuthenticatedUser()
@@ -106,6 +108,8 @@ class JwtService extends FuseUtils.EventEmitter {
   };
 
   // Cognito Authentication Endpoints
+
+  // Verifying the logged in user session by getting the token from local storage
   verifyAuth = () => {
     return new Promise((resolve, reject) => {
       Auth.currentAuthenticatedUser()
@@ -130,20 +134,27 @@ class JwtService extends FuseUtils.EventEmitter {
     });
   };
 
+  // Sign In with username and password
   signInWithEmailPassword = async (username, password) => {
     try {
       const result = await Auth.signIn({ username, password });
+
       if (result.signInUserSession !== null) {
+
         const user = await this.getSingleUserDetailsByUUID({
           body: { uuid: result.signInUserSession.accessToken.payload.sub },
         });
+
         this.setSession(result.signInUserSession.accessToken.jwtToken);
         this.emit("onLogin", user.response);
-        return { code: 4, status: true };
-      } else {
+
         return { code: 1, status: true };
+      } else {
+        console.log(result)
       }
+
     } catch (e) {
+
       if (e.code === "UserNotFoundException") {
         return { code: 0, status: false };
       } else if (e.code === "UsernameExistsException") {
@@ -154,28 +165,18 @@ class JwtService extends FuseUtils.EventEmitter {
         console.log(e.message);
         return { code: 3, status: false };
       }
+
     }
   };
 
-  signIn = async (mobilenumber) => {
-    try {
-      const result = await Auth.signIn(mobilenumber);
-      this.sessionvariable = result;
-      return { code: 1, status: true };
-    } catch (e) {
-      if (e.code === "UserNotFoundException") {
-        return { code: 0, status: false };
-      } else if (e.code === "UsernameExistsException") {
-        this.signIn(mobilenumber);
-      } else if (e.code === "NotAuthorizedException") {
-        return { code: 2, status: false };
-      } else {
-        console.log(e.message);
-        return { code: 3, status: false };
-      }
-    }
+  // Logout User
+  logout = () => {
+    Auth.signOut();
+    this.setSession(null);
+    this.emit("onLogout", "Logged out");
   };
 
+  // Send Email OTP for reset password
   sendEmailOTPForResetPassword = async () => {
     return new Promise((resolve, reject) => {
       Auth.currentAuthenticatedUser()
@@ -196,6 +197,7 @@ class JwtService extends FuseUtils.EventEmitter {
     });
   };
 
+  // Verification of the code to reset the password
   resetPasswordSumbit = async (code, newpassword) => {
     return new Promise((resolve, reject) => {
       Auth.currentAuthenticatedUser()
@@ -229,6 +231,7 @@ class JwtService extends FuseUtils.EventEmitter {
     });
   };
 
+  // Give old password and new password to change the password
   changePassword = async (oldpass, newpass) => {
     console.log(oldpass, newpass);
     Auth.currentAuthenticatedUser()
@@ -254,30 +257,7 @@ class JwtService extends FuseUtils.EventEmitter {
       });
   };
 
-  verifyOtp = async (otp) => {
-    return await Auth.sendCustomChallengeAnswer(this.sessionvariable, otp)
-      .then(async (response) => {
-        this.sessionvariable = null;
-        const user = await this.getSingleUserDetailsByUUID({
-          body: { uuid: response.signInUserSession.accessToken.payload.sub },
-        });
-        this.setSession(response.signInUserSession.accessToken.jwtToken);
-        this.emit("onLogin", user.response);
-        return true;
-      })
-      .catch((err) => {
-        if (err.code === "NotAuthorizedException") {
-          return false;
-        }
-      });
-  };
-
-  logout = () => {
-    Auth.signOut();
-    this.setSession(null);
-    this.emit("onLogout", "Logged out");
-  };
-
+  // Checking the user is authenticated or not
   isAuthTokenValid = (access_token) => {
     if (!access_token) {
       return false;
