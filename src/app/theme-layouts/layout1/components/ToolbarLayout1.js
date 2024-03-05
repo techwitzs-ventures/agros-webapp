@@ -10,6 +10,7 @@ import { selectFuseNavbar } from 'app/store/fuse/navbarSlice';
 import NotificationPanelToggleButton from '../../shared-components/notificationPanel/NotificationPanelToggleButton';
 import NavbarToggleButton from '../../shared-components/NavbarToggleButton';
 import UserMenu from '../../shared-components/UserMenu';
+import BasicPopover from 'app/theme-layouts/shared-components/Popper';
 
 function ToolbarLayout1(props) {
   const config = useSelector(selectFuseCurrentLayoutConfig);
@@ -54,7 +55,8 @@ function ToolbarLayout1(props) {
 
           <div className="flex items-center px-8 h-full overflow-x-auto">
 
-            {/* <NotificationPanelToggleButton /> */}
+            <BasicPopover/>
+            
             <UserMenu />
           </div>
 
