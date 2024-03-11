@@ -14,9 +14,7 @@ class JwtService extends FuseUtils.EventEmitter {
     this.handleAuthentication();
   }
 
-  sessionvariable = null;
-
-  password = "Conqudel@123";
+  sessionvariable = ""
 
   setInterceptors = () => {
     axios.interceptors.response.use(
@@ -58,17 +56,6 @@ class JwtService extends FuseUtils.EventEmitter {
 
   // User Table Enpoints
 
-  // getUserByOrganizationId = async (org_id) => {
-  //   try {
-  //     return await API.get(
-  //       jwtServiceConfig.getuserbyorganizationid.apiname,
-  //       `${jwtServiceConfig.getuserbyorganizationid.path}/?organization_id=${org_id}`
-  //     )
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
   // Fetching user's details from the user dynamodb or table
   getSingleUserDetailsByUUID = async (data) => {
     try {
@@ -107,6 +94,22 @@ class JwtService extends FuseUtils.EventEmitter {
     });
   };
 
+  // update Mobile Number Verification Status
+  updateMobileNumberVerificationStatus = (data) => {
+    return new Promise((resolve, reject) => {
+      axios.put('/auth/updatemobilenumberverificationstatus', data).then((response) => {
+        if (response.status === 200) {
+          resolve(response.data)
+        } else {
+          console.log(response)
+          reject(response)
+        }
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
+
   // Cognito Authentication Endpoints
 
   // Verifying the logged in user session by getting the token from local storage
@@ -115,21 +118,34 @@ class JwtService extends FuseUtils.EventEmitter {
       Auth.currentAuthenticatedUser()
         .then(async (response) => {
           if (response) {
+
+            const { attributes } = response
+
+            this.emit("onVerifyMobileNumber", attributes.phone_number_verified);
+            this.emit("onVerifyEmail", attributes.email_verified);
+            this.emit("onCompleteOnboard", attributes["custom:onboarding"]);
+
             const user = await this.getSingleUserDetailsByUUID({
               body: {
                 uuid: response.signInUserSession.accessToken.payload.sub,
               },
             });
+
             this.setSession(response.signInUserSession.accessToken.jwtToken);
             resolve(user.response);
+
           } else {
+
             this.logout();
             reject(new Error("Failed to login with Jwt Authentication Token"));
+
           }
         })
         .catch((err) => {
+
           this.logout();
           reject(new Error("Failed to login with Jwt Authentication Token"));
+
         });
     });
   };
@@ -140,6 +156,12 @@ class JwtService extends FuseUtils.EventEmitter {
       const result = await Auth.signIn({ username, password });
 
       if (result.signInUserSession !== null) {
+
+        const { attributes } = result
+
+        this.emit("onVerifyMobileNumber", attributes.phone_number_verified);
+        this.emit("onVerifyEmail", attributes.email_verified);
+        this.emit("onCompleteOnboard", attributes["custom:onboarding"]);
 
         const user = await this.getSingleUserDetailsByUUID({
           body: { uuid: result.signInUserSession.accessToken.payload.sub },
@@ -167,6 +189,18 @@ class JwtService extends FuseUtils.EventEmitter {
       }
 
     }
+  };
+
+  // Generate and send OTP through Cognito
+  generateOtp = async (request) => {
+    
+  };
+
+  // Verify OTP through Cognito
+  verifyOtp = async (otp) => {
+    console.log(otp)
+    return true
+    
   };
 
   // Logout User

@@ -11,12 +11,14 @@ import NotificationPanelToggleButton from '../../shared-components/notificationP
 import NavbarToggleButton from '../../shared-components/NavbarToggleButton';
 import UserMenu from '../../shared-components/UserMenu';
 import BasicPopover from 'app/theme-layouts/shared-components/Popper';
+import { useAuth } from 'src/app/main/apps/accounts/auth/AuthContext';
 
 function ToolbarLayout1(props) {
   const config = useSelector(selectFuseCurrentLayoutConfig);
   const navbar = useSelector(selectFuseNavbar);
   const toolbarTheme = useSelector(selectToolbarTheme);
-
+  const { onboardingStatus } = useAuth();
+  
   return (
     <ThemeProvider theme={toolbarTheme}>
       <AppBar
@@ -55,8 +57,8 @@ function ToolbarLayout1(props) {
 
           <div className="flex items-center px-8 h-full overflow-x-auto">
 
-            <BasicPopover/>
-            
+            {onboardingStatus === 'false' && <BasicPopover />}
+
             <UserMenu />
           </div>
 

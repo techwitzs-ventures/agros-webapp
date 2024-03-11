@@ -17,6 +17,10 @@ const AuthContext = React.createContext();
 function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(undefined);
   const [waitAuthCheck, setWaitAuthCheck] = useState(true);
+  const [mobileNumberVerificationStatus, setMobileNumberVerificationStatus] = useState(false)
+  const [emailVerificationStatus, setEmailVerificationStatus] = useState(false)
+  const [onboardingStatus, setOnboardingStatus] = useState(false)
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -57,6 +61,18 @@ function AuthProvider({ children }) {
       pass();
     });
 
+    jwtService.on('onVerifyMobileNumber', (status) => {
+      setMobileNumberVerificationStatus(status)
+    })
+
+    jwtService.on('onVerifyEmail', (status) => {
+      setEmailVerificationStatus(status)
+    })
+
+    jwtService.on('onCompleteOnboard', (status) => {
+      setOnboardingStatus(status)
+    })
+
     jwtService.init();
 
     function success(user, message) {
@@ -66,12 +82,12 @@ function AuthProvider({ children }) {
 
       Promise.all([
         dispatch(setUser(user)),
-        dispatch(getAllOrganization()),
-        dispatch(getAllItems()),
-        dispatch(getAllItemsCategories()),
-        `${user.role === "plateformadmin" && dispatch(getAllPurchaseOrders())}`,
-        `${user.role === "plateformadmin" && dispatch(getAllSalesOrders())}`,
-        `${user.role === "plateformadmin" && dispatch(getAllInvoice())}`,
+        // dispatch(getAllOrganization()),
+        // dispatch(getAllItems()),
+        // dispatch(getAllItemsCategories()),
+        // `${user.role === "plateformadmin" && dispatch(getAllPurchaseOrders())}`,
+        // `${user.role === "plateformadmin" && dispatch(getAllSalesOrders())}`,
+        // `${user.role === "plateformadmin" && dispatch(getAllInvoice())}`,
 
         // You can receive data in here before app initialization
       ]).then((values) => {
@@ -92,7 +108,12 @@ function AuthProvider({ children }) {
   return waitAuthCheck ? (
     <FuseSplashScreen />
   ) : (
-    <AuthContext.Provider value={{ isAuthenticated }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{
+      isAuthenticated,
+      mobileNumberVerificationStatus,
+      emailVerificationStatus,
+      onboardingStatus
+    }}>{children}</AuthContext.Provider>
   );
 }
 
