@@ -192,15 +192,26 @@ class JwtService extends FuseUtils.EventEmitter {
   };
 
   // Generate and send OTP through Cognito
-  generateOtp = async (request) => {
-    
+  generateOtp = async (data) => {
+    try {
+      const response = await axios.post('/auth/sendotp', data)
+      console.log(response)
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   // Verify OTP through Cognito
   verifyOtp = async (otp) => {
-    console.log(otp)
-    return true
-    
+    try {
+      // const response = await Auth.sendCustomChallengeAnswer(this.sessionvariable, otp);
+      console.log(otp);
+      return false
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+
   };
 
   // Logout User

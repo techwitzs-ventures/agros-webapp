@@ -166,6 +166,7 @@ function EmailCard(props) {
                                         aria-disabled={loading}
                                         className="mt-40 w-full"
                                         variant="outlined"
+                                        aria-autocomplete
                                         required
                                     />
                                     {fieldState.invalid ? <FormHelperText error>Enter 6 digits OTP</FormHelperText> : null}
