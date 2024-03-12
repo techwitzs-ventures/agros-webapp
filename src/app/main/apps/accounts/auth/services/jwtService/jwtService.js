@@ -14,7 +14,7 @@ class JwtService extends FuseUtils.EventEmitter {
     this.handleAuthentication();
   }
 
-  sessionvariable = ""
+  token = ""
 
   setInterceptors = () => {
     axios.interceptors.response.use(
@@ -69,6 +69,28 @@ class JwtService extends FuseUtils.EventEmitter {
     }
   };
 
+  // Get Cognito User Details Endpoints
+  getCognitoUserCredentials = async (mobilenumber) => {
+    return new Promise((resolve, reject) => {
+      axios.get("/auth/getcognitouser", { params: { mobilenumber } }).then((result) => {
+        if (result.status === 200) {
+          if (result.data.success) {
+            resolve(result.data)
+          } else {
+            console.log(result);
+            reject(result)
+          }
+        } else {
+          console.log(result)
+          reject(result)
+        }
+      }).catch((error) => {
+        console.log(error)
+        reject(error)
+      })
+    })
+  }
+
   // User Table API to update the user's credentials
   updateUserCredentialByUUID = async (data, tenant_id) => {
     return new Promise((resolve, reject) => {
@@ -110,7 +132,105 @@ class JwtService extends FuseUtils.EventEmitter {
     })
   }
 
-  // Cognito Authentication Endpoints
+  // update Email Verification Status
+  updateEmailVerificationStatus = (data) => {
+    return new Promise((resolve, reject) => {
+      axios.put('/auth/updateemailverificationstatus', data).then((response) => {
+        if (response.status === 200) {
+          resolve(response.data)
+        } else {
+          console.log(response)
+          reject(response)
+        }
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
+
+  // update Onboarding Status
+  updateOnboardingStatus = (data) => {
+    return new Promise((resolve, reject) => {
+      axios.put('/auth/updateonboardingstatus', data).then((response) => {
+        if (response.status === 200) {
+          resolve(response.data)
+        } else {
+          console.log(response)
+          reject(response)
+        }
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
+
+  // Generate Mobile Otp through SNS
+  sendOtpToMobileNumber = (mobilenumber) => {
+    return new Promise((resolve, reject) => {
+      axios.post('/auth/sendotponmobile', { mobilenumber }).then((result) => {
+        if (result.status === 200) {
+          this.token = result.data.response.otp_token
+          resolve(result.data)
+        } else {
+          console.log(result)
+          reject(result)
+        }
+      }).catch((error) => {
+        console.log(error)
+        reject(error)
+      })
+    })
+  };
+
+  // Verify OTP through API Gateway and jwtToken
+  verifyMobileNumberOtp = async (username, otp_answer) => {
+    return new Promise((resolve, reject) => {
+      axios.post('/auth/verifyotp', { otp_token: this.token, otp_answer }).then((result) => {
+
+        this.token = null
+
+        if (result.status === 200) {
+
+          if (result.data.success) {
+
+            this.updateMobileNumberVerificationStatus({ username, newStatus: true }).then((res) => {
+
+              if (res.success) {
+                this.emit("onVerifyMobileNumber", true)
+                resolve(result.data)
+              } else {
+                console.log(res)
+                reject(res)
+              }
+
+            }).catch((error) => {
+
+              console.log(error)
+              reject(error)
+
+            })
+
+          } else {
+
+            resolve(result.data)
+
+          }
+
+        } else {
+          console.log(result);
+          reject(result)
+        }
+      }).catch((error) => {
+        console.log(error);
+        reject(error)
+      })
+    })
+  };
+
+  /* ---------------
+     Cognito Endpoints Start
+     ---------------
+     */
 
   // Verifying the logged in user session by getting the token from local storage
   verifyAuth = () => {
@@ -119,11 +239,15 @@ class JwtService extends FuseUtils.EventEmitter {
         .then(async (response) => {
           if (response) {
 
-            const { attributes } = response
+            const cognitouser = await this.getCognitoUserCredentials(response.attributes.phone_number);
 
-            this.emit("onVerifyMobileNumber", attributes.phone_number_verified);
-            this.emit("onVerifyEmail", attributes.email_verified);
-            this.emit("onCompleteOnboard", attributes["custom:onboarding"]);
+            const mobstatus = cognitouser.response.UserAttributes.find(item => item.Name === 'phone_number_verified').Value === 'true'
+            const emailstatus = cognitouser.response.UserAttributes.find(item => item.Name === 'email_verified').Value === 'true'
+            const onboardingstatus = cognitouser.response.UserAttributes.find(item => item.Name === 'custom:onboarding').Value === 'true'
+
+            this.emit("onVerifyMobileNumber", mobstatus);
+            this.emit("onVerifyEmail", emailstatus);
+            this.emit("onCompleteOnboard", onboardingstatus);
 
             const user = await this.getSingleUserDetailsByUUID({
               body: {
@@ -157,11 +281,15 @@ class JwtService extends FuseUtils.EventEmitter {
 
       if (result.signInUserSession !== null) {
 
-        const { attributes } = result
+        const cognitouser = await this.getCognitoUserCredentials(result.attributes.phone_number);
 
-        this.emit("onVerifyMobileNumber", attributes.phone_number_verified);
-        this.emit("onVerifyEmail", attributes.email_verified);
-        this.emit("onCompleteOnboard", attributes["custom:onboarding"]);
+        const mobstatus = cognitouser.response.UserAttributes.find(item => item.Name === 'phone_number_verified').Value === 'true'
+        const emailstatus = cognitouser.response.UserAttributes.find(item => item.Name === 'email_verified').Value === 'true'
+        const onboardingstatus = cognitouser.response.UserAttributes.find(item => item.Name === 'custom:onboarding').Value === 'true'
+
+        this.emit("onVerifyMobileNumber", mobstatus);
+        this.emit("onVerifyEmail", emailstatus);
+        this.emit("onCompleteOnboard", onboardingstatus);
 
         const user = await this.getSingleUserDetailsByUUID({
           body: { uuid: result.signInUserSession.accessToken.payload.sub },
@@ -171,8 +299,11 @@ class JwtService extends FuseUtils.EventEmitter {
         this.emit("onLogin", user.response);
 
         return { code: 1, status: true };
+
       } else {
+
         console.log(result)
+
       }
 
     } catch (e) {
@@ -189,29 +320,6 @@ class JwtService extends FuseUtils.EventEmitter {
       }
 
     }
-  };
-
-  // Generate and send OTP through Cognito
-  generateOtp = async (data) => {
-    try {
-      const response = await axios.post('/auth/sendotp', data)
-      console.log(response)
-    } catch (error) {
-      console.log(error)
-    }
-  };
-
-  // Verify OTP through Cognito
-  verifyOtp = async (otp) => {
-    try {
-      // const response = await Auth.sendCustomChallengeAnswer(this.sessionvariable, otp);
-      console.log(otp);
-      return false
-    } catch (error) {
-      console.log(error)
-      return false
-    }
-
   };
 
   // Logout User

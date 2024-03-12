@@ -50,8 +50,8 @@ function EmailCard(props) {
     async function onSubmit({ otp }) {
         try {
             const res = await JwtService.verifyOtp(otp);
-            if (res) {
-                dispatch(showMessage({ message: "Email Verification Completed", variant: "success" }))
+            if (res.success) {
+                dispatch(showMessage({ message: "Email Verification Completed!", variant: "success" }))
                 setLoading(false)
                 setOpen(false)
             } else {
@@ -65,8 +65,8 @@ function EmailCard(props) {
     const sendOTPforVerification = async () => {
         setLoading(true)
         try {
-            dispatch(showMessage({ message: "OTP Sent", variant: "success" }));
-            await JwtService.generateOtp({ mobilenumber: user.data.mobilenumber });
+            dispatch(showMessage({ message: "OTP Sent!", variant: "success" }));
+            await JwtService.generateOtp(user.data.mobilenumber);
         } catch (error) {
             console.log(error)
         }

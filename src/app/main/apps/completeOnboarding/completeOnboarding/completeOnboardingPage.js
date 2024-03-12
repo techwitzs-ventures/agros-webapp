@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { darken } from '@mui/material/styles';
@@ -13,12 +13,14 @@ import { useSelector } from 'react-redux';
 import { selectUser } from 'app/store/userSlice';
 
 const CompleteOnboardingPage = () => {
+    
     const {
         mobileNumberVerificationStatus,
         emailVerificationStatus,
     } = useAuth()
 
     const user = useSelector(selectUser);
+
     const container = {
         show: {
             transition: {
@@ -31,6 +33,8 @@ const CompleteOnboardingPage = () => {
         hidden: { opacity: 0, y: 100 },
         show: { opacity: 1, y: 0 },
     };
+
+    useEffect(() => { }, [mobileNumberVerificationStatus])
 
     return (
         <div className="relative flex flex-col flex-auto min-w-0 overflow-hidden">

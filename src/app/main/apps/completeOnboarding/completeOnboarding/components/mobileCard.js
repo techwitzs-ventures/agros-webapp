@@ -49,13 +49,17 @@ function MobileCard(props) {
 
     async function onSubmit({ otp }) {
         try {
-            const res = await JwtService.verifyOtp(otp);
-            if (res) {
-                dispatch(showMessage({ message: "Mobile Number Verification Completed", variant: "success" }))
+            const res = await JwtService.verifyMobileNumberOtp(user.data.mobilenumber, otp);
+            if (res.success) {
+                dispatch(showMessage({ message: "Mobile Number Verification Completed!", variant: "success" }))
                 setLoading(false)
                 setOpen(false)
+                reset(defaultValues)
             } else {
                 dispatch(showMessage({ message: "Incorrect OTP!", variant: "error" }))
+                setLoading(false)
+                setOpen(false)
+                reset(defaultValues)
             }
         } catch (error) {
             console.log(error);
@@ -66,7 +70,7 @@ function MobileCard(props) {
         setLoading(true)
         try {
             dispatch(showMessage({ message: "OTP Sent", variant: "success" }));
-            await JwtService.generateOtp({ mobilenumber: user.data.mobilenumber });
+            await JwtService.sendOtpToMobileNumber(user.data.mobilenumber);
         } catch (error) {
             console.log(error)
         }
@@ -77,7 +81,7 @@ function MobileCard(props) {
             setOpen(true)
             const handleSubmitEventCalled = async () => {
                 try {
-                    await handleSubmit(onSubmit)(); // Submitting the form
+                    await handleSubmit(onSubmit)();
                 } catch (error) {
                     console.log(error)
                 }
@@ -99,7 +103,7 @@ function MobileCard(props) {
             >
                 <CircularProgress color="inherit" />
             </Backdrop>
-            
+
             <div className="flex items-center text-4xl font-bold tracking-tight leading-tight">
                 <span>{title}</span>
                 {verificationStatus
