@@ -51,7 +51,6 @@ function MobileCard(props) {
         try {
             const res = await JwtService.verifyMobileNumberOtp(user.data.mobilenumber, otp);
             if (res.success) {
-                dispatch(showMessage({ message: "Mobile Number Verification Completed!", variant: "success" }))
                 setLoading(false)
                 setOpen(false)
                 reset(defaultValues)

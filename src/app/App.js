@@ -16,7 +16,6 @@ import withAppProviders from './withAppProviders';
 import { AuthProvider } from './main/apps/accounts/auth/AuthContext';
 import axios from 'axios';
 
-console.log(process.env.REACT_APP_ENV_NAME)
 if (process.env.REACT_APP_ENV_NAME === 'dev' && process.env.REACT_APP_ENABLE_MOCK_API) {
   import('@mock-api')
 } else {

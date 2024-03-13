@@ -51,7 +51,6 @@ function EmailCard(props) {
         try {
             const res = await JwtService.verifyEmailOtp(user.data.mobilenumber, otp);
             if (res.success) {
-                dispatch(showMessage({ message: "Email Verification Completed!", variant: "success" }))
                 setLoading(false)
                 setOpen(false)
                 reset(defaultValues)

@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux';
 import { selectUser } from 'app/store/userSlice';
 import JwtService from '../../accounts/auth/services/jwtService';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { showMessage } from 'app/store/fuse/messageSlice';
 
 const CompleteOnboardingPage = (props) => {
 
@@ -15,10 +17,10 @@ const CompleteOnboardingPage = (props) => {
         mobileNumberVerificationStatus,
         emailVerificationStatus,
     } = useAuth()
-    
+
     const navigate = useNavigate();
     const user = useSelector(selectUser);
-
+    const dispatch = useDispatch();
     const container = {
         show: {
             transition: {
@@ -37,7 +39,12 @@ const CompleteOnboardingPage = (props) => {
             try {
                 if (mobileNumberVerificationStatus && emailVerificationStatus) {
                     navigate('/dashboards/project')
+                    dispatch(showMessage({ message: "Onboarding Completed!", variant: "success" }))
                     await JwtService.updateOnboardingStatus({ username: user.data.mobilenumber, newOnBoardingStatus: true })
+                } else if (emailVerificationStatus) {
+                    dispatch(showMessage({ message: "Email Verification Completed!", variant: "success" }))
+                } else if (mobileNumberVerificationStatus) {
+                    dispatch(showMessage({ message: "Mobile Number Verification Completed!", variant: "success" }))
                 }
             } catch (error) {
                 console.log(error)
