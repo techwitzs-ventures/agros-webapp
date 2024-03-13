@@ -1,24 +1,22 @@
-import { useEffect, useState } from 'react';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import { darken } from '@mui/material/styles';
+import { useEffect } from 'react';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../accounts/auth/AuthContext';
 import EmailCard from './components/emailCard';
 import MobileCard from './components/mobileCard';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'app/store/userSlice';
+import JwtService from '../../accounts/auth/services/jwtService';
+import { useNavigate } from 'react-router-dom';
 
-const CompleteOnboardingPage = () => {
-    
+const CompleteOnboardingPage = (props) => {
+
     const {
         mobileNumberVerificationStatus,
         emailVerificationStatus,
     } = useAuth()
-
+    
+    const navigate = useNavigate();
     const user = useSelector(selectUser);
 
     const container = {
@@ -34,7 +32,19 @@ const CompleteOnboardingPage = () => {
         show: { opacity: 1, y: 0 },
     };
 
-    useEffect(() => { }, [mobileNumberVerificationStatus])
+    useEffect(() => {
+        const updateOnBoarding = async () => {
+            try {
+                if (mobileNumberVerificationStatus && emailVerificationStatus) {
+                    navigate('/dashboards/project')
+                    await JwtService.updateOnboardingStatus({ username: user.data.mobilenumber, newOnBoardingStatus: true })
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        updateOnBoarding();
+    }, [mobileNumberVerificationStatus, emailVerificationStatus])
 
     return (
         <div className="relative flex flex-col flex-auto min-w-0 overflow-hidden">

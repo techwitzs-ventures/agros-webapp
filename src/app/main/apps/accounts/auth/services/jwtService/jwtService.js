@@ -69,28 +69,6 @@ class JwtService extends FuseUtils.EventEmitter {
     }
   };
 
-  // Get Cognito User Details Endpoints
-  getCognitoUserCredentials = async (mobilenumber) => {
-    return new Promise((resolve, reject) => {
-      axios.get("/auth/getcognitouser", { params: { mobilenumber } }).then((result) => {
-        if (result.status === 200) {
-          if (result.data.success) {
-            resolve(result.data)
-          } else {
-            console.log(result);
-            reject(result)
-          }
-        } else {
-          console.log(result)
-          reject(result)
-        }
-      }).catch((error) => {
-        console.log(error)
-        reject(error)
-      })
-    })
-  }
-
   // User Table API to update the user's credentials
   updateUserCredentialByUUID = async (data, tenant_id) => {
     return new Promise((resolve, reject) => {
@@ -116,6 +94,28 @@ class JwtService extends FuseUtils.EventEmitter {
     });
   };
 
+  // Get Cognito User Details Endpoints
+  getCognitoUserCredentials = async (mobilenumber) => {
+    return new Promise((resolve, reject) => {
+      axios.get("/auth/getcognitouser", { params: { mobilenumber } }).then((result) => {
+        if (result.status === 200) {
+          if (result.data.success) {
+            resolve(result.data)
+          } else {
+            console.log(result);
+            reject(result)
+          }
+        } else {
+          console.log(result)
+          reject(result)
+        }
+      }).catch((error) => {
+        console.log(error)
+        reject(error)
+      })
+    })
+  }
+
   // update Mobile Number Verification Status
   updateMobileNumberVerificationStatus = (data) => {
     return new Promise((resolve, reject) => {
@@ -127,6 +127,7 @@ class JwtService extends FuseUtils.EventEmitter {
           reject(response)
         }
       }).catch((error) => {
+        console.log(error)
         reject(error)
       })
     })
@@ -143,6 +144,7 @@ class JwtService extends FuseUtils.EventEmitter {
           reject(response)
         }
       }).catch((error) => {
+        console.log(error)
         reject(error)
       })
     })
@@ -150,6 +152,7 @@ class JwtService extends FuseUtils.EventEmitter {
 
   // update Onboarding Status
   updateOnboardingStatus = (data) => {
+    this.emit("onCompleteOnboard", true);
     return new Promise((resolve, reject) => {
       axios.put('/auth/updateonboardingstatus', data).then((response) => {
         if (response.status === 200) {
@@ -159,12 +162,13 @@ class JwtService extends FuseUtils.EventEmitter {
           reject(response)
         }
       }).catch((error) => {
+        console.log(error)
         reject(error)
       })
     })
   }
 
-  // Generate Mobile Otp through SNS
+  // Generate and send Mobile Otp through SNS
   sendOtpToMobileNumber = (mobilenumber) => {
     return new Promise((resolve, reject) => {
       axios.post('/auth/sendotponmobile', { mobilenumber }).then((result) => {
@@ -226,6 +230,70 @@ class JwtService extends FuseUtils.EventEmitter {
       })
     })
   };
+
+  // Generate and send Email Otp through SNS
+  sendOtpToEmail = (email) => {
+    return new Promise((resolve, reject) => {
+      axios.post('/auth/sendotponemail', { email }).then((result) => {
+        if (result.status === 200) {
+          this.token = result.data.response.otp_token
+          resolve(result.data)
+        } else {
+          console.log(result)
+          reject(result)
+        }
+      }).catch((error) => {
+        console.log(error)
+        reject(error)
+      })
+    })
+  }
+
+  // Verify OTP through API GAteway and jwtToken
+  verifyEmailOtp = async (username, otp_answer) => {
+
+    return new Promise((resolve, reject) => {
+      axios.post('/auth/verifyotp', { otp_token: this.token, otp_answer }).then((result) => {
+
+        this.token = null
+
+        if (result.status === 200) {
+
+          if (result.data.success) {
+
+            this.updateEmailVerificationStatus({ username, newStatus: true }).then((res) => {
+
+              if (res.success) {
+                this.emit("onVerifyEmail", true)
+                resolve(result.data)
+              } else {
+                console.log(res)
+                reject(res)
+              }
+
+            }).catch((error) => {
+
+              console.log(error)
+              reject(error)
+
+            })
+
+          } else {
+
+            resolve(result.data)
+
+          }
+
+        } else {
+          console.log(result);
+          reject(result)
+        }
+      }).catch((error) => {
+        console.log(error);
+        reject(error)
+      })
+    })
+  }
 
   /* ---------------
      Cognito Endpoints Start

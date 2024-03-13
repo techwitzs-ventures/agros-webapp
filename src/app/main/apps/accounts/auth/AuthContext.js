@@ -24,6 +24,7 @@ function AuthProvider({ children }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+
     jwtService.on('onAutoLogin', () => {
       dispatch(showMessage({ message: 'Signing in with JWT' }));
       /**
@@ -103,6 +104,7 @@ function AuthProvider({ children }) {
       setWaitAuthCheck(false);
       setIsAuthenticated(false);
     }
+    
   }, [dispatch]);
 
   return waitAuthCheck ? (

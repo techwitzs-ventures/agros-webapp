@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar';
 import Hidden from '@mui/material/Hidden';
 import Toolbar from '@mui/material/Toolbar';
 import clsx from 'clsx';
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectFuseCurrentLayoutConfig, selectToolbarTheme } from 'app/store/fuse/settingsSlice';
 import { selectFuseNavbar } from 'app/store/fuse/navbarSlice';
@@ -18,7 +18,7 @@ function ToolbarLayout1(props) {
   const navbar = useSelector(selectFuseNavbar);
   const toolbarTheme = useSelector(selectToolbarTheme);
   const { onboardingStatus } = useAuth();
-  
+  useEffect(() => { }, [onboardingStatus])
   return (
     <ThemeProvider theme={toolbarTheme}>
       <AppBar

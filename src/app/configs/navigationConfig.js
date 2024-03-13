@@ -13,7 +13,7 @@ const navigationConfig = [
     auth: authRoles.forall,
     icon: 'heroicons-outline:home',
     translate: 'DASHBOARDS',
-    url: '/dashboards/project'
+    url: 'dashboards/project'
   },
   {
     id: 'marketplace.itemswishlist',
