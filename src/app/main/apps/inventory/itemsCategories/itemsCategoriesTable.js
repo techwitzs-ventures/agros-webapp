@@ -58,7 +58,7 @@ function ItemsCategoriesTable(props) {
       user.data.country === "" && dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
       setLoading(true)
       const get_items_cat_obj = {
-        organization_id: user.organization_id,
+        tenant_id: user.tenant_id,
         active: activeStatus
       }
       dispatch(getItemsCategories(get_items_cat_obj)).then(() => setLoading(false));
@@ -114,14 +114,14 @@ function ItemsCategoriesTable(props) {
     setLoading(true)
     const updated_status = {
       queryparams: {
-        organization_id: itemscategory.organization_id,
+        tenant_id: itemscategory.tenant_id,
         items_cat_id: itemscategory.items_cat_id
       },
       status: itemscategory.status ? false : true
     }
     dispatch(updateItemsCategoryStatus(updated_status)).then(() => {
       const get_items_cat_obj = {
-        organization_id: itemscategory.organization_id,
+        tenant_id: itemscategory.tenant_id,
         active: activeStatus
       }
       dispatch(getItemsCategories(get_items_cat_obj)).then(() => setLoading(false))

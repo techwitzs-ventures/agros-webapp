@@ -32,7 +32,7 @@ function ItemsCategoryHeader(props) {
     setloading(true)
     dispatch(saveItemsCategory({
       data,
-      organization_id: user.organization_id
+      tenant_id: user.tenant_id
     })).then(() => {
       navigate('/apps/inventory/itemscategory')
       setloading(false)

@@ -3,13 +3,13 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 function BasicInfoTab(props) {
   const methods = useFormContext();
-  const { control, formState,getValues } = methods;
+  const { control, formState, getValues } = methods;
   const { errors } = formState;
-  const val=getValues();
-  
+  const val = getValues();
+
   return (
     <div>
-      {val.items_cat_code!==undefined&&<Controller
+      {val.items_cat_code !== undefined && <Controller
         name="items_cat_code"
         defaultValue={val.items_cat_code}
         render={({ field }) => (

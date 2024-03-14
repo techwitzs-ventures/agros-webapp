@@ -18,7 +18,7 @@ export const updateItemCategory = createAsyncThunk('inventoryApp/itemscategory/u
       items_cat_name: updatedItemsCategoryData.items_cat_name,
     }, {
       params: {
-        organization_id: updatedItemsCategoryData.organization_id,
+        tenant_id: updatedItemsCategoryData.tenant_id,
         items_cat_id: updatedItemsCategoryData.items_cat_id,
       }
     })
@@ -37,7 +37,7 @@ export const updateItemsCategoryStatus = createAsyncThunk('inventoryApp/itemscat
         status: new_updated_status_data.status
       }, {
         params: {
-          organization_id: new_updated_status_data.queryparams.organization_id,
+          tenant_id: new_updated_status_data.queryparams.tenant_id,
           items_cat_id: new_updated_status_data.queryparams.items_cat_id,
         }
       })
@@ -59,7 +59,7 @@ export const saveItemsCategory = createAsyncThunk('inventoryApp/itemscategory/sa
       items_cat_name: itemCategoryData.data.items_cat_name,
     }, {
       params: {
-        organization_id: itemCategoryData.organization_id
+        tenant_id: itemCategoryData.tenant_id
       }
     })
     if (result.status === 200) {
