@@ -138,7 +138,7 @@ const SingleSalesOrderTableContent = () => {
                                         render={({ field }) => (
                                             <TextField
                                                 {...field}
-                                                label={`Rate (${user.organization_data.currency_code})`}
+                                                label={`Rate (${user.tenant_data.currency_code})`}
                                                 className="mt-4"
                                                 type="text"
                                                 error={errors?.item_list?.[index]?.rate ? true : false}
@@ -159,7 +159,7 @@ const SingleSalesOrderTableContent = () => {
                                         render={({ field }) => (
                                             <TextField
                                                 {...field}
-                                                label={`Amount (${user.organization_data.currency_code})`}
+                                                label={`Amount (${user.tenant_data.currency_code})`}
                                                 className="mt-4"
                                                 type="text"
                                                 error={errors?.item_list?.[index]?.amount ? true : false}
@@ -180,7 +180,7 @@ const SingleSalesOrderTableContent = () => {
                 </Table>
                 <Stack direction="row" spacing={2} justifyContent={"space-between"} className="px-16 mb-8 mt-4">
                     <div style={{ fontWeight: "bold" }}>
-                        Total Amount: {calculateTotalAmount().toFixed(2)} {`(${user.organization_data.currency_code})`}
+                        Total Amount: {calculateTotalAmount().toFixed(2)} {`(${user.tenant_data.currency_code})`}
                     </div>
                 </Stack>
             </FuseScrollbars>

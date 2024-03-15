@@ -10,7 +10,7 @@ export const getVendorList = createAsyncThunk("orderApp/vendorlist/getVendorList
         try {
             const result = await axios.get('/purchaseorder/getvendorlist', {
                 params: {
-                    organization_id: org_id
+                    tenant_id: org_id
                 }
             })
             if (result.status === 200) {
@@ -24,12 +24,12 @@ export const getVendorList = createAsyncThunk("orderApp/vendorlist/getVendorList
     }
 )
 
-export const getOrganization = createAsyncThunk('orderApp/vendorlist/getOrganization',
+export const getTenant = createAsyncThunk('orderApp/vendorlist/getTenant',
     async (org_id) => {
         try {
-            const result = await axios.get('/organization/getorganization', {
+            const result = await axios.get('/tenant/gettenant', {
                 params: {
-                    organization_id: org_id
+                    tenant_id: org_id
                 }
             })
             if (result.status === 200) {

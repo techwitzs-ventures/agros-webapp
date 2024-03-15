@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const getPurchaseOrders = createAsyncThunk("orderApp/purchaseorders/getPurchaseOrders",
   async (get_purchaseorders_obj) => {
-    const result = await axios.get('/purchaseorder/getpurchaseorderlistbyorganizationId', {
+    const result = await axios.get('/purchaseorder/getpurchaseorderlistbytenantId', {
       params: get_purchaseorders_obj
     })
     if (result.status === 200) {

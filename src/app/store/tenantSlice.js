@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import _ from '@lodash';
 import axios from 'axios'
 
-export const getAllTenant = createAsyncThunk('orgainzation/getalltenant', 
+export const getAllTenant = createAsyncThunk('tenant/getalltenant', 
 async (tenant, { dispatch, getState }) => {
     const result = await axios.get('/onboarding/getalltenant');
     return result.data.response;

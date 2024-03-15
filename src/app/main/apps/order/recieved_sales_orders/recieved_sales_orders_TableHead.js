@@ -145,7 +145,7 @@ function RecievedSalesOrdersTableHead(props) {
                   >
                     {
                          row.id === 'total_amount' ?
-                         `${row.label} (${!user.data.country !== "" && user.organization_data.currency_code})` :
+                         `${row.label} (${!user.data.country !== "" && user.tenant_data.currency_code})` :
                          row.label
                     }
                   </TableSortLabel>

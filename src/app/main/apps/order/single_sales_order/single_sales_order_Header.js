@@ -28,7 +28,7 @@ function SingleSalesOrderHeader(props) {
   const navigate = useNavigate();
   const user = useSelector(selectUser)
 
-  const { salesorderId, organizationId } = routeParams
+  const { salesorderId, tenantId } = routeParams
 
   const [loading, setloading] = useState(false)
 
@@ -36,7 +36,7 @@ function SingleSalesOrderHeader(props) {
     setloading(true)
     dispatch(saveSingleSalesOrder({
       data,
-      org_id: user.organization_id
+      org_id: user.tenant_id
     })).then(() => {
       navigate('/apps/order/salesorder')
       setloading(false)
@@ -99,7 +99,7 @@ function SingleSalesOrderHeader(props) {
           variant="contained"
           color="secondary"
           loading={loading}
-          disabled={(salesorderId === "new" && organizationId !== undefined ? !isValid : true) && (_.isEmpty(dirtyFields) || !isValid)}
+          disabled={(salesorderId === "new" && tenantId !== undefined ? !isValid : true) && (_.isEmpty(dirtyFields) || !isValid)}
           onClick={handleUpdateSalesOrder}
         >
           Update
@@ -110,7 +110,7 @@ function SingleSalesOrderHeader(props) {
           variant="contained"
           color="secondary"
           loading={loading}
-          disabled={(salesorderId === "new" && organizationId !== undefined ? !isValid : true) && (_.isEmpty(dirtyFields) || !isValid)}
+          disabled={(salesorderId === "new" && tenantId !== undefined ? !isValid : true) && (_.isEmpty(dirtyFields) || !isValid)}
           onClick={handleSubmit(onSubmitNew)}
         >
           Save

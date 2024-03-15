@@ -29,7 +29,7 @@ export const saveWishlistItem = createAsyncThunk('inventoryApp/wishlistitem/save
                 tenant_id: wishlistItemData.org_id
             }
         })
-        console.log(result);
+
         if (result.status === 200) {
             dispatch(showMessage({ message: result.data.message, variant: "success" }))
             return result.data.response

@@ -47,13 +47,13 @@ function ViewSinglePurchaseOrder(props) {
 
   useDeepCompareEffect(() => {
     function updatePurchaseOrderState() {
-      const { purchaseorderId, organizationId } = routeParams;
+      const { purchaseorderId, tenantId } = routeParams;
         /**
          * Get Purchase Order data
          */
         const queryparams = {
           purchase_order_id: purchaseorderId,
-          organization_id: organizationId
+          tenant_id: tenantId
         }
         dispatch(getSinglePurchaseOrder(queryparams)).then((action) => {
           /**

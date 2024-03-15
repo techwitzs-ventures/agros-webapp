@@ -33,12 +33,12 @@ const SingleSalesOrderTableContent = () => {
     useEffect(() => {
         if (user) {
             // const queryparams = {
-            //     org_id: user.organization_id,
+            //     org_id: user.tenant_id,
             //     active_status: 'true'
             // }
 
             /* There are only one vendor or seller , so there is no need to fetch the items from a particular 
-            organization's items wishlist, so we are allowing plateform seller to select the items from the master
+            tenant's items wishlist, so we are allowing plateform seller to select the items from the master
             item table list for selling. */
 
             dispatch(getAllItems());
@@ -181,7 +181,7 @@ const SingleSalesOrderTableContent = () => {
                                         render={({ field }) => (
                                             <TextField
                                                 {...field}
-                                                label={`Rate (${user.organization_data.currency_code})`}
+                                                label={`Rate (${user.tenant_data.currency_code})`}
                                                 className="mt-4"
                                                 type="text"
                                                 error={errors?.item_list?.[index]?.rate ? true : false}
@@ -202,7 +202,7 @@ const SingleSalesOrderTableContent = () => {
                                         render={({ field }) => (
                                             <TextField
                                                 {...field}
-                                                label={`Amount (${user.organization_data.currency_code})`}
+                                                label={`Amount (${user.tenant_data.currency_code})`}
                                                 className="mt-4"
                                                 type="text"
                                                 error={errors?.item_list?.[index]?.amount ? true : false}
@@ -262,7 +262,7 @@ const SingleSalesOrderTableContent = () => {
                         </Button>
                     </Stack>
                     <div style={{ fontWeight: "bold" }}>
-                        Total Amount: {calculateTotalAmount().toFixed(2)} {`(${user.organization_data.currency_code})`}
+                        Total Amount: {calculateTotalAmount().toFixed(2)} {`(${user.tenant_data.currency_code})`}
                     </div>
                 </Stack>
             </FuseScrollbars>

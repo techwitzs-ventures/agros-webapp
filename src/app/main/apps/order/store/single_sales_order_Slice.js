@@ -44,7 +44,7 @@ export const updateSalesOrder = createAsyncThunk("orderApp/singlesalesorder/upda
       total_amount: updatedSalesOrderData.total_amount.toString(),
     }, {
       params: {
-        organization_id: updatedSalesOrderData.organization_id,
+        tenant_id: updatedSalesOrderData.tenant_id,
         sales_order_id: updatedSalesOrderData.sales_order_id
       }
     })
@@ -70,7 +70,7 @@ export const saveSingleSalesOrder = createAsyncThunk("orderApp/singlesalesorder/
     },
       {
         params:
-          { organization_id: salesOrderData.org_id }
+          { tenant_id: salesOrderData.org_id }
       })
     if (result.status === 200) {
       dispatch(showMessage({ message: result.data.message, variant: "success" }))

@@ -68,7 +68,7 @@ function SinglePurchaseOrder(props) {
 
   useDeepCompareEffect(() => {
     function updatePurchaseOrderState() {
-      const { purchaseorderId, organizationId } = routeParams;
+      const { purchaseorderId, tenantId } = routeParams;
 
       if (purchaseorderId === 'new') {
         /**
@@ -81,7 +81,7 @@ function SinglePurchaseOrder(props) {
          */
         const queryparams = {
           purchase_order_id: purchaseorderId,
-          organization_id: organizationId
+          tenant_id: tenantId
         }
         dispatch(getSinglePurchaseOrder(queryparams)).then((action) => {
           /**

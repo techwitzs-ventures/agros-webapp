@@ -43,7 +43,7 @@ function BasicInfoTab(props) {
       } else {
         setCustomerListFieldDisabled(true)
       }
-      dispatch(getVendorList(user.organization_id)).then(() => setLoading(false))
+      dispatch(getVendorList(user.tenant_id)).then(() => setLoading(false))
     }
   }, [dispatch])
 
@@ -81,8 +81,8 @@ function BasicInfoTab(props) {
                       disabled={customerListFieldDisabled}
                     >
                       {customers.map((customer) => (
-                        <MenuItem key={customer.organization_code} value={customer.organization_id}>
-                          {`${customer.organization_name} ( ${customer.organization_code} )`}
+                        <MenuItem key={customer.tenant_code} value={customer.tenant_id}>
+                          {`${customer.tenant_name} ( ${customer.tenant_code} )`}
                         </MenuItem>
                       ))}
                     </Select>

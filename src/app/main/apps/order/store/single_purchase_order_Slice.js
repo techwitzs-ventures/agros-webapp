@@ -22,7 +22,7 @@ export const updatePurchaseOrder = createAsyncThunk('orderApp/singlepurchaseorde
         total_amount: updatedPurchaseOrderData.total_amount.toString()
       }, {
         params: {
-          organization_id: updatedPurchaseOrderData.organization_id,
+          tenant_id: updatedPurchaseOrderData.tenant_id,
           purchase_order_id: updatedPurchaseOrderData.purchase_order_id
         }
       })
@@ -48,7 +48,7 @@ export const saveSinglePurchaseOrder = createAsyncThunk('orderApp/singlepurchase
     },
       {
         params:
-          { organization_id: purchaseOrderData.org_id }
+          { tenant_id: purchaseOrderData.org_id }
       })
     if (result.status === 200) {
       dispatch(showMessage({ message: result.data.message, variant: "success" }))
@@ -70,7 +70,7 @@ const singlepurchaseorderSlice = createSlice({
         payload: {
           /* when multiple plateform sellers or sellers are available then ,
           this vendor is field will become a empty string. */
-          vendor_id: '7c4e14b4-509d-4559-8d60-2f1b37e862f0',
+          vendor_id: 'e81ffce5-bead-47a6-b633-17c1a1ca4f67',
           delivery_address: '',
           exp_delivery_date: '',
           item_list: [{

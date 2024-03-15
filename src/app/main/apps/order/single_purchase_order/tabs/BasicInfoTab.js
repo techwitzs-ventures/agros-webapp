@@ -42,14 +42,14 @@ function BasicInfoTab(props) {
       } else {
         setVendorListFieldDisabled(true)
       }
-      dispatch(getVendorList(user.organization_id))
+      dispatch(getVendorList(user.tenant_id))
     }
   }, [dispatch])
 
-  const getVendorOrganization = (selectedVendorId) => {
-    const selectedVendor = vendors.find(vendor => vendor.organization_id === selectedVendorId);
+  const getVendorTenant = (selectedVendorId) => {
+    const selectedVendor = vendors.find(vendor => vendor.tenant_id === selectedVendorId);
     setVendorDetails(selectedVendor)
-    return selectedVendor ? selectedVendor.organization_name : '';
+    return selectedVendor ? selectedVendor.tenant_name : '';
   };
 
   return (
@@ -75,7 +75,7 @@ function BasicInfoTab(props) {
                       error={!!errors.vendor_id}
                       onChange={(e) => {
                         field.onChange(e.target.value);
-                        getVendorOrganization(e.target.value)
+                        getVendorTenant(e.target.value)
                       }}
                       value={field.value}
                       /*when multiple plateform sellers or sellers are available then , the application 
@@ -84,8 +84,8 @@ function BasicInfoTab(props) {
                       // disabled={vendorListFieldDisabled}
                     >
                       {vendors.map((vendor) => (
-                        <MenuItem key={vendor.organization_code} value={vendor.organization_id}>
-                          {`${vendor.organization_name} ( ${vendor.organization_code} )`}
+                        <MenuItem key={vendor.tenant_code} value={vendor.tenant_id}>
+                          {`${vendor.tenant_name} ( ${vendor.tenant_code} )`}
                         </MenuItem>
                       ))}
                     </Select>

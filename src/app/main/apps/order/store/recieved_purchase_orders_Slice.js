@@ -6,7 +6,7 @@ export const getRecievedPurchaseOrders = createAsyncThunk('orderApp/recievedpurc
   async (get_recievedpurchaseorders_obj) => {
     const result = await axios.get('/purchaseorder/receivedpurchaseorder', {
       params: {
-        organization_id: get_recievedpurchaseorders_obj.org_id
+        tenant_id: get_recievedpurchaseorders_obj.org_id
       }
     })
     if (result.status === 200) {
@@ -21,7 +21,7 @@ export const changePurchaseOrderProcessingStatus = createAsyncThunk('orderApp/re
     try {
       await axios.put('/purchaseorder/changeprocessingstatus', null, {
         params: {
-          organization_id: update_obj.org_id,
+          tenant_id: update_obj.org_id,
           purchase_order_id: update_obj.purchase_order_id,
           processing_status: update_obj.processingstatus
         }

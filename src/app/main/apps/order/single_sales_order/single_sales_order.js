@@ -71,16 +71,16 @@ function SingleSalesOrder(props) {
 
   useDeepCompareEffect(() => {
     function updateProductState() {
-      const { salesorderId, organizationId } = routeParams;
+      const { salesorderId, tenantId } = routeParams;
 
       if (salesorderId === "new") {
         /**
          * Create New Product data
          */
-        if (organizationId !== undefined) {
+        if (tenantId !== undefined) {
           const queryparams = {
-            purchase_order_id: organizationId,
-            organization_id: user.organization_id,
+            purchase_order_id: tenantId,
+            tenant_id: user.tenant_id,
           };
           dispatch(getSingleReceivedPurchaseOrder(queryparams)).then((action) => {
             if (!action.payload) {
@@ -96,7 +96,7 @@ function SingleSalesOrder(props) {
          */
         const queryparams = {
           sales_order_id: salesorderId,
-          organization_id: organizationId,
+          tenant_id: tenantId,
         };
         dispatch(getSingleSalesOrder(queryparams)).then((action) => {
           /**

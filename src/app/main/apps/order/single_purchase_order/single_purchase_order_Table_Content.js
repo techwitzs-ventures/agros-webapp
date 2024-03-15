@@ -32,7 +32,7 @@ const SinglePurchaseOrderTableContent = ({ vendorDetails }) => {
     useEffect(() => {
         if (user) {
             const queryparams = {
-                organization_id: user.organization_id,
+                tenant_id: user.tenant_id,
                 active: true
             }
             dispatch(getWishlistItems(queryparams)).then((response) => {

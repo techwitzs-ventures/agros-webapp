@@ -60,7 +60,7 @@ const orderConfig = {
       auth: authRoles.plateformseller
     },
     {
-      path: "apps/order/salesorder/:salesorderId/:organizationId",
+      path: "apps/order/salesorder/:salesorderId/:tenantId",
       element: <SingleSalesOrder />,
       auth: authRoles.plateformseller
     },
@@ -70,16 +70,16 @@ const orderConfig = {
       auth: authRoles.buyer
     },
     {
-      path: "apps/order/purchaseorder/:purchaseorderId/:organizationId",
+      path: "apps/order/purchaseorder/:purchaseorderId/:tenantId",
       element: <SinglePurchaseOrder />,
       auth: authRoles.buyer
     },
     {
-      path: "apps/order/viewpurchaseorder/:purchaseorderId/:organizationId",
+      path: "apps/order/viewpurchaseorder/:purchaseorderId/:tenantId",
       element: <ViewSinglePurchaseOrder />,
     },
     {
-      path: "apps/order/viewsalesorder/:salesorderId/:organizationId",
+      path: "apps/order/viewsalesorder/:salesorderId/:tenantId",
       element: <ViewSingleSalesOrder />,
     },
     {

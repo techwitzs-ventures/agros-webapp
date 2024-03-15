@@ -49,13 +49,13 @@ function ViewSingleSalesOrder(props) {
 
   useDeepCompareEffect(() => {
     function updateProductState() {
-      const { salesorderId, organizationId } = routeParams;
+      const { salesorderId, tenantId } = routeParams;
         /**
          * Get Product data
          */
         const queryparams = {
           sales_order_id: salesorderId,
-          organization_id: organizationId,
+          tenant_id: tenantId,
         };
         dispatch(getSingleSalesOrder(queryparams)).then((action) => {
           /**

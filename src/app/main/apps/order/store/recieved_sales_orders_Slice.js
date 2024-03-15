@@ -5,7 +5,7 @@ export const getRecievedSalesOrders = createAsyncThunk("orderApp/recievedsalesor
   async (get_recievedsalesorders_obj) => {
     const result = await axios.get('/salesorder/receivedsalesorder', {
       params: {
-        organization_id: get_recievedsalesorders_obj.org_id
+        tenant_id: get_recievedsalesorders_obj.org_id
       }
     })
     if (result.status === 200) {
@@ -21,7 +21,7 @@ export const changeSalesOrderProcessingStatus = createAsyncThunk('orderApp/recie
     try {
       await axios.put('/salesorder/changeprocessingstatus', null, {
         params: {
-          organization_id: update_obj.org_id,
+          tenant_id: update_obj.org_id,
           sales_order_id: update_obj.sales_order_id,
           processing_status: update_obj.processingstatus
         }

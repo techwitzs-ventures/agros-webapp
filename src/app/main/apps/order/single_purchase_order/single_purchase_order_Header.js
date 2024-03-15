@@ -38,7 +38,7 @@ function SinglePurchaseOrderHeader(props) {
     setloading(true)
     dispatch(saveSinglePurchaseOrder({
       data,
-      org_id: user.organization_id
+      org_id: user.tenant_id
     })).then(() => {
       navigate('/apps/order/purchaseorder')
       setloading(false)
