@@ -32,7 +32,7 @@ import {
 } from '../store/recieved_purchase_orders_Slice';
 import RecievedPurchaseOrdersTableHead from './recieved_purchase_orders_TableHead';
 import { showMessage } from 'app/store/fuse/messageSlice';
-import { selectOrganization } from 'app/store/organizationSlice';
+import { selectTenant } from 'app/store/tenantSlice';
 import POOrdersStatus from '../single_purchase_order/single_pruchase_order_status';
 
 
@@ -42,7 +42,7 @@ function RecievedPurchaseOrdersTable(props) {
     const recievedpurchaseorders = useSelector(selectRecievedPurchaseOrders);
 
     const user = useSelector(selectUser);
-    const organizations = useSelector(selectOrganization);
+    const tenants = useSelector(selectTenant);
 
     const searchText = useSelector(selectRecievedPurchaseOrdersSearchText);
     const activeStatus = useSelector(selectRecievedPurchaseOrdersActiveStatus);
@@ -69,7 +69,7 @@ function RecievedPurchaseOrdersTable(props) {
             user.data.country === "" && dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
             setLoading(true)
             const get_recieved_purchase_order_obj = {
-                org_id: user.organization_id
+                org_id: user.tenant_id
             }
             dispatch(getRecievedPurchaseOrders(get_recieved_purchase_order_obj)).then((res) => {
                 setLoading(false)
@@ -152,9 +152,9 @@ function RecievedPurchaseOrdersTable(props) {
         setSelectedRecievedPurchaseOrder("");
     }
 
-    const getOrganization = (selectedId) => {
-        const selectedOrganization = organizations.find(organization => organization.organization_id === selectedId);
-        return selectedOrganization ? selectedOrganization.organization_name : '';
+    const getTenant = (selectedId) => {
+        const selectedTenant = tenants.find(tenant => tenant.tenant_id === selectedId);
+        return selectedTenant ? selectedTenant.tenant_name : '';
     };
 
     const navigateToSalesOrderCreationPage = async (receivedpurchaseorder) => {
@@ -169,13 +169,13 @@ function RecievedPurchaseOrdersTable(props) {
         try {
             setAcceptButtonLoading(true);
             const queryparams = {
-                org_id: purchase_order.organization_id,
+                org_id: purchase_order.tenant_id,
                 purchase_order_id: purchase_order.purchase_order_id,
                 processingstatus: "vendor_accepted"
             }
             dispatch(changePurchaseOrderProcessingStatus(queryparams)).then(() => {
                 const get_recieved_purchase_order_obj = {
-                    org_id: user.organization_id
+                    org_id: user.tenant_id
                 }
                 dispatch(getRecievedPurchaseOrders(get_recieved_purchase_order_obj)).then((res) => {
                     closeSelectedRecievedPurchaseOrderMenu();
@@ -195,13 +195,13 @@ function RecievedPurchaseOrdersTable(props) {
         try {
             setRejectButtonLoading(true);
             const queryparams = {
-                org_id: purchase_order.organization_id,
+                org_id: purchase_order.tenant_id,
                 purchase_order_id: purchase_order.purchase_order_id,
                 processingstatus: "vendor_rejected"
             }
             dispatch(changePurchaseOrderProcessingStatus(queryparams)).then(() => {
                 const get_recieved_purchase_order_obj = {
-                    org_id: user.organization_id
+                    org_id: user.tenant_id
                 }
                 dispatch(getRecievedPurchaseOrders(get_recieved_purchase_order_obj)).then((res) => {
                     closeSelectedRecievedPurchaseOrderMenu();
@@ -296,7 +296,7 @@ function RecievedPurchaseOrdersTable(props) {
                                         </TableCell>
 
                                         <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                                            {getOrganization(n.customer_id)}
+                                            {getTenant(n.customer_id)}
                                         </TableCell>
 
                                         <TableCell className="p-4 md:p-16 truncate" component="th" scope="row">
@@ -377,7 +377,7 @@ function RecievedPurchaseOrdersTable(props) {
                                                     <MenuItem
                                                         onClick={() => {
                                                             closeSelectedRecievedPurchaseOrderMenu();
-                                                            props.navigate(`/apps/order/viewpurchaseorder/${selectedRecievedPurchaseOrder.purchase_order_id}/${selectedRecievedPurchaseOrder.organization_id}`)
+                                                            props.navigate(`/apps/order/viewpurchaseorder/${selectedRecievedPurchaseOrder.purchase_order_id}/${selectedRecievedPurchaseOrder.tenant_id}`)
                                                         }}
                                                     >
                                                         <ListItemText primary="View Purchase Order" />
@@ -390,7 +390,7 @@ function RecievedPurchaseOrdersTable(props) {
                                                         && <MenuItem
                                                             onClick={() => {
                                                                 closeSelectedRecievedPurchaseOrderMenu();
-                                                                props.navigate(`/apps/order/viewsalesorder/${selectedRecievedPurchaseOrder.sales_order_id}/${selectedRecievedPurchaseOrder.organization_id}`)
+                                                                props.navigate(`/apps/order/viewsalesorder/${selectedRecievedPurchaseOrder.sales_order_id}/${selectedRecievedPurchaseOrder.tenant_id}`)
                                                             }}
                                                         >
                                                             <ListItemText primary="View Sales Order" />
@@ -399,7 +399,7 @@ function RecievedPurchaseOrdersTable(props) {
                                                     {selectedRecievedPurchaseOrder.processing_status === "invoice_generated" && <MenuItem
                                                         onClick={() => {
                                                             closeSelectedRecievedPurchaseOrderMenu();
-                                                            props.navigate(`/apps/invoice/${selectedRecievedPurchaseOrder.invoice_id}/${selectedRecievedPurchaseOrder.organization_id}`)
+                                                            props.navigate(`/apps/invoice/${selectedRecievedPurchaseOrder.invoice_id}/${selectedRecievedPurchaseOrder.tenant_id}`)
                                                         }}
                                                     >
                                                         <ListItemText primary="View Invoice" />

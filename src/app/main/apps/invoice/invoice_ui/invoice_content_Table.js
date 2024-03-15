@@ -3,15 +3,15 @@ import Typography from "@mui/material/Typography";
 import clsx from "clsx";
 import { useSelector } from "react-redux";
 import withRouter from "@fuse/core/withRouter";
-import { selectOrganization } from "app/store/organizationSlice";
+import { selectTenant } from "app/store/tenantSlice";
 
 function InvoiceContentTable({ salesorderitemdetails, vendor }) {
 
-  const organizations=useSelector(selectOrganization);
+  const tenants=useSelector(selectTenant);
   
-  const getOrganization = (selectedId) => {
-    const selectedOrganization = organizations.find(organization => organization.organization_id === selectedId);
-    return selectedOrganization;
+  const getTenant = (selectedId) => {
+    const selectedTenant = tenants.find(tenant => tenant.tenant_id === selectedId);
+    return selectedTenant;
   };
 
   return (
@@ -27,13 +27,13 @@ function InvoiceContentTable({ salesorderitemdetails, vendor }) {
           QTY
         </div>
         <div className="col-span-2 font-medium text-md text-left" color="text.secondary">
-          RATE {`(${getOrganization(vendor.organization_id).currency_code})`}
+          RATE {`(${getTenant(vendor.tenant_id).currency_code})`}
         </div>
         <div
           className="col-span-2 font-medium text-md text-left"
           color="text.secondary"
         >
-          AMOUNT {`(${getOrganization(vendor.organization_id).currency_code})`}
+          AMOUNT {`(${getTenant(vendor.tenant_id).currency_code})`}
         </div>
 
         <div className="col-span-12 my-16 border-b" />
@@ -67,7 +67,7 @@ function InvoiceContentTable({ salesorderitemdetails, vendor }) {
           SUBTOTAL
         </Typography>
         <Typography className="col-span-2 text-left text-lg">
-          {salesorderitemdetails.total_amount} {`(${getOrganization(vendor.organization_id).currency_code})`}
+          {salesorderitemdetails.total_amount} {`(${getTenant(vendor.tenant_id).currency_code})`}
         </Typography>
 
         <div className="col-span-12 my-12 border-b" />
@@ -80,7 +80,7 @@ function InvoiceContentTable({ salesorderitemdetails, vendor }) {
           TOTAL
         </Typography>
         <div className="col-span-2 text-left text-2xl font-medium">
-          {salesorderitemdetails.total_amount} {`(${getOrganization(vendor.organization_id).currency_code})`}
+          {salesorderitemdetails.total_amount} {`(${getTenant(vendor.tenant_id).currency_code})`}
         </div>
       </div>
     </>

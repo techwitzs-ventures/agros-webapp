@@ -5,7 +5,7 @@ import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { logoutUser, setUser } from 'app/store/userSlice';
 import jwtService from './services/jwtService';
-import { getAllOrganization } from 'app/store/organizationSlice';
+import { getAllTenant } from 'app/store/tenantSlice';
 import { getAllItems } from 'app/store/allItemsSlice';
 import { getAllItemsCategories } from 'app/store/allItemsCategoriesSlice';
 import { getAllPurchaseOrders } from 'app/store/allPurchaseOrdersSlice';
@@ -83,9 +83,9 @@ function AuthProvider({ children }) {
 
       Promise.all([
         dispatch(setUser(user)),
-        // dispatch(getAllOrganization()),
-        // dispatch(getAllItems()),
-        // dispatch(getAllItemsCategories()),
+        dispatch(getAllTenant()),
+        dispatch(getAllItems()),
+        dispatch(getAllItemsCategories()),
         // `${user.role === "plateformadmin" && dispatch(getAllPurchaseOrders())}`,
         // `${user.role === "plateformadmin" && dispatch(getAllSalesOrders())}`,
         // `${user.role === "plateformadmin" && dispatch(getAllInvoice())}`,

@@ -27,7 +27,7 @@ import {
 } from "../store/my_invoices_Slice";
 import MyInvoicesTableHead from "./all_my_invoices_TableHead";
 import { showMessage } from "app/store/fuse/messageSlice";
-import { selectOrganization } from "app/store/organizationSlice";
+import { selectTenant } from "app/store/tenantSlice";
 import { selectAllinvoices } from "app/store/allInvoicesSlice";
 
 function AllInvoicesTable(props) {
@@ -37,7 +37,7 @@ function AllInvoicesTable(props) {
   const invoices = useSelector(selectAllinvoices);
 
   const user = useSelector(selectUser);
-  const organizations = useSelector(selectOrganization)
+  const tenants = useSelector(selectTenant)
 
   const searchText = useSelector(selectMyInvoicesSearchText);
   const activeStatus = useSelector(selectMyInvoiceActiveStatus);
@@ -93,9 +93,9 @@ function AllInvoicesTable(props) {
     setSelected([]);
   }
 
-  const getOrganization = (selectedId) => {
-    const selectedOrganization = organizations.find(organization => organization.organization_id === selectedId);
-    return selectedOrganization;
+  const getTenant = (selectedId) => {
+    const selectedTenant = tenants.find(tenant => tenant.tenant_id === selectedId);
+    return selectedTenant;
   };
 
   function handleCheck(event, id) {
@@ -233,7 +233,7 @@ function AllInvoicesTable(props) {
                       scope="row"
                       align="left"
                     >
-                      {getOrganization(n.customer_id).organization_name || "Customer Name"}
+                      {getTenant(n.customer_id).tenant_name || "Customer Name"}
                     </TableCell>
 
                     <TableCell
@@ -242,7 +242,7 @@ function AllInvoicesTable(props) {
                       scope="row"
                       align="left"
                     >
-                      {getOrganization(n.vendor_id).organization_name || "Vendor Name"}
+                      {getTenant(n.vendor_id).tenant_name || "Vendor Name"}
                     </TableCell>
 
                     <TableCell
@@ -273,7 +273,7 @@ function AllInvoicesTable(props) {
                       scope="row"
                       align="left"
                     >
-                      {`${n.total_amount} ( ${getOrganization(n.vendor_id).currency_code})`}
+                      {`${n.total_amount} ( ${getTenant(n.vendor_id).currency_code})`}
                     </TableCell>
 
                     <TableCell

@@ -26,7 +26,7 @@ export const saveWishlistItem = createAsyncThunk('inventoryApp/wishlistitem/save
             featuredImageId: wishlistItemData.data.featuredImageId
         }, {
             params: {
-                organization_id: wishlistItemData.org_id
+                tenant_id: wishlistItemData.org_id
             }
         })
         console.log(result);

@@ -27,7 +27,7 @@ import {
 } from '../store/purchase_orders_Slice';
 import PurchaseOrdersTableHead from './purchase_orders_TableHead';
 import { showMessage } from 'app/store/fuse/messageSlice';
-import { selectOrganization } from 'app/store/organizationSlice';
+import { selectTenant } from 'app/store/tenantSlice';
 import POOrdersStatus from '../single_purchase_order/single_pruchase_order_status';
 
 function PurchaseOrdersTable(props) {
@@ -36,7 +36,7 @@ function PurchaseOrdersTable(props) {
   const prchase_orders = useSelector(selectPurchaseOrders);
 
   const user = useSelector(selectUser);
-  const organizations = useSelector(selectOrganization)
+  const tenants = useSelector(selectTenant)
 
   const searchText = useSelector(selectPurchaseOrdersSearchText);
   const activeStatus = useSelector(selectPurchaseOrdersActiveStatus);
@@ -61,7 +61,7 @@ function PurchaseOrdersTable(props) {
       user.data.country === "" && dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
       setLoading(true)
       const get_purchase_order_obj = {
-        organization_id: user.organization_id,
+        tenant_id: user.tenant_id,
         active: activeStatus
       }
       dispatch(getPurchaseOrders(get_purchase_order_obj)).then(() => setLoading(false));
@@ -105,9 +105,9 @@ function PurchaseOrdersTable(props) {
     setSelected([]);
   }
 
-  const getOrganization = (selectedId) => {
-    const selectedOrganization = organizations.find(organization => organization.organization_id === selectedId);
-    return selectedOrganization ? selectedOrganization.organization_name : '';
+  const getTenant = (selectedId) => {
+    const selectedTenant = tenants.find(tenant => tenant.tenant_id === selectedId);
+    return selectedTenant ? selectedTenant.tenant_name : '';
   };
 
   const handleupdateSinglePurchaseOrderStatus = async (item) => {
@@ -232,7 +232,7 @@ function PurchaseOrdersTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {getOrganization(n.vendor_id)}
+                      {getTenant(n.vendor_id)}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16 truncate" component="th" scope="row">
@@ -283,7 +283,7 @@ function PurchaseOrdersTable(props) {
                         <MenuList>
                           <MenuItem
                             onClick={() => {
-                              props.navigate(`/apps/order/viewpurchaseorder/${selectedPurchaseOrder.purchase_order_id}/${selectedPurchaseOrder.organization_id}`)
+                              props.navigate(`/apps/order/viewpurchaseorder/${selectedPurchaseOrder.purchase_order_id}/${selectedPurchaseOrder.tenant_id}`)
                               closeselectedPurchaseOrderMenu();
                             }}
                           >
@@ -293,7 +293,7 @@ function PurchaseOrdersTable(props) {
                           {selectedPurchaseOrder.processing_status === "submitted" &&
                             <MenuItem
                               onClick={() => {
-                                props.navigate(`/apps/order/purchaseorder/${selectedPurchaseOrder.purchase_order_id}/${selectedPurchaseOrder.organization_id}`)
+                                props.navigate(`/apps/order/purchaseorder/${selectedPurchaseOrder.purchase_order_id}/${selectedPurchaseOrder.tenant_id}`)
                                 closeselectedPurchaseOrderMenu();
                               }}
                             >
@@ -307,13 +307,13 @@ function PurchaseOrdersTable(props) {
                             &&
                             <MenuItem onClick={() => {
                               closeselectedPurchaseOrderMenu();
-                              props.navigate(`/apps/order/viewsalesorder/${selectedPurchaseOrder.sales_order_id}/${selectedPurchaseOrder.organization_id}`)
+                              props.navigate(`/apps/order/viewsalesorder/${selectedPurchaseOrder.sales_order_id}/${selectedPurchaseOrder.tenant_id}`)
                             }}>
                               <ListItemText primary="View Sales Order" />
                             </MenuItem>}
 
                           {selectedPurchaseOrder.processing_status === "invoice_generated" && <MenuItem onClick={() => {
-                            props.navigate(`/apps/invoice/${selectedPurchaseOrder.invoice_id}/${selectedPurchaseOrder.organization_id}`)
+                            props.navigate(`/apps/invoice/${selectedPurchaseOrder.invoice_id}/${selectedPurchaseOrder.tenant_id}`)
                             closeselectedPurchaseOrderMenu();
                           }}>
                             <ListItemText primary="View Invoice" />

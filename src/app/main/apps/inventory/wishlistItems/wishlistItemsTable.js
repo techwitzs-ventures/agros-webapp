@@ -57,7 +57,7 @@ function WishlistItemsTable(props) {
       user.data.country === "" && dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
       setLoading(true)
       const get_wishlistitems_obj = {
-        organization_id: user.organization_id,
+        tenant_id: user.tenant_id,
         active: activeStatus
       }
       dispatch(getWishlistItems(get_wishlistitems_obj)).then(() => setLoading(false));
@@ -103,7 +103,7 @@ function WishlistItemsTable(props) {
 
   const editWishlistItemDetails = async (item) => {
     // try {
-    //   props.navigate(`/apps/inventory/items/${item.item_id}/${item.items_cat_id}/${item.organization_id}`);
+    //   props.navigate(`/apps/inventory/items/${item.item_id}/${item.items_cat_id}/${item.tenant_id}`);
     // } catch (error) {
 
     // }
@@ -113,7 +113,7 @@ function WishlistItemsTable(props) {
   //   setLoading(true)
   //   const updated_status = {
   //     data: {
-  //       organization_id: item.organization_id,
+  //       tenant_id: item.tenant_id,
   //       items_cat_id: item.items_cat_id,
   //       item_id: item.item_id
   //     },
@@ -121,7 +121,7 @@ function WishlistItemsTable(props) {
   //   }
   //   dispatch(updateItemStatus(updated_status)).then(() => {
   //     const get_items_obj = {
-  //       org_id: item.organization_id,
+  //       org_id: item.tenant_id,
   //       active_status: activeStatus
   //     }
   //     dispatch(getWishlistItems(get_items_obj)).then(() => setLoading(false))

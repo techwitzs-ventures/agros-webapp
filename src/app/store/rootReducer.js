@@ -2,7 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import fuse from './fuse';
 import i18n from './i18nSlice';
 import user from './userSlice';
-import organization from './organizationSlice';
+import organization from './tenantSlice';
 import items from './allItemsSlice';
 import itemscategories from './allItemsCategoriesSlice';
 import purchaseorders from './allPurchaseOrdersSlice';

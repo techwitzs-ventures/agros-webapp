@@ -2,7 +2,7 @@ import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getUserByOrganizationId, selectUser } from "app/store/userSlice";
+import { getUserByTenantId, selectUser } from "app/store/userSlice";
 import Box from "@mui/material/Box";
 import { alpha } from "@mui/material";
 import { getInvoice, selectInvoice } from "../store/invoice_Slice";
@@ -11,33 +11,33 @@ import InvoiceContentTable from "./invoice_content_Table";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { motion } from "framer-motion";
-import { selectOrganization } from "app/store/organizationSlice";
+import { selectTenant } from "app/store/tenantSlice";
 
 function InvoiceContentHeader(props) {
 
   const dispatch = useDispatch();
-  const organizations=useSelector(selectOrganization)
+  const tenants=useSelector(selectTenant)
 
   const [loading, setLoading] = useState(true)
   const [vendor,setVendor]=useState("");
   const routeparams = useParams();
   
-  const { invoiceId, organizationId } = routeparams
+  const { invoiceId, tenantId } = routeparams
   const invoice = useSelector(selectInvoice)
 
   useEffect(() => {
-    if (invoiceId !== undefined && organizationId !== undefined) {
-      dispatch(getInvoice({ org_id: organizationId, invoice_id: invoiceId })).then((response) => (
-        dispatch(getUserByOrganizationId(response.payload.invoice_data.organization_id)).then((response)=>{
+    if (invoiceId !== undefined && tenantId !== undefined) {
+      dispatch(getInvoice({ org_id: tenantId, invoice_id: invoiceId })).then((response) => (
+        dispatch(getUserByTenantId(response.payload.invoice_data.tenant_id)).then((response)=>{
           setVendor(response.payload)
           setLoading(false)
         })))
     }
   }, [dispatch, routeparams])
 
-  const getOrganization = (selectedId) => {
-    const selectedOrganization = organizations.find(organization => organization.organization_id === selectedId);
-    return selectedOrganization;
+  const getTenant = (selectedId) => {
+    const selectedTenant = tenants.find(tenant => tenant.tenant_id === selectedId);
+    return selectedTenant;
   };
 
   if (loading) {
@@ -95,7 +95,7 @@ function InvoiceContentHeader(props) {
                 >
                   TOTAL DUE
                 </Typography>
-                <Typography className="font-medium">{invoice.invoice_data.total_due} {`(${getOrganization(vendor.organization_id).currency_code})`}</Typography>
+                <Typography className="font-medium">{invoice.invoice_data.total_due} {`(${getTenant(vendor.tenant_id).currency_code})`}</Typography>
               </div>
 
               <Box

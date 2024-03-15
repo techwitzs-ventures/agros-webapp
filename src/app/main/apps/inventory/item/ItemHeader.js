@@ -35,7 +35,7 @@ function ItemHeader(props) {
     setloading(true)
     dispatch(saveItem({
       data,
-      organization_id: user.organization_id
+      tenant_id: user.tenant_id
     })).then(() => {
       navigate('/apps/inventory/items')
       setloading(false)

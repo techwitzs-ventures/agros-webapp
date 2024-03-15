@@ -23,7 +23,7 @@ export const updateItem = createAsyncThunk('inventoryApp/item/updateItem',
       featuredImageId: updatedItemData.featuredImageId
     }, {
       params: {
-        organization_id: updatedItemData.organization_id,
+        tenant_id: updatedItemData.tenant_id,
         items_cat_id: updatedItemData.items_cat_id,
         item_id: updatedItemData.item_id
       }
@@ -43,7 +43,7 @@ export const updateItemStatus = createAsyncThunk('inventoryApp/item/updateItemSt
         status: new_updated_status_data.status
       }, {
         params: {
-          organization_id: new_updated_status_data.queryparams.organization_id,
+          tenant_id: new_updated_status_data.queryparams.tenant_id,
           items_cat_id: new_updated_status_data.queryparams.items_cat_id,
           item_id: new_updated_status_data.queryparams.item_id
         }
@@ -71,7 +71,7 @@ export const saveItem = createAsyncThunk('inventoryApp/item/saveItem',
     }, {
       params: {
         items_cat_id: itemData.data.items_cat_id,
-        organization_id: itemData.organization_id
+        tenant_id: itemData.tenant_id
       }
     })
     if (result.status === 200) {

@@ -24,7 +24,7 @@ import {
 } from '../store/sales_orders_Slice';
 import AllSalesOrdersTableHead from './all_sales_orders_TableHead';
 import { showMessage } from 'app/store/fuse/messageSlice';
-import { selectOrganization } from 'app/store/organizationSlice';
+import { selectTenant } from 'app/store/tenantSlice';
 import { selectAllSalesOrders } from 'app/store/allSalesOrdersSlice';
 import SOOrdersStatus from '../single_sales_order/single_sales_order_status';
 
@@ -33,7 +33,7 @@ function AllSalesOrdersTable(props) {
 
   const salesorders = useSelector(selectAllSalesOrders);
 
-  const organizations = useSelector(selectOrganization);
+  const tenants = useSelector(selectTenant);
 
   const searchText = useSelector(selectSalesOrdersSearchText);
   const activeStatus = useSelector(selectSalesOrdersActiveStatus);
@@ -93,16 +93,16 @@ function AllSalesOrdersTable(props) {
   const handleViewInvoice = async (salesorder) => {
     setLoading(true)
     try {
-      props.navigate(`/apps/invoice/${salesorder.invoice_id}/${salesorder.organization_id}`);
+      props.navigate(`/apps/invoice/${salesorder.invoice_id}/${salesorder.tenant_id}`);
       setLoading(false)
     } catch (error) {
       console.log(error);
     }
   }
 
-  const getOrganization = (selectedId) => {
-    const selectedOrganization = organizations.find(organization => organization.organization_id === selectedId);
-    return selectedOrganization;
+  const getTenant = (selectedId) => {
+    const selectedTenant = tenants.find(tenant => tenant.tenant_id === selectedId);
+    return selectedTenant;
   };
 
   function handleCheck(event, id) {
@@ -223,7 +223,7 @@ function AllSalesOrdersTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {getOrganization(n.customer_id).organization_name}
+                      {getTenant(n.customer_id).tenant_name}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16 truncate" component="th" scope="row">
@@ -253,7 +253,7 @@ function AllSalesOrdersTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {`${n.total_amount} ( ${getOrganization(n.customer_id).currency_code} )`}
+                      {`${n.total_amount} ( ${getTenant(n.customer_id).currency_code} )`}
                     </TableCell>
 
                     <TableCell className='p-4 md:p-16' component="th" scope="row" align="left">

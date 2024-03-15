@@ -57,7 +57,7 @@ function ItemsTable(props) {
       user.data.country === "" && dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
       setLoading(true)
       const get_items_obj = {
-        organization_id: user.organization_id,
+        tenant_id: user.tenant_id,
         active: activeStatus
       }
       dispatch(getItems(get_items_obj)).then(() => setLoading(false));
@@ -113,7 +113,7 @@ function ItemsTable(props) {
     setLoading(true)
     const updated_status = {
       queryparams: {
-        organization_id: item.organization_id,
+        tenant_id: item.tenant_id,
         items_cat_id: item.items_cat_id,
         item_id: item.item_id
       },
@@ -121,7 +121,7 @@ function ItemsTable(props) {
     }
     dispatch(updateItemStatus(updated_status)).then(() => {
       const get_items_obj = {
-        organization_id: item.organization_id,
+        tenant_id: item.tenant_id,
         active: activeStatus
       }
       dispatch(getItems(get_items_obj)).then(() => setLoading(false))
@@ -188,7 +188,7 @@ function ItemsTable(props) {
       </motion.div>
     );
   }
-
+  
   return (
     <div className="w-full flex flex-col min-h-full">
       <FuseScrollbars className="grow overflow-x-auto">

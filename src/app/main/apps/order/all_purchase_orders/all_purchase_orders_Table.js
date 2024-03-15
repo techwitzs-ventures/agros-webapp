@@ -23,7 +23,7 @@ import {
   selectPurchaseOrdersActiveStatus,
 } from '../store/purchase_orders_Slice';
 import AllPurchaseOrdersTableHead from './all_purchase_orders_TableHead';
-import { selectOrganization } from 'app/store/organizationSlice';
+import { selectTenant } from 'app/store/tenantSlice';
 import { selectAllPurchaseOrders } from 'app/store/allPurchaseOrdersSlice';
 import POOrdersStatus from '../single_purchase_order/single_pruchase_order_status';
 
@@ -31,7 +31,7 @@ function AllPurchaseOrdersTable(props) {
 
   const prchase_orders = useSelector(selectAllPurchaseOrders);
 
-  const organizations = useSelector(selectOrganization)
+  const tenants = useSelector(selectTenant)
 
   const searchText = useSelector(selectPurchaseOrdersSearchText);
   const activeStatus = useSelector(selectPurchaseOrdersActiveStatus);
@@ -88,9 +88,9 @@ function AllPurchaseOrdersTable(props) {
     setSelected([]);
   }
 
-  const getOrganization = (selectedId) => {
-    const selectedOrganization = organizations.find(organization => organization.organization_id === selectedId);
-    return selectedOrganization;
+  const getTenant = (selectedId) => {
+    const selectedTenant = tenants.find(tenant => tenant.tenant_id === selectedId);
+    return selectedTenant;
   };
 
   function handleCheck(event, id) {
@@ -211,7 +211,7 @@ function AllPurchaseOrdersTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {getOrganization(n.vendor_id).organization_name}
+                      {getTenant(n.vendor_id).tenant_name}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16 truncate" component="th" scope="row">
@@ -241,7 +241,7 @@ function AllPurchaseOrdersTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {`${n.total_amount} ( ${getOrganization(n.vendor_id).currency_code} )`}
+                      {`${n.total_amount} ( ${getTenant(n.vendor_id).currency_code} )`}
                     </TableCell>
 
                     <TableCell className='p-4 md:p-16' component="th" scope="row" align="left">

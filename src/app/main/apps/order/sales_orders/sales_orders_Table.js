@@ -28,7 +28,7 @@ import {
 import SalesOrdersTableHead from './sales_orders_TableHead';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { saveInvoice } from '../../invoice/store/invoice_Slice';
-import { selectOrganization } from 'app/store/organizationSlice';
+import { selectTenant } from 'app/store/tenantSlice';
 import SOOrdersStatus from '../single_sales_order/single_sales_order_status';
 
 
@@ -39,7 +39,7 @@ function SalesOrdersTable(props) {
   const salesorders = useSelector(selectSalesOrders);
 
   const user = useSelector(selectUser);
-  const organizations = useSelector(selectOrganization);
+  const tenants = useSelector(selectTenant);
 
   const searchText = useSelector(selectSalesOrdersSearchText);
   const activeStatus = useSelector(selectSalesOrdersActiveStatus);
@@ -63,7 +63,7 @@ function SalesOrdersTable(props) {
       user.data.country === "" && dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
       setLoading(true)
       const get_salesorder_obj = {
-        organization_id: user.organization_id,
+        tenant_id: user.tenant_id,
         active: activeStatus
       }
       dispatch(getSalesOrders(get_salesorder_obj)).then((res) => {
@@ -123,10 +123,10 @@ function SalesOrdersTable(props) {
             total_due: salesorder.total_amount,
             total_amount: salesorder.total_amount
           },
-          org_id: salesorder.organization_id
+          org_id: salesorder.tenant_id
         }
         dispatch(saveInvoice(obj)).then((action) => {
-          props.navigate(`/apps/invoice/${action.payload.invoice_id}/${action.payload.organization_id}`);
+          props.navigate(`/apps/invoice/${action.payload.invoice_id}/${action.payload.tenant_id}`);
           setLoading(false)
         }).catch((error) => {
           console.log(error)
@@ -136,9 +136,9 @@ function SalesOrdersTable(props) {
     }
   }
 
-  const getOrganization = (selectedId) => {
-    const selectedOrganization = organizations.find(organization => organization.organization_id === selectedId);
-    return selectedOrganization ? selectedOrganization.organization_name : '';
+  const getTenant = (selectedId) => {
+    const selectedTenant = tenants.find(tenant => tenant.tenant_id === selectedId);
+    return selectedTenant ? selectedTenant.tenant_name : '';
   };
 
   function handleCheck(event, id) {
@@ -259,7 +259,7 @@ function SalesOrdersTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {getOrganization(n.customer_id)}
+                      {getTenant(n.customer_id)}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16 truncate" component="th" scope="row">
@@ -310,7 +310,7 @@ function SalesOrdersTable(props) {
                           <MenuItem
                             onClick={() => {
                               closeSelectedSalesOrderMenu();
-                              props.navigate(`/apps/order/viewsalesorder/${selectedSalesOrder.sales_order_id}/${selectedSalesOrder.organization_id}`)
+                              props.navigate(`/apps/order/viewsalesorder/${selectedSalesOrder.sales_order_id}/${selectedSalesOrder.tenant_id}`)
                             }}
                           >
                             <ListItemText primary="View Sales Order" />
@@ -319,7 +319,7 @@ function SalesOrdersTable(props) {
                           {selectedSalesOrder.processing_status === "submitted" && <MenuItem
                             onClick={() => {
                               closeSelectedSalesOrderMenu();
-                              props.navigate(`/apps/order/salesorder/${selectedSalesOrder.sales_order_id}/${selectedSalesOrder.organization_id}`)
+                              props.navigate(`/apps/order/salesorder/${selectedSalesOrder.sales_order_id}/${selectedSalesOrder.tenant_id}`)
                             }}
                           >
                             <ListItemText primary="Withdraw & Edit" />
@@ -328,7 +328,7 @@ function SalesOrdersTable(props) {
                           {selectedSalesOrder.purchase_order_id !== "N/A" && <MenuItem
                             onClick={() => {
                               closeSelectedSalesOrderMenu();
-                              props.navigate(`/apps/order/viewpurchaseorder/${selectedSalesOrder.purchase_order_id}/${selectedSalesOrder.organization_id}`)
+                              props.navigate(`/apps/order/viewpurchaseorder/${selectedSalesOrder.purchase_order_id}/${selectedSalesOrder.tenant_id}`)
                             }}
                           >
                             <ListItemText primary="View Purchase Order" />
@@ -343,7 +343,7 @@ function SalesOrdersTable(props) {
 
                           {selectedSalesOrder.processing_status === "invoice_generated" && <MenuItem onClick={() => {
                             closeSelectedSalesOrderMenu();
-                            props.navigate(`/apps/invoice/${selectedSalesOrder.invoice_id}/${selectedSalesOrder.organization_id}`)
+                            props.navigate(`/apps/invoice/${selectedSalesOrder.invoice_id}/${selectedSalesOrder.tenant_id}`)
                           }}>
                             < ListItemText primary="View Invoice" />
                           </MenuItem>}

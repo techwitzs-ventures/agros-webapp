@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 export const getWishlistItems = createAsyncThunk('inventoryApp/wishlistitems/getWishlistItems', async (get_wishlistitems_obj) => {
-  const result = await axios.get('/itemswishlist/getitemsbyorgid', { params: get_wishlistitems_obj })
+  const result = await axios.get('/itemswishlist/getitems', { params: get_wishlistitems_obj })
   return result.data.response
 });
 

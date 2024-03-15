@@ -29,7 +29,7 @@ import {
 } from "../store/recieved_sales_orders_Slice";
 import RecievedSalesOrdersTableHead from "./recieved_sales_orders_TableHead";
 import { showMessage } from "app/store/fuse/messageSlice";
-import { selectOrganization } from "app/store/organizationSlice";
+import { selectTenant } from "app/store/tenantSlice";
 import CircularProgress from '@mui/material/CircularProgress';
 import { grey } from '@mui/material/colors';
 import SOOrdersStatus from "../single_sales_order/single_sales_order_status";
@@ -39,7 +39,7 @@ function RecievedSalesOrdersTable(props) {
   const recievedpurchaseorders = useSelector(selectRecievedSalesorders);
 
   const user = useSelector(selectUser);
-  const organizations = useSelector(selectOrganization);
+  const tenants = useSelector(selectTenant);
 
   const searchText = useSelector(selectRecievedSalesOrdersSearchText);
   const activeStatus = useSelector(selectRecievedSalesOrdersActiveStatus);
@@ -69,7 +69,7 @@ function RecievedSalesOrdersTable(props) {
         );
       setLoading(true);
       const get_recieved_purchase_order_obj = {
-        org_id: user.organization_id,
+        org_id: user.tenant_id,
       };
       dispatch(getRecievedSalesOrders(get_recieved_purchase_order_obj)).then((res) => { setLoading(false) });
     }
@@ -148,22 +148,22 @@ function RecievedSalesOrdersTable(props) {
     setSelectedRecievedPurchaseOrder("");
   }
 
-  const getOrganization = (selectedId) => {
-    const selectedOrganization = organizations.find(organization => organization.organization_id === selectedId);
-    return selectedOrganization ? selectedOrganization.organization_name : '';
+  const getTenant = (selectedId) => {
+    const selectedTenant = tenants.find(tenant => tenant.tenant_id === selectedId);
+    return selectedTenant ? selectedTenant.tenant_name : '';
   };
 
   const handleAcceptOnlyState = async (sales_order) => {
     try {
       setAcceptButtonLoading(true);
       const queryparams = {
-        org_id: sales_order.organization_id,
+        org_id: sales_order.tenant_id,
         sales_order_id: sales_order.sales_order_id,
         processingstatus: "buyer_accepted"
       }
       dispatch(changeSalesOrderProcessingStatus(queryparams)).then(() => {
         const get_recieved_purchase_order_obj = {
-          org_id: user.organization_id,
+          org_id: user.tenant_id,
         };
         dispatch(getRecievedSalesOrders(get_recieved_purchase_order_obj)).then(() => {
           closeSelectedRecievedPurchaseOrderMenu();
@@ -183,13 +183,13 @@ function RecievedSalesOrdersTable(props) {
     try {
       setRejectButtonLoading(true);
       const queryparams = {
-        org_id: sales_order.organization_id,
+        org_id: sales_order.tenant_id,
         sales_order_id: sales_order.sales_order_id,
         processingstatus: "buyer_rejected"
       }
       dispatch(changeSalesOrderProcessingStatus(queryparams)).then(() => {
         const get_recieved_purchase_order_obj = {
-          org_id: user.organization_id
+          org_id: user.tenant_id
         }
         dispatch(getRecievedSalesOrders(get_recieved_purchase_order_obj)).then((res) => {
           closeSelectedRecievedPurchaseOrderMenu();
@@ -300,7 +300,7 @@ function RecievedSalesOrdersTable(props) {
                       scope="row"
                       align="left"
                     >
-                      {getOrganization(n.vendor_id)}
+                      {getTenant(n.vendor_id)}
                     </TableCell>
 
                     <TableCell
@@ -391,7 +391,7 @@ function RecievedSalesOrdersTable(props) {
                             {<MenuItem
                               onClick={() => {
                                 closeSelectedRecievedPurchaseOrderMenu();
-                                props.navigate(`/apps/order/viewsalesorder/${selectedRecievedPurchaseOrder.sales_order_id}/${selectedRecievedPurchaseOrder.organization_id}`)
+                                props.navigate(`/apps/order/viewsalesorder/${selectedRecievedPurchaseOrder.sales_order_id}/${selectedRecievedPurchaseOrder.tenant_id}`)
                               }}
                             >
                               <ListItemText primary="View Sales Order" />
@@ -400,7 +400,7 @@ function RecievedSalesOrdersTable(props) {
                             {selectedRecievedPurchaseOrder.purchase_order_id !== "N/A" && <MenuItem
                               onClick={() => {
                                 closeSelectedRecievedPurchaseOrderMenu();
-                                props.navigate(`/apps/order/viewpurchaseorder/${selectedRecievedPurchaseOrder.purchase_order_id}/${selectedRecievedPurchaseOrder.organization_id}`)
+                                props.navigate(`/apps/order/viewpurchaseorder/${selectedRecievedPurchaseOrder.purchase_order_id}/${selectedRecievedPurchaseOrder.tenant_id}`)
                               }}
                             >
                               <ListItemText primary="View Purchase Order" />
@@ -409,7 +409,7 @@ function RecievedSalesOrdersTable(props) {
                             {selectedRecievedPurchaseOrder.processing_status === "invoice_generated" && <MenuItem
                               onClick={() => {
                                 closeSelectedRecievedPurchaseOrderMenu();
-                                props.navigate(`/apps/invoice/${selectedRecievedPurchaseOrder.invoice_id}/${selectedRecievedPurchaseOrder.organization_id}`)
+                                props.navigate(`/apps/invoice/${selectedRecievedPurchaseOrder.invoice_id}/${selectedRecievedPurchaseOrder.tenant_id}`)
                               }}
                             >
                               <ListItemText primary="View Invoice" />

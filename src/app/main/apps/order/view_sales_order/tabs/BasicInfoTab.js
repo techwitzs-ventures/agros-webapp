@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import FuseLoading from "@fuse/core/FuseLoading";
 import SingleSalesOrderTableContent from "../view_single_sales_order_Table_Content";
-import { getAllOrganization, selectOrganization } from "app/store/organizationSlice";
+import { getAllTenant, selectTenant } from "app/store/tenantSlice";
 import { selectUser } from "app/store/userSlice";
 
 function BasicInfoTab(props) {
@@ -23,12 +23,12 @@ function BasicInfoTab(props) {
 
   const dispatch = useDispatch()
   const user = useSelector(selectUser);
-  const customers = useSelector(selectOrganization)
+  const customers = useSelector(selectTenant)
 
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    dispatch(getAllOrganization()).then(() => setLoading(false))
+    dispatch(getAllTenant()).then(() => setLoading(false))
   }, [dispatch])
 
   if (loading) {
@@ -61,8 +61,8 @@ function BasicInfoTab(props) {
                       disabled
                     >
                       {customers.map((customer) => (
-                        <MenuItem key={customer.organization_code} value={customer.organization_id}>
-                          {`${customer.organization_name} ( ${customer.organization_code} )`}
+                        <MenuItem key={customer.tenant_code} value={customer.tenant_id}>
+                          {`${customer.tenant_name} ( ${customer.tenant_code} )`}
                         </MenuItem>
                       ))}
                     </Select>

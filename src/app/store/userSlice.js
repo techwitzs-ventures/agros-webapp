@@ -19,7 +19,7 @@ export const setUser = createAsyncThunk('user/setUser', async (user, { dispatch,
 });
 
 
-export const getUserByOrganizationId = createAsyncThunk(
+export const getUserByTenantId = createAsyncThunk(
   'user/getuserbyorganization', async (org_id, { dispatch, getState }) => {
     try {
       const data = await jwtService.getUserByOrganizationId(org_id);

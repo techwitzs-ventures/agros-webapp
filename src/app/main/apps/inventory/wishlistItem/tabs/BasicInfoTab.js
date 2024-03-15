@@ -90,7 +90,7 @@ function BasicInfoTab(props) {
                   <TextField
                     {...field}
                     className="mb-24"
-                    label={`Rate ( ${user.organization_data.currency_code} )`}
+                    label={`Rate ( ${user.tenant_data.currency_code} )`}
                     type="text"
                     disabled
                     error={!!errors.rate}

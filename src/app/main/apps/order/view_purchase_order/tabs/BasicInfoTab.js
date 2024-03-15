@@ -11,7 +11,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useSelector, useDispatch } from "react-redux";
 import FuseLoading from "@fuse/core/FuseLoading";
 import SinglePurchaseOrderTableContent from "../view_single_purchase_order_Table_Content";
-import { getAllOrganization, selectOrganization } from "app/store/organizationSlice";
+import { getAllTenant, selectTenant } from "app/store/tenantSlice";
 import { selectUser } from "app/store/userSlice";
 
 function BasicInfoTab(props) {
@@ -22,23 +22,23 @@ function BasicInfoTab(props) {
 
   const dispatch = useDispatch()
   const user = useSelector(selectUser)
-  const organization = useSelector(selectOrganization)
+  const tenant = useSelector(selectTenant)
 
   const [vendorDetails, setVendorDetails] = useState("")
 
   useEffect(() => {
-    dispatch(getAllOrganization())
+    dispatch(getAllTenant())
   }, [dispatch])
 
-  const getVendorOrganization = (selectedVendorId) => {
-    const selectedVendor = organization.find(vendor => vendor.organization_id === selectedVendorId);
+  const getVendorTenant = (selectedVendorId) => {
+    const selectedVendor = tenant.find(vendor => vendor.tenant_id === selectedVendorId);
     setVendorDetails(selectedVendor)
-    return selectedVendor ? selectedVendor.organization_name : '';
+    return selectedVendor ? selectedVendor.tenant_name : '';
   };
 
   return (
     <>
-      {organization.length > 0 ? <div>
+      {tenant.length > 0 ? <div>
         <form
           name="registerForm"
           noValidate
@@ -59,9 +59,9 @@ function BasicInfoTab(props) {
                       error={!!errors.vendor_id}
                       disabled
                     >
-                      {organization.map((vendor) => (
-                        <MenuItem key={vendor.organization_code} value={vendor.organization_id}>
-                          {`${vendor.organization_name} ( ${vendor.organization_code} )`}
+                      {tenant.map((vendor) => (
+                        <MenuItem key={vendor.tenant_code} value={vendor.tenant_id}>
+                          {`${vendor.tenant_name} ( ${vendor.tenant_code} )`}
                         </MenuItem>
                       ))}
                     </Select>
