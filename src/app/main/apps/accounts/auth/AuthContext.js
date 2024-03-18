@@ -86,9 +86,9 @@ function AuthProvider({ children }) {
         dispatch(getAllTenant()),
         dispatch(getAllItems()),
         dispatch(getAllItemsCategories()),
-        // `${user.role === "plateformadmin" && dispatch(getAllPurchaseOrders())}`,
-        // `${user.role === "plateformadmin" && dispatch(getAllSalesOrders())}`,
-        // `${user.role === "plateformadmin" && dispatch(getAllInvoice())}`,
+        `${user.role === "plateformadmin" && dispatch(getAllPurchaseOrders())}`,
+        `${user.role === "plateformadmin" && dispatch(getAllSalesOrders())}`,
+        `${user.role === "plateformadmin" && dispatch(getAllInvoice())}`,
 
         // You can receive data in here before app initialization
       ]).then((values) => {
