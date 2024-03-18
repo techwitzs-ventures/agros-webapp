@@ -69,6 +69,25 @@ class JwtService extends FuseUtils.EventEmitter {
     }
   };
 
+  // Fetching User Details by Tenant Id
+  getUserByTenantId = (tenant_id) => {
+    return new Promise((resolve, reject) => {
+      axios.get('/user/getuserbytenantid', {
+        params: { tenant_id }
+      }).then((res) => {
+        if (res.status === 200) {
+          resolve(res.data.response)
+        } else {
+          console.log(res.data.response)
+          reject(res.data.response)
+        }
+      }).catch((error) => {
+        console.log(error)
+        reject(error);
+      })
+    })
+  }
+
   // User Table API to update the user's credentials
   updateUserCredentialByUUID = async (data, tenant_id) => {
     return new Promise((resolve, reject) => {

@@ -70,7 +70,7 @@ const singlepurchaseorderSlice = createSlice({
         payload: {
           /* when multiple plateform sellers or sellers are available then ,
           this vendor is field will become a empty string. */
-          vendor_id: 'e81ffce5-bead-47a6-b633-17c1a1ca4f67',
+          vendor_id: 'f080720d-44eb-44e0-b766-4062c1f932e6',
           delivery_address: '',
           exp_delivery_date: '',
           item_list: [{

@@ -5,7 +5,7 @@ export const getInvoiceList = createAsyncThunk("invoiceApp/invoices/getinvoice",
   async (get_invoices_obj) => {
     const result = await axios.get('/invoice/getinvoicelistbycustomerid', {
       params: {
-        organization_id: get_invoices_obj.org_id
+        tenant_id: get_invoices_obj.org_id
       }
     });
     if (result.status === 200) {

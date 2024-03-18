@@ -12,7 +12,7 @@ const invoiceConfig = {
   },
   routes: [
     {
-      path: "apps/invoice/:invoiceId/:organizationId",
+      path: "apps/invoice/:invoiceId/:tenantId",
       element: <Invoice />,
     },
     {

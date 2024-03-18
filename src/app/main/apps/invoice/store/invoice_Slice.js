@@ -6,7 +6,7 @@ export const getInvoice = createAsyncThunk('invoiceApp/invoice/getinvoice',
   async (get_invoice_obj) => {
     const result = await axios.get('/invoice/getsingleinvoicedetails', {
       params: {
-        organization_id: get_invoice_obj.org_id,
+        tenant_id: get_invoice_obj.org_id,
         invoice_id: get_invoice_obj.invoice_id
       }
     })
@@ -38,7 +38,7 @@ export const saveInvoice = createAsyncThunk('invoiceApp/saveinvoice',
         total_amount: invoiceData.data.total_amount
       }, {
       params: {
-        organization_id: invoiceData.org_id
+        tenant_id: invoiceData.org_id
       }
     })
     if (result.status===200) {
