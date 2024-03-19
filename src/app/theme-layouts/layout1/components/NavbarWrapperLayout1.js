@@ -5,6 +5,8 @@ import { selectFuseCurrentLayoutConfig, selectNavbarTheme } from 'app/store/fuse
 import { selectFuseNavbar } from 'app/store/fuse/navbarSlice';
 import NavbarStyle1 from './navbar/style-1/NavbarStyle1';
 import NavbarToggleFab from '../../shared-components/NavbarToggleFab';
+import NavbarStyle2 from './navbar/style-2/NavbarStyle2';
+import NavbarStyle3 from './navbar/style-3/NavbarStyle3';
 
 function NavbarWrapperLayout1(props) {
   const config = useSelector(selectFuseCurrentLayoutConfig);
@@ -17,6 +19,8 @@ function NavbarWrapperLayout1(props) {
       <ThemeProvider theme={navbarTheme}>
         <>
           {config.navbar.style === 'style-1' && <NavbarStyle1 />}
+          {config.navbar.style === 'style-2' && <NavbarStyle2 />}
+          {config.navbar.style === 'style-3' && <NavbarStyle3 />}
         </>
       </ThemeProvider>
 
