@@ -17,6 +17,7 @@ import { selectUser } from 'app/store/userSlice';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { selectAllItems } from 'app/store/allItemsSlice';
 import ItemsSearchConfig from 'src/app/@itemsSearch/ItemsSearchConfig';
+import Button from '@mui/material/Button';
 
 
 function WishlistItemsHeader(props) {
@@ -26,10 +27,23 @@ function WishlistItemsHeader(props) {
   const searchText = useSelector(selectWishlistItemsSearchText);
   const user = useSelector(selectUser)
   const items = useSelector(selectAllItems)
+
   const handleActiveStatusChange = async (event) => {
     try {
       setchecked(event.target.checked)
       dispatch(setWishlistItemsActiveStatus(event))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleAddCustomItem = async () => {
+    try {
+      if (user.data.country !== "") {
+        navigate("/apps/inventory/itemswishlist/new")
+      } else {
+        dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
+      }
     } catch (error) {
       console.log(error)
     }
@@ -87,7 +101,21 @@ function WishlistItemsHeader(props) {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
         >
-          <ItemsSearchConfig navigation={items}/>
+          <ItemsSearchConfig navigation={items} />
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
+        >
+          <Button
+            className=""
+            onClick={handleAddCustomItem}
+            variant="contained"
+            color="secondary"
+            startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
+          >
+            Add Custom
+          </Button>
         </motion.div>
       </div>
     </div>

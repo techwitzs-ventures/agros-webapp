@@ -9,6 +9,7 @@ const ItemsCategory = lazy(() => import('./itemsCategory/itemsCategory'));
 const ItemsCategories = lazy(() => import('./itemsCategories/itemsCategories'));
 const WishlistItems = lazy(() => import('./wishlistItems/wishlistItems'));
 const WishlistItem = lazy(() => import('./wishlistItem/wishlistItem'));
+const WishlistCustomItem = lazy(() => import('./wishlistCustomItem/wishlistCustomItem'));
 
 const ECommerceAppConfig = {
   settings: {
@@ -43,6 +44,11 @@ const ECommerceAppConfig = {
     {
       path: 'apps/inventory/itemswishlist/:param1/:param2',
       element: <WishlistItem />,
+      auth: authRoles.buyer
+    },
+    {
+      path: 'apps/inventory/itemswishlist/:param1/*',
+      element: <WishlistCustomItem />,
       auth: authRoles.buyer
     },
     {
