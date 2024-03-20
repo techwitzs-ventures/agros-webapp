@@ -5,7 +5,16 @@ import axios from 'axios';
 
 export const getWishlistCustomItem = createAsyncThunk('inventoryApp/wishlistcustomitem/getWishlistCustomItem',
     async (queryparams) => {
-
+        const result = await axios.get('/itemswishlist/getitem', {
+            params: {
+                wishlist_item_id: queryparams.wishlist_item_id
+            }
+        })
+        if (result.status === 200) {
+            return result.data.response
+        } else {
+            console.log(result)
+        }
     });
 
 export const updateWishlistCustomItemStatus = createAsyncThunk('inventoryApp/wishlistcustomitem/updateWishlistCustomItemStatus',

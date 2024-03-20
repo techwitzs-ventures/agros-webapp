@@ -5,7 +5,16 @@ import axios from 'axios';
 
 export const getWishlistItem = createAsyncThunk('inventoryApp/wishlistitem/getWishlistItem',
     async (queryparams) => {
-
+        const result = await axios.get('/itemswishlist/getitem', {
+            params: {
+                wishlist_item_id: queryparams.wishlist_item_id
+            }
+        })
+        if (result.status === 200) {
+            return result.data.response
+        } else {
+            console.log(result)
+        }
     });
 
 export const updateWishlistItemStatus = createAsyncThunk('inventoryApp/wishlistitem/updateWishlistItemStatus',
@@ -29,12 +38,11 @@ export const saveWishlistItem = createAsyncThunk('inventoryApp/wishlistitem/save
                 tenant_id: wishlistItemData.org_id
             }
         })
-
         if (result.status === 200) {
             dispatch(showMessage({ message: result.data.message, variant: "success" }))
             return result.data.response
         } else {
-            console.log()
+            console.log(result)
         }
     }
 );

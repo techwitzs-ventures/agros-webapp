@@ -40,7 +40,7 @@ function WishlistItemsHeader(props) {
   const handleAddCustomItem = async () => {
     try {
       if (user.data.country !== "") {
-        navigate("/apps/inventory/itemswishlist/new")
+        navigate("/apps/inventory/customitemswishlist/new")
       } else {
         dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
       }
@@ -103,6 +103,7 @@ function WishlistItemsHeader(props) {
         >
           <ItemsSearchConfig navigation={items} />
         </motion.div>
+        
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}

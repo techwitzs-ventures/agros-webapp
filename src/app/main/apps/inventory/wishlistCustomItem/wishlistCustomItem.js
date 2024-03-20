@@ -16,7 +16,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
 import reducer from '../store';
-import { newWishlistCustomItem, resetWishlistCustomItem, selectWishlistCustomItem } from '../store/wishlistCutomSlice';
+import {
+    getWishlistCustomItem,
+    newWishlistCustomItem,
+    resetWishlistCustomItem,
+    selectWishlistCustomItem
+} from '../store/wishlistCutomSlice';
 import WishlistCustomItemHeader from './wishlistCustomItemHeader';
 import BasicInfoTab from './tabs/BasicInfoTab';
 import ItemImagesTab from './tabs/ItemImagesTab';
@@ -67,19 +72,18 @@ function WishlistCustomItem(props) {
                  * Get Product data
                  */
                 const queryparams = {
-                    item_id: param1
+                    wishlist_item_id: param1
                 }
-                // dispatch(getItem(queryparams)).then((action) => {
-                //   /**
-                //    * If the requested product is not exist show message
-                //    */
-                //   if (!action.payload) {
-                //     setNoProduct(true);
-                //   }
-                // });
+                dispatch(getWishlistCustomItem(queryparams)).then((action) => {
+                    /**
+                     * If the requested product is not exist show message
+                     */
+                    if (!action.payload) {
+                        setNoProduct(true);
+                    }
+                });
             }
         }
-
         updateProductState();
     }, [dispatch, routeParams]);
 

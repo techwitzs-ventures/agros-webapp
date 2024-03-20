@@ -15,12 +15,17 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
-import { getItem, resetItem, selectItem } from '../store/itemSlice';
+import { getItem } from '../store/itemSlice';
 import reducer from '../store';
 import WishlistItemHeader from './wishlistItemHeader';
 import BasicInfoTab from './tabs/BasicInfoTab';
 import ItemImagesTab from './tabs/ItemImagesTab';
-import { newWishlistItem } from '../store/wishlistSlice';
+import {
+  getWishlistItem,
+  newWishlistItem,
+  resetWishlistItem,
+  selectWishlistItem
+} from '../store/wishlistSlice';
 
 /**
  * Form Validation Schema
@@ -39,7 +44,7 @@ const schema = yup.object().shape({
 function WishlistItem(props) {
 
   const dispatch = useDispatch();
-  const product = useSelector(selectItem);
+  const product = useSelector(selectWishlistItem);
 
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
   const routeParams = useParams();
@@ -76,9 +81,9 @@ function WishlistItem(props) {
          * Get Product data
          */
         const queryparams = {
-          item_id: itemId
+          wishlist_item_id: param1
         }
-        dispatch(getItem(queryparams)).then((action) => {
+        dispatch(getWishlistItem(queryparams)).then((action) => {
           /**
            * If the requested product is not exist show message
            */
@@ -107,7 +112,7 @@ function WishlistItem(props) {
       /**
        * Reset Product on component unload
        */
-      dispatch(resetItem());
+      dispatch(resetWishlistItem());
       setNoProduct(false);
     };
   }, [dispatch]);

@@ -7,14 +7,12 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { useSelector } from 'react-redux';
 import { selectUser } from 'app/store/userSlice';
 import { Units } from "app/configs/unitConfig";
-import { selectAllItemsCategories } from "app/store/allItemsCategoriesSlice";
 
 function BasicInfoTab(props) {
   const methods = useFormContext();
   const { control, formState, getValues } = methods;
   const { errors } = formState;
   const val = getValues();
-  const products = useSelector(selectAllItemsCategories);
   const user = useSelector(selectUser);
 
   return (
@@ -43,27 +41,6 @@ function BasicInfoTab(props) {
                   />
                 )}
               />}
-              <Controller
-                name="items_cat_id"
-                control={control}
-                render={({ field }) => (
-                  <FormControl className="mb-24" required>
-                    <InputLabel>Items Category</InputLabel>
-                    <Select
-                      {...field}
-                      label="Items Category"
-                      error={!!errors.items_cat_id}
-                      disabled
-                    >
-                      {products.map((itemcategory) => (
-                        <MenuItem key={itemcategory.id} value={itemcategory.items_cat_id}>
-                          {itemcategory.items_cat_name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                )}
-              />
 
               <Controller
                 name="item_name"
@@ -123,6 +100,7 @@ function BasicInfoTab(props) {
                   </FormControl>
                 )}
               />
+
             </form>
           </CardContent>
         </Card>

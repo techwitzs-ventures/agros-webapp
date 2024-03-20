@@ -51,7 +51,7 @@ function ItemImagesTab(props) {
   return (
     <Root>
       <div className="flex justify-center sm:justify-start flex-wrap -mx-16">
-        <Controller
+        {/*<Controller
           name="images"
           control={control}
           render={({ field: { onChange, value } }) => (
@@ -105,7 +105,7 @@ function ItemImagesTab(props) {
               </FuseSvgIcon>
             </Box>
           )}
-        />
+              />*/}
 
         <Controller
           name="featuredImageId"

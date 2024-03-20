@@ -101,32 +101,21 @@ function WishlistItemsTable(props) {
     setSelected([]);
   }
 
-  const editWishlistItemDetails = async (item) => {
-    // try {
-    //   props.navigate(`/apps/inventory/items/${item.item_id}/${item.items_cat_id}/${item.tenant_id}`);
-    // } catch (error) {
-
-    // }
+  const viewWishlistItemDetails = async (wishlistItem) => {
+    try {
+      props.navigate(`/apps/inventory/itemswishlist/${wishlistItem.items_wishlist_id}`);
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  // const handleUpdateItemStatus = async (item) => {
-  //   setLoading(true)
-  //   const updated_status = {
-  //     data: {
-  //       tenant_id: item.tenant_id,
-  //       items_cat_id: item.items_cat_id,
-  //       item_id: item.item_id
-  //     },
-  //     status: item.status ? false : true
-  //   }
-  //   dispatch(updateItemStatus(updated_status)).then(() => {
-  //     const get_items_obj = {
-  //       org_id: item.tenant_id,
-  //       active_status: activeStatus
-  //     }
-  //     dispatch(getWishlistItems(get_items_obj)).then(() => setLoading(false))
-  //   });
-  // }
+  const editWishlistItem = async (wishlistItem) => {
+    try {
+      props.navigate(`/apps/inventory/customitemswishlist/${wishlistItem.items_wishlist_id}`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   function handleCheck(event, id) {
     const selectedIndex = selected.indexOf(id);
@@ -259,7 +248,7 @@ function WishlistItemsTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {n.item_code}
+                      {n.items_wishlist_code}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16 truncate" component="th" scope="row">
@@ -275,13 +264,13 @@ function WishlistItemsTable(props) {
                         <span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
                           <FuseSvgIcon className="text-green" size={20}>
                             heroicons-outline:check-circle
-                          </FuseSvgIcon><span className='ps-2'>active</span>
+                          </FuseSvgIcon><span className='ps-2'>Approved</span>
                         </span>
                       ) : (
                         <span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
                           <FuseSvgIcon className="text-red" size={20}>
                             heroicons-outline:minus-circle
-                          </FuseSvgIcon><span className='ps-2'>inactive</span>
+                          </FuseSvgIcon><span className='ps-2'>Not Approved</span>
                         </span>
                       )}
                     </TableCell>
@@ -302,21 +291,21 @@ function WishlistItemsTable(props) {
                         onClose={closeSelectedProductsMenu}
                       >
                         <MenuList>
-                          <MenuItem
+                          {selectedItem.status && <MenuItem
                             onClick={() => {
-                              editWishlistItemDetails(selectedItem)
+                              viewWishlistItemDetails(selectedItem)
                               closeSelectedProductsMenu();
                             }}
                           >
-                            <ListItemText primary="Edit" />
-                          </MenuItem>
+                            <ListItemText primary="View" />
+                          </MenuItem>}
 
-                          <MenuItem onClick={() => {
-                            // handleUpdateItemStatus(selectedItem);
+                          {!selectedItem.status && <MenuItem onClick={() => {
+                            editWishlistItem(selectedItem);
                             closeSelectedProductsMenu();
                           }}>
-                            {selectedItem.status ? <ListItemText primary="Deactivate" /> : <ListItemText primary="Activate" />}
-                          </MenuItem>
+                            <ListItemText primary="Edit" />
+                          </MenuItem>}
                         </MenuList>
                       </Menu>}
 

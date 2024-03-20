@@ -103,7 +103,7 @@ function WishlistItemHeader(props) {
           </motion.div>
         </div>
       </div>
-      <motion.div
+      {param1 === "new" && <motion.div
         className="flex"
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0, transition: { delay: 0.3 } }}
@@ -118,7 +118,7 @@ function WishlistItemHeader(props) {
         >
           Save
         </LoadingButton>
-      </motion.div>
+      </motion.div>}
     </div>
   );
 }
