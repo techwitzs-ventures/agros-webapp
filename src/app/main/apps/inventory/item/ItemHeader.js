@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import _ from '@lodash';
 import { useState } from 'react';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
@@ -13,6 +13,9 @@ import { LoadingButton } from '@mui/lab';
 
 
 function ItemHeader(props) {
+
+  const rootParams = useParams();
+  const { itemId, wishlistId } = rootParams
 
   const dispatch = useDispatch();
   const methods = useFormContext();
@@ -30,21 +33,25 @@ function ItemHeader(props) {
   const [loading, setloading] = useState(false)
   const [deactivateButtonLoading, setDeactivateButtonLoading] = useState(false)
 
-
   function onSubmitNew(data) {
     setloading(true)
-    dispatch(saveItem({
-      data,
-      tenant_id: user.tenant_id
-    })).then(() => {
-      navigate('/apps/inventory/items')
-      setloading(false)
-    });
+
+    if (itemId === 'new' && wishlistId === undefined) {
+      dispatch(saveItem({
+        data,
+        tenant_id: user.tenant_id
+      })).then(() => {
+        navigate('/apps/inventory/items')
+        setloading(false)
+      });
+    } else if (itemId === 'newcustom' && wishlistId !== undefined) {
+       
+    }
   }
 
-  function handleUpdateItem(){
+  function handleUpdateItem() {
     setloading(true)
-    dispatch(updateItem(form)).then(()=>{
+    dispatch(updateItem(form)).then(() => {
       navigate('/apps/inventory/items')
       setloading(false)
     })

@@ -8,6 +8,7 @@ import itemscategories from './allItemsCategoriesSlice';
 import purchaseorders from './allPurchaseOrdersSlice';
 import salesorders from './allSalesOrdersSlice';
 import invoices from './allInvoicesSlice';
+import wishlistitems from './allWishlistItemsSlice';
 
 const createReducer = (asyncReducers) => (state, action) => {
   const combinedReducer = combineReducers({
@@ -16,6 +17,7 @@ const createReducer = (asyncReducers) => (state, action) => {
     user,
     tenant,
     items,
+    wishlistitems,
     itemscategories,
     purchaseorders,
     salesorders,

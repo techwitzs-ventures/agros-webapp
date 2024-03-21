@@ -13,6 +13,18 @@ export const getItem = createAsyncThunk('inventoryApp/item/getItem',
     }
   });
 
+export const putCustomItem = createAsyncThunk('inventoryApp/item/putCustomItem',
+  async (item_details) => {
+    return {
+      item_name: item_details.item_name,
+      rate: item_details.rate,
+      unit: item_details.unit,
+      items_cat_id: '',
+      images: item_details.images,
+      featuredImageId: item_details.featuredImageId
+    };
+  })
+
 export const updateItem = createAsyncThunk('inventoryApp/item/updateItem',
   async (updatedItemData, { dispatch, getState }) => {
     const result = await axios.put('/item/updateitem', {
@@ -104,6 +116,7 @@ const itemSlice = createSlice({
   },
   extraReducers: {
     [getItem.fulfilled]: (state, action) => action.payload,
+    [putCustomItem.fulfilled]: (state, action) => action.payload,
     [saveItem.fulfilled]: (state, action) => action.payload,
     [updateItemStatus.fulfilled]: (state, action) => null,
   },

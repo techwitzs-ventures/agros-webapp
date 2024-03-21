@@ -15,11 +15,12 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
-import { getItem, newItem, resetItem, selectItem } from '../store/itemSlice';
+import { getItem, newItem, putCustomItem, resetItem, selectItem } from '../store/itemSlice';
 import reducer from '../store';
 import ItemHeader from './ItemHeader';
 import BasicInfoTab from './tabs/BasicInfoTab';
 import ItemImagesTab from './tabs/ItemImagesTab';
+import { getWishlistItem } from '../store/wishlistSlice';
 
 /**
  * Form Validation Schema
@@ -52,13 +53,26 @@ function Item(props) {
 
   useDeepCompareEffect(() => {
     function updateProductState() {
-      const { itemId } = routeParams;
+      const { itemId, wishlistId } = routeParams;
 
       if (itemId === 'new') {
         /**
          * Create New Product data
          */
         dispatch(newItem());
+      } else if (itemId === "newcustom" && wishlistId !== undefined) {
+        /**
+         * Create New Item when Custom Wishlist Item status is updating
+         */
+        dispatch(getWishlistItem({
+          wishlist_item_id: wishlistId
+        })).then((action) => {
+          dispatch(putCustomItem(action.payload)).then((action) => {
+            if (!action.payload) {
+              setNoProduct(true)
+            }
+          })
+        })
       } else {
         /**
          * Get Product data

@@ -10,6 +10,7 @@ const ItemsCategories = lazy(() => import('./itemsCategories/itemsCategories'));
 const WishlistItems = lazy(() => import('./wishlistItems/wishlistItems'));
 const WishlistItem = lazy(() => import('./wishlistItem/wishlistItem'));
 const WishlistCustomItem = lazy(() => import('./wishlistCustomItem/wishlistCustomItem'));
+const BuyersWishlist = lazy(() => import('./buyersWishlist/buyersWishlistItems'));
 
 const ECommerceAppConfig = {
   settings: {
@@ -27,12 +28,22 @@ const ECommerceAppConfig = {
       auth: authRoles.plateformadmin
     },
     {
+      path: 'apps/inventory/buyerswishlist',
+      element: <BuyersWishlist />,
+      auth: authRoles.plateformadmin
+    },
+    {
       path: 'apps/inventory/itemswishlist',
       element: <WishlistItems />,
       auth: authRoles.buyer
     },
     {
       path: 'apps/inventory/items/:itemId/*',
+      element: <Item />,
+      auth: authRoles.plateformadmin
+    },
+    {
+      path: 'apps/inventory/items/:itemId/:wishlistId',
       element: <Item />,
       auth: authRoles.plateformadmin
     },

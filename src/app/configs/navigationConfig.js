@@ -51,6 +51,14 @@ const navigationConfig = [
         auth: authRoles.plateformadmin,
         url: 'apps/inventory/items',
         end: true,
+      },
+      {
+        id: 'inventory-buyerswishlist',
+        title: "Buyer's Wishlist",
+        type: 'item',
+        auth: authRoles.plateformadmin,
+        url: 'apps/inventory/buyerswishlist',
+        end: true,
       }
     ],
   },

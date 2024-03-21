@@ -11,6 +11,7 @@ import { getAllItemsCategories } from 'app/store/allItemsCategoriesSlice';
 import { getAllPurchaseOrders } from 'app/store/allPurchaseOrdersSlice';
 import { getAllSalesOrders } from 'app/store/allSalesOrdersSlice';
 import { getAllInvoice } from 'app/store/allInvoicesSlice';
+import { getAllWishlistItems } from 'app/store/allWishlistItemsSlice';
 
 const AuthContext = React.createContext();
 
@@ -89,6 +90,7 @@ function AuthProvider({ children }) {
         `${user.role === "plateformadmin" && dispatch(getAllPurchaseOrders())}`,
         `${user.role === "plateformadmin" && dispatch(getAllSalesOrders())}`,
         `${user.role === "plateformadmin" && dispatch(getAllInvoice())}`,
+        `${user.role === "plateformadmin" && dispatch(getAllWishlistItems())}`,
 
         // You can receive data in here before app initialization
       ]).then((values) => {
@@ -104,7 +106,7 @@ function AuthProvider({ children }) {
       setWaitAuthCheck(false);
       setIsAuthenticated(false);
     }
-    
+
   }, [dispatch]);
 
   return waitAuthCheck ? (
