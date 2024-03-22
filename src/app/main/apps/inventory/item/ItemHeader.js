@@ -10,6 +10,7 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { updateItemStatus, saveItem, updateItem } from '../store/itemSlice';
 import { selectUser } from 'app/store/userSlice';
 import { LoadingButton } from '@mui/lab';
+import { updateWishlistItemStatus } from '../store/wishlistSlice';
 
 
 function ItemHeader(props) {
@@ -45,7 +46,20 @@ function ItemHeader(props) {
         setloading(false)
       });
     } else if (itemId === 'newcustom' && wishlistId !== undefined) {
-       
+      dispatch(saveItem({
+        data,
+        tenant_id: user.tenant_id
+      })).then((res) => {
+        navigate('/apps/inventory/items')
+        setloading(false)
+        dispatch(updateWishlistItemStatus({
+          status: true,
+          item_id: res.payload.item_id,
+          item_code: res.payload.item_code,
+          tenant_id: user.tenant_id,
+          items_wishlist_id: wishlistId
+        }))
+      })
     }
   }
 
@@ -150,10 +164,10 @@ function ItemHeader(props) {
           disabled={_.isEmpty(dirtyFields) || !isValid}
           onClick={handleSubmit(onSubmitNew)}
         >
-          Save
+          {itemId === 'new' ? 'Save' : 'Save & Approve'}
         </LoadingButton>}
 
-        {form.item_id !== undefined && <LoadingButton
+        {(form.item_id !== undefined && wishlistId === undefined) && <LoadingButton
           className="whitespace-nowrap mx-4"
           variant="contained"
           color="secondary"

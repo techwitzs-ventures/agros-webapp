@@ -18,8 +18,26 @@ export const getWishlistItem = createAsyncThunk('inventoryApp/wishlistitem/getWi
     });
 
 export const updateWishlistItemStatus = createAsyncThunk('inventoryApp/wishlistitem/updateWishlistItemStatus',
-    async (new_updated_status_data, { dispatch, getState }) => {
-
+    async (updatedData, { dispatch, getState }) => {
+        try {
+            const result = await axios.put('/itemswishlist/updatestatus', {
+                status: updatedData.status,
+                item_id: updatedData.item_id,
+                item_code: updatedData.item_code
+            }, {
+                params: {
+                    tenant_id: updatedData.tenant_id,
+                    items_wishlist_id: updatedData.items_wishlist_id
+                }
+            })
+            if (result.status === 200) {
+                return result.data.response
+            } else {
+                console.log(result)
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 );
 
