@@ -1,3 +1,4 @@
+import BuyersInventoryConfig from './buyersInventory/BuyersInventoryConfig';
 import CompleteOnboardingConfig from './completeOnboarding/completeOnboardingConfig';
 import ECommerceAppConfig from './inventory/ECommerceAppConfig';
 import invoiceConfig from './invoice/invoiceConfig';
@@ -9,7 +10,8 @@ const appsConfigs = [
   ECommerceAppConfig,
   orderConfig,
   invoiceConfig,
-  CompleteOnboardingConfig
+  CompleteOnboardingConfig,
+  BuyersInventoryConfig
 ];
 
 export default appsConfigs;

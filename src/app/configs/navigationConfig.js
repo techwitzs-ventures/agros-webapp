@@ -20,7 +20,7 @@ const navigationConfig = [
     title: 'Inventory',
     type: 'item',
     auth: authRoles.buyer,
-    url: 'dashboards/project'
+    url: 'apps/buyersinventory/buyersinventoryitems'
   },
   {
     id: 'marketplace.itemswishlist',
