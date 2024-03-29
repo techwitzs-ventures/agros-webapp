@@ -141,7 +141,7 @@ function WishlistItem(props) {
           className="mt-24"
           component={Link}
           variant="outlined"
-          to="apps/inventory/itemswishlist"
+          to="/apps/inventory/itemswishlist"
           color="inherit"
         >
           Go to Items Wishlist Page

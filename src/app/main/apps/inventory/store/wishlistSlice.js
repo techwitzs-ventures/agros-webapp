@@ -41,6 +41,29 @@ export const updateWishlistItemStatus = createAsyncThunk('inventoryApp/wishlisti
     }
 );
 
+export const updateWishlistItemQuantity = createAsyncThunk('inventoryApp/wishlistitem/updatequantity',
+    async (updated_value) => {
+        try {
+            const result = await axios.put('/itemswishlist/updatequantity', {
+                quantity: updated_value.quantity
+            }, {
+                params: {
+                    tenant_id: updated_value.tenant_id,
+                    items_wishlist_id: updated_value.items_wishlist_id
+                }
+            })
+            if (result.status === 200) {
+                console.log(result.data)
+                return result.data
+            } else {
+                console.log(result)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+)
+
 export const saveWishlistItem = createAsyncThunk('inventoryApp/wishlistitem/saveWishlistItem',
     async (wishlistItemData, { dispatch, getState }) => {
         const result = await axios.post('/itemswishlist/additem', {
@@ -89,6 +112,7 @@ const wishlistitemSlice = createSlice({
         [getWishlistItem.fulfilled]: (state, action) => action.payload,
         [saveWishlistItem.fulfilled]: (state, action) => action.payload,
         [updateWishlistItemStatus.fulfilled]: (state, action) => null,
+        [updateWishlistItemQuantity.fulfilled]: (state, action) => null
     },
 });
 

@@ -117,6 +117,14 @@ function WishlistItemsTable(props) {
     }
   }
 
+  const updatedWishlistItemQuantity = async (wishlistItem) => {
+    try {
+      props.navigate(`/apps/inventory/itemswishlist/addstock/${wishlistItem.items_wishlist_id}`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   function handleCheck(event, id) {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -275,6 +283,14 @@ function WishlistItemsTable(props) {
                       )}
                     </TableCell>
 
+                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
+                      {n.quantity}
+                    </TableCell>
+
+                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
+                      {n.reserved_quantity}
+                    </TableCell>
+
                     <TableCell className='p-4 md:p-16' component="th" scope="row" align="left">
                       <IconButton
                         aria-owns={selectedProductsMenu ? 'selectedProductsMenu' : null}
@@ -305,6 +321,13 @@ function WishlistItemsTable(props) {
                             closeSelectedProductsMenu();
                           }}>
                             <ListItemText primary="Edit" />
+                          </MenuItem>}
+
+                          {selectedItem.status && <MenuItem onClick={() => {
+                            updatedWishlistItemQuantity(selectedItem);
+                            closeSelectedProductsMenu();
+                          }}>
+                            <ListItemText primary={selectedItem.quantity === 0 ? 'Add Quantity' : 'Update Quantity'} />
                           </MenuItem>}
                         </MenuList>
                       </Menu>}

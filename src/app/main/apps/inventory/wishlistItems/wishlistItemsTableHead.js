@@ -62,6 +62,20 @@ const rows = [
     sort: true,
   },
   {
+    id: 'quantity',
+    align: 'left',
+    disablePadding: false,
+    label: 'Quantity',
+    sort: true,
+  },
+  {
+    id: 'reserved_quantity',
+    align: 'left',
+    disablePadding: false,
+    label: 'Reserved Quantity',
+    sort: true,
+  },
+  {
     id: 'action',
     align: 'left',
     disablePadding: false,
