@@ -47,6 +47,7 @@ const SinglePurchaseOrderTableContent = ({ vendorDetails }) => {
     }
 
     const updateItemDetails = (selectedItem, index) => {
+        setValue(`item_list[${index}].items_wishlist_id`, selectedItem.items_wishlist_id);
         setValue(`item_list[${index}].item_id`, selectedItem.item_id);
         setValue(`item_list[${index}].item_name`, selectedItem.item_name);
         setValue(`item_list[${index}].item_code`, selectedItem.item_code);
@@ -213,6 +214,7 @@ const SinglePurchaseOrderTableContent = ({ vendorDetails }) => {
                                         for (let i = index; i < fields.length; i++) {
                                             const currentItemValues = getValues(`item_list[${i + 1}]`);
                                             if (currentItemValues) {
+                                                setValue(`item_list[${i}].items_wishlist_id`, currentItemValues.items_wishlist_id || '');
                                                 setValue(`item_list[${i}].item_id`, currentItemValues.item_id || '');
                                                 setValue(`item_list[${i}].item_name`, currentItemValues.item_name || '');
                                                 setValue(`item_list[${i}].item_code`, currentItemValues.item_code || '');
@@ -240,6 +242,7 @@ const SinglePurchaseOrderTableContent = ({ vendorDetails }) => {
                             startIcon={<AddIcon />}
                             onClick={() => append(
                                 {
+                                    items_wishlist_id: '',
                                     item_id: '',
                                     item_name: '',
                                     item_code: '',

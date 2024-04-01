@@ -92,8 +92,7 @@ function BasicInfoTab(props) {
                   <TextField
                     {...field}
                     className="mb-24"
-                    // label={`Rate ( ${user.tenant_data.currency_code} )`}
-                    label={`Rate`}
+                    label={`Rate ( ${user.tenant_data.currency_code} )`}
                     type="text"
                     error={!!errors.rate}
                     helperText={errors?.rate?.message}
@@ -123,6 +122,23 @@ function BasicInfoTab(props) {
                   </FormControl>
                 )}
               />
+
+              <Controller
+                name="quantity"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    className="mb-24"
+                    label={`Stock Quantity`}
+                    type="number"
+                    error={!!errors.quantity}
+                    helperText={errors?.quantity?.message}
+                    variant="outlined"
+                  />
+                )}
+              />
+              
             </form>
           </CardContent>
         </Card>

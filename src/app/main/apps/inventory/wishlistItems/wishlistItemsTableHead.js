@@ -58,21 +58,14 @@ const rows = [
     id: 'status',
     align: 'left',
     disablePadding: false,
-    label: 'Status',
+    label: 'Platform Availability',
     sort: true,
   },
   {
     id: 'quantity',
     align: 'left',
     disablePadding: false,
-    label: 'Quantity',
-    sort: true,
-  },
-  {
-    id: 'reserved_quantity',
-    align: 'left',
-    disablePadding: false,
-    label: 'Reserved Quantity',
+    label: 'Stock Quantity',
     sort: true,
   },
   {

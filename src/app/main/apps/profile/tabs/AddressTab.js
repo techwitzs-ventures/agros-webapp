@@ -87,7 +87,7 @@ function Address() {
         zipCode
       }
     }
-    await JwtService.updateUserCredentialByUUID(request, user.organization_id);
+    await JwtService.updateUserCredentialByUUID(request, user.tenant_id);
     setEditEnabled(false);
     setLoading(false)
   }

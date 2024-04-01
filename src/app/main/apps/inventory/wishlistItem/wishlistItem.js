@@ -39,6 +39,16 @@ const schema = yup.object().shape({
     .min(2, 'The item name must be at least 2 characters'),
   rate: yup.number().required('Enter item rate'),
   unit: yup.string().required('Enter item unit'),
+  quantity: yup.number().notRequired("This is optional")
+    .typeError("Quantity must be a numeric value")
+    .test('is-number', 'Quantity must be a numeric value', value => !isNaN(value))
+    .default(0)
+    .transform((value, originalValue) => {
+      if (originalValue === '') {
+        return 0;
+      }
+      return value;
+    })
 });
 
 function WishlistItem(props) {
@@ -76,12 +86,22 @@ function WishlistItem(props) {
           dispatch(newWishlistItem(action.payload));
         });
 
-      } else {
-        /**
-         * Get Product data
-         */
+      } else if ((param1 === "updatestock" || param1 === "addstock") && param2 !== undefined) {
         const queryparams = {
-          wishlist_item_id: param1
+          wishlist_item_id: param2
+        }
+        dispatch(getWishlistItem(queryparams)).then((action) => {
+          /**
+           * If the requested product is not exist show message
+           */
+          if (!action.payload) {
+            setNoProduct(true);
+          }
+        });
+      }
+      else if (param1 === "view" && param2 !== undefined) {
+        const queryparams = {
+          wishlist_item_id: param2
         }
         dispatch(getWishlistItem(queryparams)).then((action) => {
           /**
@@ -135,7 +155,7 @@ function WishlistItem(props) {
         className="flex flex-col flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          There is no such item!
+          There is no such inventory item!
         </Typography>
         <Button
           className="mt-24"
@@ -144,7 +164,7 @@ function WishlistItem(props) {
           to="/apps/inventory/itemswishlist"
           color="inherit"
         >
-          Go to Items Wishlist Page
+          Go to Items Inventory Page
         </Button>
       </motion.div>
     );

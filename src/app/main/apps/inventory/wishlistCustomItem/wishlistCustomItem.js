@@ -36,6 +36,16 @@ const schema = yup.object().shape({
         .min(2, 'The item name must be at least 2 characters'),
     rate: yup.number().required('Enter item rate'),
     unit: yup.string().required('Enter item unit'),
+    quantity: yup.number().notRequired("This is optional")
+        .typeError("Quantity must be a number")
+        .test('is-number', 'Quantity must be a number', value => !isNaN(value))
+        .default(0)
+        .transform((value, originalValue) => {
+            if (originalValue === '') {
+                return 0;
+            }
+            return value;
+        })
 });
 
 function WishlistCustomItem(props) {
@@ -125,7 +135,7 @@ function WishlistCustomItem(props) {
                 className="flex flex-col flex-1 items-center justify-center h-full"
             >
                 <Typography color="text.secondary" variant="h5">
-                    There is no such wishlist item!
+                    There is no such inventory item!
                 </Typography>
                 <Button
                     className="mt-24"
@@ -134,7 +144,7 @@ function WishlistCustomItem(props) {
                     to="apps/inventory/itemswishlist"
                     color="inherit"
                 >
-                    Go to Items Wishlist Page
+                    Go to Items Inventory Page
                 </Button>
             </motion.div>
         );

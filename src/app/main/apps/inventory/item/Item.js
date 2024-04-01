@@ -30,7 +30,9 @@ const schema = yup.object().shape({
     .string()
     .required('You must enter a item name')
     .min(2, 'The item name must be at least 2 characters'),
-  rate: yup.number().required('Enter item rate'),
+  rate: yup.number().required('Enter item rate')
+    .typeError("Rate must be a numeric value")
+    .test('is-number', 'Rate must be a numeric value', value => !isNaN(value)),
   unit: yup.string().required('Enter item unit'),
   items_cat_id: yup.string().required("Select item category")
 });

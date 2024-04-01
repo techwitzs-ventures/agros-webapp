@@ -103,13 +103,13 @@ function WishlistItemsTable(props) {
 
   const viewWishlistItemDetails = async (wishlistItem) => {
     try {
-      props.navigate(`/apps/inventory/itemswishlist/${wishlistItem.items_wishlist_id}`);
+      props.navigate(`/apps/inventory/itemswishlist/view/${wishlistItem.items_wishlist_id}`);
     } catch (error) {
       console.log(error)
     }
   }
 
-  const editWishlistItem = async (wishlistItem) => {
+  const editCustomWishlistItem = async (wishlistItem) => {
     try {
       props.navigate(`/apps/inventory/customitemswishlist/${wishlistItem.items_wishlist_id}`)
     } catch (error) {
@@ -117,9 +117,10 @@ function WishlistItemsTable(props) {
     }
   }
 
-  const updatedWishlistItemQuantity = async (wishlistItem) => {
+  const addOrUpdateStockQuantity = async (wishlistItem) => {
+    const paramName = wishlistItem.quantity !== "0" ? 'updatestock' : 'addstock';
     try {
-      props.navigate(`/apps/inventory/itemswishlist/addstock/${wishlistItem.items_wishlist_id}`)
+      props.navigate(`/apps/inventory/itemswishlist/${paramName}/${wishlistItem.items_wishlist_id}`)
     } catch (error) {
       console.log(error)
     }
@@ -272,23 +273,21 @@ function WishlistItemsTable(props) {
                         <span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
                           <FuseSvgIcon className="text-green" size={20}>
                             heroicons-outline:check-circle
-                          </FuseSvgIcon><span className='ps-2'>Approved</span>
+                          </FuseSvgIcon>
+                          {/* <span className='ps-2'>Approved</span> */}
                         </span>
                       ) : (
                         <span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
                           <FuseSvgIcon className="text-red" size={20}>
                             heroicons-outline:minus-circle
-                          </FuseSvgIcon><span className='ps-2'>Not Approved</span>
+                          </FuseSvgIcon>
+                          {/* <span className='ps-2'>Not Approved</span> */}
                         </span>
                       )}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
                       {n.quantity}
-                    </TableCell>
-
-                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {n.reserved_quantity}
                     </TableCell>
 
                     <TableCell className='p-4 md:p-16' component="th" scope="row" align="left">
@@ -317,17 +316,17 @@ function WishlistItemsTable(props) {
                           </MenuItem>}
 
                           {!selectedItem.status && <MenuItem onClick={() => {
-                            editWishlistItem(selectedItem);
+                            editCustomWishlistItem(selectedItem);
                             closeSelectedProductsMenu();
                           }}>
                             <ListItemText primary="Edit" />
                           </MenuItem>}
 
                           {selectedItem.status && <MenuItem onClick={() => {
-                            updatedWishlistItemQuantity(selectedItem);
+                            addOrUpdateStockQuantity(selectedItem);
                             closeSelectedProductsMenu();
                           }}>
-                            <ListItemText primary={selectedItem.quantity === 0 ? 'Add Quantity' : 'Update Quantity'} />
+                            <ListItemText primary={selectedItem.quantity !== "0" ? 'Update Stock' : 'Add Stock'} />
                           </MenuItem>}
                         </MenuList>
                       </Menu>}

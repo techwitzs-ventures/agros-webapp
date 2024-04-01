@@ -58,11 +58,6 @@ const ECommerceAppConfig = {
       auth: authRoles.buyer
     },
     {
-      path: 'apps/inventory/itemswishlist/:param1/*',
-      element: <WishlistItem />,
-      auth: authRoles.buyer
-    },
-    {
       path: 'apps/inventory/customitemswishlist/:param1/*',
       element: <WishlistCustomItem />,
       auth: authRoles.buyer

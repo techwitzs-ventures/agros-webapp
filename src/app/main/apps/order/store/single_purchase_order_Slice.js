@@ -74,6 +74,7 @@ const singlepurchaseorderSlice = createSlice({
           delivery_address: '',
           exp_delivery_date: '',
           item_list: [{
+            items_wishlist_id: "",
             item_id: "",
             item_name: "",
             item_code: "",

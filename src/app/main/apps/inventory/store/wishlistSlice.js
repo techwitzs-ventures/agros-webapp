@@ -42,7 +42,7 @@ export const updateWishlistItemStatus = createAsyncThunk('inventoryApp/wishlisti
 );
 
 export const updateWishlistItemQuantity = createAsyncThunk('inventoryApp/wishlistitem/updatequantity',
-    async (updated_value) => {
+    async (updated_value, { dispatch, getState }) => {
         try {
             const result = await axios.put('/itemswishlist/updatequantity', {
                 quantity: updated_value.quantity
@@ -53,7 +53,7 @@ export const updateWishlistItemQuantity = createAsyncThunk('inventoryApp/wishlis
                 }
             })
             if (result.status === 200) {
-                console.log(result.data)
+                dispatch(showMessage({ message: "Stock Updated!", variant: "success" }))
                 return result.data
             } else {
                 console.log(result)
@@ -73,7 +73,8 @@ export const saveWishlistItem = createAsyncThunk('inventoryApp/wishlistitem/save
             unit: wishlistItemData.data.unit,
             rate: wishlistItemData.data.rate,
             images: wishlistItemData.data.images,
-            featuredImageId: wishlistItemData.data.featuredImageId
+            featuredImageId: wishlistItemData.data.featuredImageId,
+            quantity: wishlistItemData.data.quantity
         }, {
             params: {
                 tenant_id: wishlistItemData.org_id
@@ -103,7 +104,8 @@ const wishlistitemSlice = createSlice({
                     rate: event.rate,
                     unit: event.unit,
                     images: event.images,
-                    featuredImageId: event.featuredImageId
+                    featuredImageId: event.featuredImageId,
+                    quantity: 0,
                 },
             }),
         },

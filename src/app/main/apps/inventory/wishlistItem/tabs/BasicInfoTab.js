@@ -7,13 +7,17 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { useSelector } from 'react-redux';
 import { selectUser } from 'app/store/userSlice';
 import { Units } from "app/configs/unitConfig";
+import { useParams } from "react-router-dom";
 
 function BasicInfoTab(props) {
   const methods = useFormContext();
   const { control, formState, getValues } = methods;
   const { errors } = formState;
   const val = getValues();
+  const rootParams = useParams();
   const user = useSelector(selectUser);
+
+  const { param1, param2 } = rootParams
 
   return (
     <>
@@ -67,8 +71,7 @@ function BasicInfoTab(props) {
                   <TextField
                     {...field}
                     className="mb-24"
-                    // label={`Rate ( ${user.tenant_data.currency_code} )`}
-                    label={`Rate`}
+                    label={`Rate ( ${user.tenant_data.currency_code} )`}
                     type="text"
                     disabled
                     error={!!errors.rate}
@@ -98,6 +101,23 @@ function BasicInfoTab(props) {
                       ))}
                     </Select>
                   </FormControl>
+                )}
+              />
+
+              <Controller
+                name="quantity"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    className="mb-24"
+                    label={`Stock Quantity`}
+                    type="number"
+                    disabled={param1 === "view" ? true : false}
+                    error={!!errors.quantity}
+                    helperText={errors?.quantity?.message}
+                    variant="outlined"
+                  />
                 )}
               />
 

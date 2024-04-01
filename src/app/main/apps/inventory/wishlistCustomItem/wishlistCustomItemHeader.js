@@ -3,30 +3,31 @@ import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import _ from '@lodash';
 import { useState } from 'react';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { selectUser } from 'app/store/userSlice';
 import { LoadingButton } from '@mui/lab';
-import { saveWishlistCustomItem } from '../store/wishlistCutomSlice';
+import { saveWishlistCustomItem, updateWishlistCustomItem } from '../store/wishlistCutomSlice';
 
 
 function WishlistCustomItemHeader(props) {
 
     const dispatch = useDispatch();
     const methods = useFormContext();
-
+    const rootParams = useParams();
     const { formState, watch, handleSubmit } = methods;
     const { isValid, dirtyFields } = formState;
 
     const featuredImageId = watch('featuredImageId');
     const images = watch('images');
     const item_name = watch('item_name');
-
+    const form = watch();
     const theme = useTheme();
     const navigate = useNavigate();
     const user = useSelector(selectUser)
+    const { param1 } = rootParams
 
     const [loading, setloading] = useState(false)
 
@@ -41,6 +42,14 @@ function WishlistCustomItemHeader(props) {
             navigate('/apps/inventory/itemswishlist')
             setloading(false)
         });
+    }
+
+    const updateCustomWishlistItem = () => {
+        setloading(true);
+        dispatch(updateWishlistCustomItem(form)).then(() => {
+            navigate('/apps/inventory/itemswishlist')
+            setloading(false)
+        })
     }
 
     return (
@@ -62,7 +71,7 @@ function WishlistCustomItemHeader(props) {
                                 ? 'heroicons-outline:arrow-sm-left'
                                 : 'heroicons-outline:arrow-sm-right'}
                         </FuseSvgIcon>
-                        <span className="flex mx-4 font-medium">Wishlist Item</span>
+                        <span className="flex mx-4 font-medium">Inventory Item</span>
                     </Typography>
                 </motion.div>
 
@@ -95,12 +104,12 @@ function WishlistCustomItemHeader(props) {
                             {item_name || 'New Wishlist Item'}
                         </Typography>
                         <Typography variant="caption" className="font-medium">
-                            Wishlist Item Detail
+                            Inventory Item Detail
                         </Typography>
                     </motion.div>
                 </div>
             </div>
-            <motion.div
+            {param1 === "new" && <motion.div
                 className="flex"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0, transition: { delay: 0.3 } }}
@@ -115,7 +124,24 @@ function WishlistCustomItemHeader(props) {
                 >
                     Save
                 </LoadingButton>
-            </motion.div>
+            </motion.div>}
+
+            {param1 !== "new" && <motion.div
+                className="flex"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0, transition: { delay: 0.3 } }}
+            >
+                <LoadingButton
+                    className="whitespace-nowrap mx-4"
+                    variant="contained"
+                    color="secondary"
+                    loading={loading}
+                    disabled={_.isEmpty(dirtyFields) || !isValid}
+                    onClick={updateCustomWishlistItem}
+                >
+                    Update
+                </LoadingButton>
+            </motion.div>}
         </div>
     );
 }

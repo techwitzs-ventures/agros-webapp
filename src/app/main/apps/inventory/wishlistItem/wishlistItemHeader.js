@@ -9,7 +9,7 @@ import { useState } from 'react';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { selectUser } from 'app/store/userSlice';
 import { LoadingButton } from '@mui/lab';
-import { saveWishlistItem } from '../store/wishlistSlice';
+import { saveWishlistItem, updateWishlistItemQuantity } from '../store/wishlistSlice';
 
 
 function WishlistItemHeader(props) {
@@ -24,6 +24,7 @@ function WishlistItemHeader(props) {
   const featuredImageId = watch('featuredImageId');
   const images = watch('images');
   const item_name = watch('item_name');
+  const form = watch();
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -46,6 +47,14 @@ function WishlistItemHeader(props) {
     });
   }
 
+  const addOrUpdateStock = () => {
+    setloading(true);
+    dispatch(updateWishlistItemQuantity(form)).then(() => {
+      navigate('/apps/inventory/itemswishlist');
+      setloading(false)
+    })
+  }
+
   return (
     <div className="flex flex-col sm:flex-row flex-1 w-full items-center justify-between space-y-8 sm:space-y-0 py-32 px-24 md:px-32">
       <div className="flex flex-col items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0">
@@ -65,7 +74,7 @@ function WishlistItemHeader(props) {
                 ? 'heroicons-outline:arrow-sm-left'
                 : 'heroicons-outline:arrow-sm-right'}
             </FuseSvgIcon>
-            <span className="flex mx-4 font-medium">Item</span>
+            <span className="flex mx-4 font-medium">Inventory Item</span>
           </Typography>
         </motion.div>
 
@@ -98,7 +107,7 @@ function WishlistItemHeader(props) {
               {item_name || 'New Item'}
             </Typography>
             <Typography variant="caption" className="font-medium">
-              Item Detail
+              Inventory Item Detail
             </Typography>
           </motion.div>
         </div>
@@ -119,6 +128,17 @@ function WishlistItemHeader(props) {
           Save
         </LoadingButton>
       </motion.div>}
+
+      {(param1 === "updatestock" || param1 === "addstock") && <LoadingButton
+        className="whitespace-nowrap mx-4"
+        variant="contained"
+        color="secondary"
+        loading={loading}
+        disabled={_.isEmpty(dirtyFields) || !isValid}
+        onClick={addOrUpdateStock}
+      >
+        {param1 === "updatestock" ? 'Update Stock' : 'Add Stock'}
+      </LoadingButton>}
     </div>
   );
 }

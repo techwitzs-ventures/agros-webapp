@@ -138,7 +138,7 @@ class JwtService extends FuseUtils.EventEmitter {
   // update Mobile Number Verification Status
   updateMobileNumberVerificationStatus = (data) => {
     return new Promise((resolve, reject) => {
-      axios.put('/auth/updatemobilenumberverificationstatus', data).then((response) => {
+      axios.put('/auth/verificationstatus/mob/update', data).then((response) => {
         if (response.status === 200) {
           resolve(response.data)
         } else {
@@ -155,7 +155,7 @@ class JwtService extends FuseUtils.EventEmitter {
   // update Email Verification Status
   updateEmailVerificationStatus = (data) => {
     return new Promise((resolve, reject) => {
-      axios.put('/auth/updateemailverificationstatus', data).then((response) => {
+      axios.put('/auth/verificationstatus/email/update', data).then((response) => {
         if (response.status === 200) {
           resolve(response.data)
         } else {
@@ -173,7 +173,7 @@ class JwtService extends FuseUtils.EventEmitter {
   updateOnboardingStatus = (data) => {
     this.emit("onCompleteOnboard", true);
     return new Promise((resolve, reject) => {
-      axios.put('/auth/updateonboardingstatus', data).then((response) => {
+      axios.put('/auth/onboardingstatus/update', data).then((response) => {
         if (response.status === 200) {
           resolve(response.data)
         } else {
@@ -190,7 +190,7 @@ class JwtService extends FuseUtils.EventEmitter {
   // Generate and send Mobile Otp through SNS
   sendOtpToMobileNumber = (mobilenumber) => {
     return new Promise((resolve, reject) => {
-      axios.post('/auth/sendotponmobile', { mobilenumber }).then((result) => {
+      axios.post('/auth/sendotp/mobile', { mobilenumber }).then((result) => {
         if (result.status === 200) {
           this.token = result.data.response.otp_token
           resolve(result.data)
@@ -253,7 +253,7 @@ class JwtService extends FuseUtils.EventEmitter {
   // Generate and send Email Otp through SNS
   sendOtpToEmail = (email) => {
     return new Promise((resolve, reject) => {
-      axios.post('/auth/sendotponemail', { email }).then((result) => {
+      axios.post('/auth/sendotp/email', { email }).then((result) => {
         if (result.status === 200) {
           this.token = result.data.response.otp_token
           resolve(result.data)

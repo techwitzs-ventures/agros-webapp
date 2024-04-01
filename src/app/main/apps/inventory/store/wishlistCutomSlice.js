@@ -17,9 +17,31 @@ export const getWishlistCustomItem = createAsyncThunk('inventoryApp/wishlistcust
         }
     });
 
-export const updateWishlistCustomItemStatus = createAsyncThunk('inventoryApp/wishlistcustomitem/updateWishlistCustomItemStatus',
-    async (new_updated_status_data, { dispatch, getState }) => {
-
+export const updateWishlistCustomItem = createAsyncThunk('inventoryApp/wishlistcustomitem/updateWishlistCustomItem',
+    async (updated_data, { dispatch, getState }) => {
+        try {
+            const result = await axios.put('/itemswishlist/updatecustomitem', {
+                item_name: updated_data.item_name,
+                unit: updated_data.unit,
+                rate: updated_data.rate,
+                images: updated_data.images,
+                featuredImageId: updated_data.featuredImageId,
+                quantity: updated_data.quantity
+            }, {
+                params: {
+                    tenant_id: updated_data.tenant_id,
+                    items_wishlist_id: updated_data.items_wishlist_id
+                }
+            })
+            if (result.status === 200) {
+                dispatch(showMessage({ message: "Item Updated Successfully!", variant: "success" }))
+                return result.data
+            } else {
+                console.log(result)
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 );
 
@@ -30,7 +52,8 @@ export const saveWishlistCustomItem = createAsyncThunk('inventoryApp/wishlistcus
             unit: wishlistCustomItemData.data.unit,
             rate: wishlistCustomItemData.data.rate,
             images: wishlistCustomItemData.data.images,
-            featuredImageId: wishlistCustomItemData.data.featuredImageId
+            featuredImageId: wishlistCustomItemData.data.featuredImageId,
+            quantity: wishlistCustomItemData.data.quantity
         }, {
             params: {
                 tenant_id: wishlistCustomItemData.org_id
@@ -58,7 +81,8 @@ const wishlistcustomitemSlice = createSlice({
                     rate: '',
                     unit: '',
                     images: [],
-                    featuredImageId: ''
+                    featuredImageId: '',
+                    quantity: 0
                 },
             }),
         },
@@ -66,7 +90,7 @@ const wishlistcustomitemSlice = createSlice({
     extraReducers: {
         [getWishlistCustomItem.fulfilled]: (state, action) => action.payload,
         [saveWishlistCustomItem.fulfilled]: (state, action) => action.payload,
-        [updateWishlistCustomItemStatus.fulfilled]: (state, action) => null,
+        [updateWishlistCustomItem.fulfilled]: (state, action) => null,
     },
 });
 
