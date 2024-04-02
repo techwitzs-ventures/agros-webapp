@@ -30,7 +30,7 @@ function ViewSinglePurchaseOrderHeader(props) {
             className="flex items-center sm:mb-12"
             component={Link}
             role="button"
-            to={user.role==="buyer"?"/apps/order/purchaseorder":"/apps/order/recievedpurchaseorder"}
+            to={user.role==="retailer"?"/apps/order/purchaseorder":"/apps/order/recievedpurchaseorder"}
             color="inherit"
           >
             <FuseSvgIcon size={20}>

@@ -2,19 +2,19 @@ import FusePageCarded from '@fuse/core/FusePageCarded';
 import withReducer from 'app/store/withReducer';
 import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
 import reducer from '../store';
-import BuyersWishlistItemsHeader from './buyersWishlistItemsHeader';
-import BuyersWishlistItemsTable from './buyersWishlistItemsTable';
+import RetailersWishlistItemsHeader from './retailersWishlistItemsHeader';
+import RetailersWishlistItemsTable from './retailersWishlistItemsTable';
 
-function BuyersWishlistItems() {
+function RetailersWishlistItems() {
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
 
   return (
     <FusePageCarded
-      header={<BuyersWishlistItemsHeader />}
-      content={<BuyersWishlistItemsTable />}
+      header={<RetailersWishlistItemsHeader />}
+      content={<RetailersWishlistItemsTable />}
       scroll={isMobile ? 'normal' : 'content'}
     />
   );
 }
 
-export default withReducer('inventoryApp', reducer)(BuyersWishlistItems);
+export default withReducer('inventoryApp', reducer)(RetailersWishlistItems);

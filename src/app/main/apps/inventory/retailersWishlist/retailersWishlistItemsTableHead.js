@@ -70,7 +70,7 @@ const rows = [
   },
 ];
 
-function BuyersWishlistItemsTableHead(props) {
+function RetailersWishlistItemsTableHead(props) {
   const { selectedProductIds } = props;
   const numSelected = selectedProductIds.length;
 
@@ -137,4 +137,4 @@ function BuyersWishlistItemsTableHead(props) {
   );
 }
 
-export default BuyersWishlistItemsTableHead;
+export default RetailersWishlistItemsTableHead;

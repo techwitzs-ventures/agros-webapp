@@ -236,7 +236,9 @@ function MyInvoicesTable(props) {
                       scope="row"
                       align="left"
                     >
-                      {n.purchase_order_code !== "N/A" ? n.purchase_order_code : " - "}
+                      {n.purchase_order_code !== "N/A" ? n.purchase_order_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
+                          <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
+                        </span>)}
                     </TableCell>
 
                     <TableCell

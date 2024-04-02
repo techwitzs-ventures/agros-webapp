@@ -49,11 +49,11 @@ function BasicInfoTab(props) {
             <CardContent className="flex flex-col flex-1 px-32 py-24">
 
               <Controller
-                name={user.role === "buyer" ? "vendor_id" : "customer_id"}
+                name={user.role === "retailer" ? "vendor_id" : "customer_id"}
                 control={control}
                 render={({ field }) => (
                   <FormControl className="mb-24" required>
-                    <InputLabel>{user.role === "buyer" ? "Vendor Name" : "Customer Name"}</InputLabel>
+                    <InputLabel>{user.role === "retailer" ? "Vendor Name" : "Customer Name"}</InputLabel>
                     <Select
                       {...field}
                       label="Customer Name"

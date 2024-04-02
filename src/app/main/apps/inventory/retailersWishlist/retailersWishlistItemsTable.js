@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import withRouter from '@fuse/core/withRouter';
 import FuseLoading from '@fuse/core/FuseLoading';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import BuyersWishlistItemsTableHead from './buyersWishlistItemsTableHead';
+import RetailersWishlistItemsTableHead from './retailersWishlistItemsTableHead';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import {
   getAllWishlistItems,
@@ -27,7 +27,7 @@ import {
   selectAllWishlistItemsSearchText
 } from 'app/store/allWishlistItemsSlice';
 
-function BuyersWishlistItemsTable(props) {
+function RetailersWishlistItemsTable(props) {
 
   const dispatch = useDispatch();
   const products = useSelector(selectAllWishlistItems);
@@ -166,7 +166,7 @@ function BuyersWishlistItemsTable(props) {
     <div className="w-full flex flex-col min-h-full">
       <FuseScrollbars className="grow overflow-x-auto">
         <Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
-          <BuyersWishlistItemsTableHead
+          <RetailersWishlistItemsTableHead
             selectedProductIds={selected}
             order={order}
             onSelectAllClick={handleSelectAllClick}
@@ -312,4 +312,4 @@ function BuyersWishlistItemsTable(props) {
   );
 }
 
-export default withRouter(BuyersWishlistItemsTable);
+export default withRouter(RetailersWishlistItemsTable);

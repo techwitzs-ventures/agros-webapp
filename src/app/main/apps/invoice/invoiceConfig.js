@@ -18,12 +18,12 @@ const invoiceConfig = {
     {
       path: "apps/invoice/receivedinvoices",
       element: <Invoices />,
-      auth: authRoles.buyer
+      auth: authRoles.retailer
     },
     {
       path: "apps/invoice/myinvoices",
       element: <MyInvoices />,
-      auth: authRoles.plateformseller
+      auth: authRoles.seller
     },
     {
       path: "apps/invoice/allinvoices",

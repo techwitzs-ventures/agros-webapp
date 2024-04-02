@@ -155,7 +155,7 @@ function WishlistItem(props) {
         className="flex flex-col flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          There is no such inventory item!
+          There is no such product!
         </Typography>
         <Button
           className="mt-24"
@@ -164,7 +164,7 @@ function WishlistItem(props) {
           to="/apps/inventory/itemswishlist"
           color="inherit"
         >
-          Go to Items Inventory Page
+          Go to Product List Page
         </Button>
       </motion.div>
     );

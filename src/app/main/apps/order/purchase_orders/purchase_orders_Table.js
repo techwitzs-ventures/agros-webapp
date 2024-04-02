@@ -224,11 +224,15 @@ function PurchaseOrdersTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.sales_order_code !== "N/A" ? n.sales_order_code : " - "}
+                      {n.sales_order_code !== "N/A" ? n.sales_order_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
+                        <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
+                      </span>)}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.invoice_code !== "N/A" ? n.invoice_code : " - "}
+                      {n.invoice_code !== "N/A" ? n.invoice_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
+                          <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
+                        </span>)}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">

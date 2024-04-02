@@ -27,17 +27,17 @@ const orderConfig = {
     {
       path: "apps/order/purchaseorder",
       element: <PurchaseOrders />,
-      auth: authRoles.buyer
+      auth: authRoles.retailer
     },
     {
       path: "apps/order/salesorder",
       element: <SalesOrders />,
-      auth: authRoles.plateformseller
+      auth: authRoles.seller
     },
     {
       path: "apps/order/recievedpurchaseorder",
       element: <RecievedPurchaseOrders />,
-      auth: authRoles.plateformseller
+      auth: authRoles.seller
     },
     {
       path: "apps/order/allpurchaseorder",
@@ -47,7 +47,7 @@ const orderConfig = {
     {
       path: "apps/order/recievedsalesorder",
       element: <RecievedSalesOrder />,
-      auth: authRoles.buyer
+      auth: authRoles.retailer
     },
     {
       path: "apps/order/allsalesorder",
@@ -57,22 +57,22 @@ const orderConfig = {
     {
       path: "apps/order/salesorder/:salesorderId/*",
       element: <SingleSalesOrder />,
-      auth: authRoles.plateformseller
+      auth: authRoles.seller
     },
     {
       path: "apps/order/salesorder/:salesorderId/:tenantId",
       element: <SingleSalesOrder />,
-      auth: authRoles.plateformseller
+      auth: authRoles.seller
     },
     {
       path: "apps/order/purchaseorder/:purchaseorderId/*",
       element: <SinglePurchaseOrder />,
-      auth: authRoles.buyer
+      auth: authRoles.retailer
     },
     {
       path: "apps/order/purchaseorder/:purchaseorderId/:tenantId",
       element: <SinglePurchaseOrder />,
-      auth: authRoles.buyer
+      auth: authRoles.retailer
     },
     {
       path: "apps/order/viewpurchaseorder/:purchaseorderId/:tenantId",

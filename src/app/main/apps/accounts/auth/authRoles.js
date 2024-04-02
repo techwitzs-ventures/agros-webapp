@@ -3,11 +3,12 @@
  */
 const authRoles = {
   plateformadmin: ['plateformadmin'],
-  plateformseller: ['plateformseller'],
-  buyer: ['buyer'],
-  forall: ['plateformadmin', 'plateformseller', 'buyer'],
-  onlyPlateformAdminAndSeller: ['plateformadmin', 'plateformseller'],
-  onlyPlateformAdminAndBuyer: ['plateformadmin', 'buyer'],
+  seller: ['seller'],
+  retailer: ['retailer'],
+  forall: ['plateformadmin', 'seller', 'retailer'],
+  onlyPlateformAdminAndSeller: ['plateformadmin', 'seller'],
+  onlyPlateformAdminAndRetailer: ['plateformadmin', 'retailer'],
+  onlySellerAndReatiler: ['seller', 'retailer'],
   onlyGuest: [],
 };
 

@@ -11,7 +11,7 @@ import {
 } from 'app/store/allWishlistItemsSlice';
 
 
-function BuyersWishlistItemsHeader(props) {
+function RetailersWishlistItemsHeader(props) {
 
   const dispatch = useDispatch();
   const searchText = useSelector(selectAllWishlistItemsSearchText);
@@ -54,4 +54,4 @@ function BuyersWishlistItemsHeader(props) {
   );
 }
 
-export default BuyersWishlistItemsHeader;
+export default RetailersWishlistItemsHeader;

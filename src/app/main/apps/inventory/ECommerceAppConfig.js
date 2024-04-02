@@ -10,7 +10,7 @@ const ItemsCategories = lazy(() => import('./itemsCategories/itemsCategories'));
 const WishlistItems = lazy(() => import('./wishlistItems/wishlistItems'));
 const WishlistItem = lazy(() => import('./wishlistItem/wishlistItem'));
 const WishlistCustomItem = lazy(() => import('./wishlistCustomItem/wishlistCustomItem'));
-const BuyersWishlist = lazy(() => import('./buyersWishlist/buyersWishlistItems'));
+const RetailersWishlist = lazy(() => import('./retailersWishlist/retailersWishlistItems'));
 
 const ECommerceAppConfig = {
   settings: {
@@ -28,14 +28,14 @@ const ECommerceAppConfig = {
       auth: authRoles.plateformadmin
     },
     {
-      path: 'apps/inventory/buyerswishlist',
-      element: <BuyersWishlist />,
+      path: 'apps/inventory/retailerswishlist',
+      element: <RetailersWishlist />,
       auth: authRoles.plateformadmin
     },
     {
       path: 'apps/inventory/itemswishlist',
       element: <WishlistItems />,
-      auth: authRoles.buyer
+      auth: authRoles.onlySellerAndReatiler
     },
     {
       path: 'apps/inventory/items/:itemId/*',
@@ -55,18 +55,17 @@ const ECommerceAppConfig = {
     {
       path: 'apps/inventory/itemswishlist/:param1/:param2',
       element: <WishlistItem />,
-      auth: authRoles.buyer
+      auth: authRoles.onlySellerAndReatiler
     },
     {
       path: 'apps/inventory/customitemswishlist/:param1/*',
       element: <WishlistCustomItem />,
-      auth: authRoles.buyer
+      auth: authRoles.onlySellerAndReatiler
     },
     {
       path: 'apps/inventory',
       element: <Navigate to="items" />
     },
-
   ],
 };
 

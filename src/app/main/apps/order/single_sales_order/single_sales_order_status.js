@@ -10,14 +10,14 @@ export const orderStatuses = [
     },
     {
         id: 2,
-        value: "buyer_accepted",
-        label: "Buyer Accepted",
+        value: "retailer_accepted",
+        label: "Retailer Accepted",
         color: 'bg-green text-white',
     },
     {
         id: 3,
-        value: "buyer_rejected",
-        label: "Buyer Rejected",
+        value: "retailer_rejected",
+        label: "Retailer Rejected",
         color: 'bg-red text-white',
     },
     {

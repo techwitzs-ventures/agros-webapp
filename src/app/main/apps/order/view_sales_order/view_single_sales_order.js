@@ -114,7 +114,7 @@ function ViewSingleSalesOrder(props) {
           className="mt-24"
           component={Link}
           variant="outlined"
-          to={user.role==="buyer"?"/apps/order/recievedsalesorder":"/apps/order/salesorder"}
+          to={user.role==="retailer"?"/apps/order/recievedsalesorder":"/apps/order/salesorder"}
           color="inherit"
         >
           Go to Sales Order Page

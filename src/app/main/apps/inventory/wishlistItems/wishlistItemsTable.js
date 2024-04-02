@@ -278,9 +278,10 @@ function WishlistItemsTable(props) {
                         </span>
                       ) : (
                         <span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
-                          <FuseSvgIcon className="text-red" size={20}>
+                          {/* <FuseSvgIcon className="text-red" size={20}>
                             heroicons-outline:minus-circle
-                          </FuseSvgIcon>
+                          </FuseSvgIcon> */}
+                          <span style={{borderBottom:"3px solid black"}} className='w-12'></span>
                           {/* <span className='ps-2'>Not Approved</span> */}
                         </span>
                       )}

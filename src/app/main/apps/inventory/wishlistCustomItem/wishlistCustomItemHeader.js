@@ -71,7 +71,7 @@ function WishlistCustomItemHeader(props) {
                                 ? 'heroicons-outline:arrow-sm-left'
                                 : 'heroicons-outline:arrow-sm-right'}
                         </FuseSvgIcon>
-                        <span className="flex mx-4 font-medium">Inventory Item</span>
+                        <span className="flex mx-4 font-medium">Back To Product List</span>
                     </Typography>
                 </motion.div>
 
@@ -104,7 +104,7 @@ function WishlistCustomItemHeader(props) {
                             {item_name || 'New Wishlist Item'}
                         </Typography>
                         <Typography variant="caption" className="font-medium">
-                            Inventory Item Detail
+                            Product Detail
                         </Typography>
                     </motion.div>
                 </div>

@@ -251,11 +251,15 @@ function SalesOrdersTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.purchase_order_code !== "N/A" ? n.purchase_order_code : " - "}
+                      {n.purchase_order_code !== "N/A" ? n.purchase_order_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
+                          <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
+                        </span>)}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.invoice_code !== "N/A" ? n.invoice_code : " - "}
+                      {n.invoice_code !== "N/A" ? n.invoice_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
+                          <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
+                        </span>)}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
@@ -334,7 +338,7 @@ function SalesOrdersTable(props) {
                             <ListItemText primary="View Purchase Order" />
                           </MenuItem>}
 
-                          {selectedSalesOrder.processing_status === "buyer_accepted" && <MenuItem onClick={() => {
+                          {selectedSalesOrder.processing_status === "retailer_accepted" && <MenuItem onClick={() => {
                             handleCreateInvoice(selectedSalesOrder);
                             closeSelectedSalesOrderMenu();
                           }}>

@@ -58,7 +58,7 @@ function WishlistItemsHeader(props) {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Inventory Items
+        Product List
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -104,7 +104,7 @@ function WishlistItemsHeader(props) {
           <ItemsSearchConfig navigation={items} />
         </motion.div>
         
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
         >
@@ -117,7 +117,7 @@ function WishlistItemsHeader(props) {
           >
             Add Custom
           </Button>
-        </motion.div>
+        </motion.div> */}
       </div>
     </div>
   );

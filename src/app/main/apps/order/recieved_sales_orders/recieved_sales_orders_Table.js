@@ -159,7 +159,7 @@ function RecievedSalesOrdersTable(props) {
       const queryparams = {
         org_id: sales_order.tenant_id,
         sales_order_id: sales_order.sales_order_id,
-        processingstatus: "buyer_accepted"
+        processingstatus: "retailer_accepted"
       }
       dispatch(changeSalesOrderProcessingStatus(queryparams)).then(() => {
         const get_recieved_purchase_order_obj = {
@@ -185,7 +185,7 @@ function RecievedSalesOrdersTable(props) {
       const queryparams = {
         org_id: sales_order.tenant_id,
         sales_order_id: sales_order.sales_order_id,
-        processingstatus: "buyer_rejected"
+        processingstatus: "retailer_rejected"
       }
       dispatch(changeSalesOrderProcessingStatus(queryparams)).then(() => {
         const get_recieved_purchase_order_obj = {
@@ -283,7 +283,9 @@ function RecievedSalesOrdersTable(props) {
                       component="th"
                       scope="row"
                     >
-                      {n.purchase_order_code !== "N/A" ? n.purchase_order_code : " - "}
+                      {n.purchase_order_code !== "N/A" ? n.purchase_order_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
+                          <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
+                        </span>)}
                     </TableCell>
 
                     <TableCell
@@ -291,7 +293,9 @@ function RecievedSalesOrdersTable(props) {
                       component="th"
                       scope="row"
                     >
-                      {n.invoice_code !== "N/A" ? n.invoice_code : " - "}
+                      {n.invoice_code !== "N/A" ? n.invoice_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
+                          <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
+                        </span>)}
                     </TableCell>
 
                     <TableCell
