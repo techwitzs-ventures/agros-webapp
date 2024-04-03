@@ -105,7 +105,7 @@ const navigationConfig = [
   },
   {
     id: 'marketplace.allpurchaseorders',
-    title: 'All Purchase Orders',
+    title: 'Purchase Orders',
     type: 'item',
     auth: authRoles.plateformadmin,
     url: "apps/order/allpurchaseorder",
@@ -113,7 +113,7 @@ const navigationConfig = [
   },
   {
     id: 'marketplace.allsalesorders',
-    title: 'All Sales Orders',
+    title: 'Sales Orders',
     type: 'item',
     auth: authRoles.plateformadmin,
     url: "apps/order/allsalesorder",
@@ -121,7 +121,7 @@ const navigationConfig = [
   },
   {
     id: 'marketplace.allinvoices',
-    title: 'All Invoices',
+    title: 'Invoices',
     type: 'item',
     auth: authRoles.plateformadmin,
     url: "apps/invoice/allinvoices",
@@ -129,7 +129,7 @@ const navigationConfig = [
   },
   {
     id: 'marketplace.users',
-    title: 'All Users',
+    title: 'Users',
     type: 'item',
     auth: authRoles.plateformadmin
   },

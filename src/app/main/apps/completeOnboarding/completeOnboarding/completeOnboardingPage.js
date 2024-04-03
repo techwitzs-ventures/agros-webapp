@@ -10,6 +10,7 @@ import JwtService from '../../accounts/auth/services/jwtService';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { showMessage } from 'app/store/fuse/messageSlice';
+import QuestionTable from './components/questions/questionsTable';
 
 const CompleteOnboardingPage = (props) => {
 
@@ -54,8 +55,8 @@ const CompleteOnboardingPage = (props) => {
     }, [mobileNumberVerificationStatus, emailVerificationStatus])
 
     return (
-        <div className="relative flex flex-col flex-auto min-w-0 overflow-hidden">
-            <div className="relative pt-32 pb-48 sm:pt-80 sm:pb-96 px-24 sm:px-64 overflow-hidden">
+        <div className="relative flex flex-col flex-auto min-w-0 overflow-scroll">
+            <div className="relative pt-16 pb-32 sm:pt-32 sm:pb-32 px-24 sm:px-64 overflow-scroll">
                 <svg
                     className="-z-1 absolute inset-0 pointer-events-none"
                     viewBox="0 0 960 540"
@@ -85,8 +86,15 @@ const CompleteOnboardingPage = (props) => {
                     </motion.div>
                 </div>
 
-                <div className="flex justify-center mt-40 sm:mt-80">
+                <div className="flex justify-center mt-20 sm:mt-40">
                     <div className="w-full max-w-sm md:max-w-7xl">
+                        <motion.div
+                            variants={container}
+                            initial="hidden"
+                            animate="show"
+                        >
+                            <QuestionTable />
+                        </motion.div>
                         <motion.div
                             variants={container}
                             initial="hidden"
