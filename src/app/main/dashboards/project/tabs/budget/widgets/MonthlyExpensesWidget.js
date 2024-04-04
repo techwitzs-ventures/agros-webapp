@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import ReactApexChart from 'react-apexcharts';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { selectWidgets } from '../../../store/widgetsSlice';
+import { selectWidgets } from '../../../store/informationSlice';
 
 function MonthlyExpensesWidget() {
   const widgets = useSelector(selectWidgets);

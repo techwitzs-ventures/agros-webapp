@@ -46,7 +46,7 @@ function NotificationPanel(props) {
     /*
 		Get Notifications from db
 		 */
-    dispatch(getNotifications());
+    // dispatch(getNotifications());
   }, [dispatch]);
 
   useEffect(() => {

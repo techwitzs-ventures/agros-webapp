@@ -13,7 +13,7 @@ import Tabs from '@mui/material/Tabs';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import { selectWidgets } from '../../../store/widgetsSlice';
+import { selectWidgets } from '../../../store/informationSlice';
 
 function ScheduleWidget(props) {
   const widgets = useSelector(selectWidgets);

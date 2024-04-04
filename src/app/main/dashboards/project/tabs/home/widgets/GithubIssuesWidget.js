@@ -7,7 +7,7 @@ import { memo, useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
-import { selectWidgets } from '../../../store/widgetsSlice';
+import { selectWidgets } from '../../../store/informationSlice';
 
 function GithubIssuesWidget() {
   const theme = useTheme();

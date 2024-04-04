@@ -29,7 +29,7 @@ function HomeTab() {
       animate="show"
     >
       <motion.div variants={item}>
-        <SummaryWidget />
+        <SummaryWidget/>
       </motion.div>
       <motion.div variants={item}>
         <OverdueWidget />
@@ -40,7 +40,7 @@ function HomeTab() {
       <motion.div variants={item}>
         <FeaturesWidget />
       </motion.div>
-      <motion.div variants={item} className="sm:col-span-2 md:col-span-4">
+      {/* <motion.div variants={item} className="sm:col-span-2 md:col-span-4">
         <GithubIssuesWidget />
       </motion.div>
       <motion.div variants={item} className="sm:col-span-2 md:col-span-4 lg:col-span-2">
@@ -48,7 +48,7 @@ function HomeTab() {
       </motion.div>
       <motion.div variants={item} className="sm:col-span-2 md:col-span-4 lg:col-span-2">
         <ScheduleWidget />
-      </motion.div>
+      </motion.div> */}
     </motion.div>
   );
 }

@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import withRouter from '@fuse/core/withRouter';
 import FuseLoading from '@fuse/core/FuseLoading';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
@@ -24,13 +24,17 @@ import {
 } from '../store/purchase_orders_Slice';
 import AllPurchaseOrdersTableHead from './all_purchase_orders_TableHead';
 import { selectTenant } from 'app/store/tenantSlice';
-import { selectAllPurchaseOrders } from 'app/store/allPurchaseOrdersSlice';
+import {
+  getAllPurchaseOrders,
+  selectAllPurchaseOrders
+} from 'app/store/allPurchaseOrdersSlice';
 import POOrdersStatus from '../single_purchase_order/single_pruchase_order_status';
+import { selectUser } from 'app/store/userSlice';
 
 function AllPurchaseOrdersTable(props) {
-
+  const dispatch = useDispatch();
   const prchase_orders = useSelector(selectAllPurchaseOrders);
-
+  const user = useSelector(selectUser)
   const tenants = useSelector(selectTenant)
 
   const searchText = useSelector(selectPurchaseOrdersSearchText);
@@ -39,7 +43,7 @@ function AllPurchaseOrdersTable(props) {
   const [selectedPurchaseOrderMenu, setSelectedPurchaseOrderMenu] = useState(null);
   const [selectedPurchaseOrder, setSelectedPurchaseOrder] = useState("")
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState([]);
 
   const [data, setData] = useState(prchase_orders);
@@ -50,6 +54,13 @@ function AllPurchaseOrdersTable(props) {
     direction: 'asc',
     id: null,
   });
+
+  useEffect(() => {
+    if (user) {
+      user.data.country === "" && dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
+      dispatch(getAllPurchaseOrders()).then(() => setLoading(false));
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     if (searchText.length !== 0) {
@@ -204,14 +215,14 @@ function AllPurchaseOrdersTable(props) {
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {n.sales_order_code !== "N/A" ? n.sales_order_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
-                          <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
-                        </span>)}
+                        <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
+                      </span>)}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {n.invoice_code !== "N/A" ? n.invoice_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
-                          <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
-                        </span>)}
+                        <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
+                      </span>)}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">

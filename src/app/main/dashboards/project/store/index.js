@@ -1,10 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import projects from './projectsSlice';
-import widgets from './widgetsSlice';
+import information from './informationSlice';
 
 const reducer = combineReducers({
-  widgets,
-  projects,
+  information,
+  projects
 });
 
 export default reducer;

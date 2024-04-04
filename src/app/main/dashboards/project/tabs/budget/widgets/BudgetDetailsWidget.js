@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import Chip from '@mui/material/Chip';
-import { selectWidgets } from '../../../store/widgetsSlice';
+import { selectWidgets } from '../../../store/informationSlice';
 
 function BudgetDetailsWidget(props) {
   const widgets = useSelector(selectWidgets);

@@ -8,14 +8,11 @@ import jwtService from './services/jwtService';
 import { getAllTenant } from 'app/store/tenantSlice';
 import { getAllItems } from 'app/store/allItemsSlice';
 import { getAllItemsCategories } from 'app/store/allItemsCategoriesSlice';
-import { getAllPurchaseOrders } from 'app/store/allPurchaseOrdersSlice';
-import { getAllSalesOrders } from 'app/store/allSalesOrdersSlice';
-import { getAllInvoice } from 'app/store/allInvoicesSlice';
-import { getAllWishlistItems } from 'app/store/allWishlistItemsSlice';
 
 const AuthContext = React.createContext();
 
 function AuthProvider({ children }) {
+  
   const [isAuthenticated, setIsAuthenticated] = useState(undefined);
   const [waitAuthCheck, setWaitAuthCheck] = useState(true);
   const [mobileNumberVerificationStatus, setMobileNumberVerificationStatus] = useState(false)
@@ -87,12 +84,6 @@ function AuthProvider({ children }) {
         dispatch(getAllTenant()),
         dispatch(getAllItems()),
         dispatch(getAllItemsCategories()),
-        `${user.role === "plateformadmin" && dispatch(getAllPurchaseOrders())}`,
-        `${user.role === "plateformadmin" && dispatch(getAllSalesOrders())}`,
-        `${user.role === "plateformadmin" && dispatch(getAllInvoice())}`,
-        `${user.role === "plateformadmin" && dispatch(getAllWishlistItems())}`,
-
-        // You can receive data in here before app initialization
       ]).then((values) => {
         setWaitAuthCheck(false);
         setIsAuthenticated(true);

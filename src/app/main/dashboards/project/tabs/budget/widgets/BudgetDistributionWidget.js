@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import { memo } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { useSelector } from 'react-redux';
-import { selectWidgets } from '../../../store/widgetsSlice';
+import { selectWidgets } from '../../../store/informationSlice';
 
 function BudgetDistributionWidget(props) {
   const widgets = useSelector(selectWidgets);

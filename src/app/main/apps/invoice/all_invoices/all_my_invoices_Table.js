@@ -28,7 +28,7 @@ import {
 import MyInvoicesTableHead from "./all_my_invoices_TableHead";
 import { showMessage } from "app/store/fuse/messageSlice";
 import { selectTenant } from "app/store/tenantSlice";
-import { selectAllinvoices } from "app/store/allInvoicesSlice";
+import { getAllInvoice, selectAllinvoices } from "app/store/allInvoicesSlice";
 
 function AllInvoicesTable(props) {
 
@@ -55,6 +55,14 @@ function AllInvoicesTable(props) {
     direction: "asc",
     id: null,
   });
+
+
+  useEffect(() => {
+    if (user) {
+      user.data.country === "" && dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
+      dispatch(getAllInvoice()).then(() => setLoading(false));
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     if (searchText.length !== 0) {
@@ -225,8 +233,8 @@ function AllInvoicesTable(props) {
                       align="left"
                     >
                       {n.purchase_order_code !== "N/A" ? n.purchase_order_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
-                          <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
-                        </span>)}
+                        <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
+                      </span>)}
                     </TableCell>
 
                     <TableCell

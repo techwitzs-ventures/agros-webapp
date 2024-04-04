@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import Paper from '@mui/material/Paper';
 import { motion } from 'framer-motion';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import { selectWidgets } from '../../../store/widgetsSlice';
+import { selectWidgets } from '../../../store/informationSlice';
 
 function TeamMembersWidget(props) {
   const widgets = useSelector(selectWidgets);

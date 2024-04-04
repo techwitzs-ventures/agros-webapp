@@ -25,14 +25,16 @@ import {
 import AllSalesOrdersTableHead from './all_sales_orders_TableHead';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { selectTenant } from 'app/store/tenantSlice';
-import { selectAllSalesOrders } from 'app/store/allSalesOrdersSlice';
+import { getAllSalesOrders, selectAllSalesOrders } from 'app/store/allSalesOrdersSlice';
 import SOOrdersStatus from '../single_sales_order/single_sales_order_status';
+import { useDispatch } from 'react-redux';
+import { selectUser } from 'app/store/userSlice';
 
 
 function AllSalesOrdersTable(props) {
-
+  const dispatch = useDispatch();
   const salesorders = useSelector(selectAllSalesOrders);
-
+  const user = useSelector(selectUser)
   const tenants = useSelector(selectTenant);
 
   const searchText = useSelector(selectSalesOrdersSearchText);
@@ -52,6 +54,13 @@ function AllSalesOrdersTable(props) {
     id: null,
   });
 
+
+  useEffect(() => {
+    if (user) {
+      user.data.country === "" && dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
+      dispatch(getAllSalesOrders()).then(() => setLoading(false));
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     if (searchText.length !== 0) {
@@ -216,14 +225,14 @@ function AllSalesOrdersTable(props) {
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {n.purchase_order_code !== "N/A" ? n.purchase_order_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
-                          <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
-                        </span>)}
+                        <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
+                      </span>)}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {n.invoice_code !== "N/A" ? n.invoice_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
-                          <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
-                        </span>)}
+                        <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
+                      </span>)}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
