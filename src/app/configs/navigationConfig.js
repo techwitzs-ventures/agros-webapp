@@ -19,6 +19,7 @@ const navigationConfig = [
     id: 'marketplace.itemswishlist',
     title: 'Products',
     type: 'item',
+    icon: 'heroicons-outline:shopping-cart',
     auth: authRoles.onlySellerAndReatiler,
     url: 'apps/inventory/itemswishlist'
   },
@@ -28,6 +29,7 @@ const navigationConfig = [
     auth: authRoles.plateformadmin,
     type: 'collapse',
     translate: 'Products',
+    icon: 'heroicons-outline:shopping-cart',
     children: [
       {
         id: 'inventory-items-category',
@@ -60,6 +62,7 @@ const navigationConfig = [
     title: 'Purchase Orders',
     type: 'item',
     auth: authRoles.retailer,
+    icon: 'material-outline:inventory',
     url: 'apps/order/purchaseorder',
     end: true,
   },
@@ -68,6 +71,7 @@ const navigationConfig = [
     title: 'Purchase Orders',
     type: 'item',
     auth: authRoles.seller,
+    icon: 'material-outline:inventory',
     url: 'apps/order/recievedpurchaseorder',
     end: true,
   },
@@ -76,6 +80,7 @@ const navigationConfig = [
     title: 'Sales Orders',
     type: 'item',
     auth: authRoles.seller,
+    icon: 'material-outline:inventory_2',
     url: 'apps/order/salesorder',
     end: true,
   },
@@ -84,6 +89,7 @@ const navigationConfig = [
     title: "Sales Orders",
     type: "item",
     auth: authRoles.retailer,
+    icon: 'material-outline:inventory_2',
     url: "apps/order/recievedsalesorder",
     end: true,
   },
@@ -92,6 +98,7 @@ const navigationConfig = [
     title: "Invoices",
     type: "item",
     auth: authRoles.seller,
+    icon: 'heroicons-outline:calculator',
     url: "apps/invoice/myinvoices",
     end: true,
   },
@@ -100,6 +107,7 @@ const navigationConfig = [
     title: "Invoices",
     type: "item",
     auth: authRoles.retailer,
+    icon: 'heroicons-outline:calculator',
     url: "apps/invoice/receivedinvoices",
     end: true,
   },
@@ -108,6 +116,7 @@ const navigationConfig = [
     title: 'Purchase Orders',
     type: 'item',
     auth: authRoles.plateformadmin,
+    icon: 'material-outline:inventory',
     url: "apps/order/allpurchaseorder",
     end: true
   },
@@ -116,6 +125,7 @@ const navigationConfig = [
     title: 'Sales Orders',
     type: 'item',
     auth: authRoles.plateformadmin,
+    icon: 'material-outline:inventory_2',
     url: "apps/order/allsalesorder",
     end: true
   },
@@ -124,6 +134,7 @@ const navigationConfig = [
     title: 'Invoices',
     type: 'item',
     auth: authRoles.plateformadmin,
+    icon: 'heroicons-outline:calculator',
     url: "apps/invoice/allinvoices",
     end: true
   },
@@ -131,12 +142,14 @@ const navigationConfig = [
     id: 'marketplace.users',
     title: 'Users',
     type: 'item',
+    icon: 'heroicons-outline:user-group',
     auth: authRoles.plateformadmin
   },
   {
     id: 'marketplace.settings',
     title: 'Settings',
     type: 'item',
+    icon: 'settings',
     disabled: true
   },
 ];
