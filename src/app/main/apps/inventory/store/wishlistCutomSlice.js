@@ -77,7 +77,7 @@ const wishlistcustomitemSlice = createSlice({
             reducer: (state, action) => action.payload,
             prepare: (event) => ({
                 payload: {
-                    item_name: '',
+                    item_name: event.item_name,
                     rate: '',
                     unit: '',
                     images: [],

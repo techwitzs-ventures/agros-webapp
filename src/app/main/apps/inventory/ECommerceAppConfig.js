@@ -63,6 +63,11 @@ const ECommerceAppConfig = {
       auth: authRoles.onlySellerAndReatiler
     },
     {
+      path: 'apps/inventory/customitemswishlist/:param1/:param2',
+      element: <WishlistCustomItem />,
+      auth: authRoles.onlySellerAndReatiler
+    },
+    {
       path: 'apps/inventory',
       element: <Navigate to="items" />
     },

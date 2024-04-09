@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { motion } from 'framer-motion';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
@@ -186,6 +187,7 @@ function reducer(state, action) {
         ...state,
         opened: false,
         searchText: '',
+        noSuggestions: false
       };
     }
     case 'setSearchText': {
@@ -212,14 +214,13 @@ function reducer(state, action) {
       };
     }
     case 'clearSuggestions': {
-      console.log("all suggestions are cleared")
       return {
         ...state,
         suggestions: [],
+        
       };
     }
     case 'setNoSuggestions': {
-      console.log("no suggestions set to false")
       return {
         ...state,
         noSuggestions: false
@@ -248,6 +249,12 @@ function ItemsSearchConfig(props) {
       value: navigation,
     });
   }, [navigation]);
+
+  useEffect(() => {
+    if (state.searchText === '') {
+      dispatch({ type: "setNoSuggestions" })
+    }
+  }, [state.searchText])
 
   function showSearch(ev) {
     ev.stopPropagation();
@@ -305,11 +312,10 @@ function ItemsSearchConfig(props) {
   }
 
   function navigateToAddCustomForm(event) {
-    event.stopPropagation()
-    event.preventDefault()
-    console.log("Hello")
+    event.stopPropagation();
+    event.preventDefault();
+    props.navigate(`/apps/inventory/customitemswishlist/new/${state.searchText}`)
     hideSearch();
-    dispatch({ type: 'setNoSuggestions' })
   }
 
   const autosuggestProps = {
@@ -360,7 +366,22 @@ function ItemsSearchConfig(props) {
                   >
                     {options.children}
                     {state.noSuggestions && (
-                      <Typography className="px-16 py-12">{props.noResults}</Typography>
+                      <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
+                        className='flex justify-start px-16 py-12'
+                      >
+                        <Typography className='text-lg font-semibold px-16 py-12'>{props.noResults}</Typography>
+                        <Button
+                          className="px-16 py-12"
+                          variant="contained"
+                          color="secondary"
+                          startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
+                          onClick={navigateToAddCustomForm}
+                        >
+                          Add Custom Product
+                        </Button>
+                      </motion.div>
                     )}
                   </Paper>
                 </div>
@@ -423,15 +444,22 @@ function ItemsSearchConfig(props) {
                           >
                             {options.children}
                             {state.noSuggestions && (
-                              <Button
-                                className=""
-                                variant="contained"
-                                color="secondary"
-                                startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
-                                onClick={navigateToAddCustomForm}
+                              <motion.div
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
+                                className='flex justify-start px-16 py-12'
                               >
-                                Add To Master
-                              </Button>
+                                <Typography className='text-lg font-semibold px-16 py-12'>{props.noResults}</Typography>
+                                <Button
+                                  className="px-16 py-12"
+                                  variant="contained"
+                                  color="secondary"
+                                  startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
+                                  onClick={navigateToAddCustomForm}
+                                >
+                                  Add Custom Product
+                                </Button>
+                              </motion.div>
                             )}
                           </Paper>
                         </div>
@@ -469,7 +497,11 @@ ItemsSearchConfig.defaultProps = {
   ),
   variant: 'full',
   placeholder: 'Search Items to Add...',
-  noResults: 'No results..',
+  noResults: (
+    <span>
+      No product found
+    </span>
+  ),
 };
 
 export default withRouter(memo(ItemsSearchConfig));

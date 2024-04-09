@@ -70,13 +70,13 @@ function WishlistCustomItem(props) {
 
     useDeepCompareEffect(() => {
         function updateProductState() {
-            const { param1 } = routeParams;
+            const { param1, param2 } = routeParams;
 
             if (param1 === 'new') {
                 /**
                  * Create New Product data
                  */
-                dispatch(newWishlistCustomItem());
+                dispatch(newWishlistCustomItem({ item_name: param2 }));
             } else {
                 /**
                  * Get Product data
