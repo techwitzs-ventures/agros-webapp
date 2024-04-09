@@ -212,11 +212,18 @@ function reducer(state, action) {
       };
     }
     case 'clearSuggestions': {
+      console.log("all suggestions are cleared")
       return {
         ...state,
         suggestions: [],
-        noSuggestions: false,
       };
+    }
+    case 'setNoSuggestions': {
+      console.log("no suggestions set to false")
+      return {
+        ...state,
+        noSuggestions: false
+      }
     }
     case 'decrement': {
       return { count: state.count - 1 };
@@ -295,6 +302,14 @@ function ItemsSearchConfig(props) {
       (!suggestionsNode.current || !suggestionsNode.current.contains(event.target)) &&
       hideSearch()
     );
+  }
+
+  function navigateToAddCustomForm(event) {
+    event.stopPropagation()
+    event.preventDefault()
+    console.log("Hello")
+    hideSearch();
+    dispatch({ type: 'setNoSuggestions' })
   }
 
   const autosuggestProps = {
@@ -408,7 +423,15 @@ function ItemsSearchConfig(props) {
                           >
                             {options.children}
                             {state.noSuggestions && (
-                              <Typography className="px-16 py-12">{props.noResults}</Typography>
+                              <Button
+                                className=""
+                                variant="contained"
+                                color="secondary"
+                                startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
+                                onClick={navigateToAddCustomForm}
+                              >
+                                Add To Master
+                              </Button>
                             )}
                           </Paper>
                         </div>
