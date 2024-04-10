@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -15,22 +16,30 @@ import jwtService from '../auth/services/jwtService';
 import { showMessage } from 'app/store/fuse/messageSlice';
 
 const schema = yup.object().shape({
+    countrycode: yup.string().required('Select your country code'),
     mobileno: yup
         .string()
         .required('Enter your Mob.no')
         .matches(
-            /^\+91\d{10}$/,
-            'Invalid Mob.no format (e.g. +91930***4906)'
+            /^\d{10}$/,
+            'Mob.no contains 10 digits.'
         ),
     password: yup
         .string()
         .required('Please enter your password.')
 });
 
+
 const defaultValues = {
     mobileno: '',
-    password: ''
+    password: '',
+    countrycode: '+91'
 };
+
+const Country = [
+    { name: "singapore", countrycode: 'sg', mobcode: '+65', label: 'Singapore' },
+    { name: "india", countrycode: 'in', mobcode: '+91', label: 'India' }
+]
 
 function SignInWithMobileNumberPage() {
 
@@ -46,10 +55,11 @@ function SignInWithMobileNumberPage() {
 
     const { isValid, dirtyFields, errors } = formState;
 
-    async function onSubmit({ mobileno, password }) {
+    async function onSubmit({ countrycode, mobileno, password }) {
         setPasswordLoading(true)
+        const mob=countrycode + mobileno
         try {
-            const result = await jwtService.signInWithEmailPassword(mobileno, password)
+            const result = await jwtService.signInWithEmailPassword(mob, password)
 
             if (!result.status && result.code === 2) {
 
@@ -62,7 +72,7 @@ function SignInWithMobileNumberPage() {
                 setPasswordLoading(false);
 
             } else if (result.status && result.code === 1) {
-                
+
                 setPasswordLoading(false);
                 reset(defaultValues);
 
@@ -160,26 +170,51 @@ function SignInWithMobileNumberPage() {
                         className="flex flex-col justify-center w-full mt-32"
                         onSubmit={handleSubmit(onSubmit)}
                     >
-                        <Controller
-                            name="mobileno"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    className="mb-24"
-                                    label="Mobile No"
-                                    autoFocus={true}
-                                    disabled={PasswordLoading}
-                                    type="text"
-                                    error={!!errors.mobileno}
-                                    helperText={errors?.mobileno?.message}
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                />
-                            )}
-                        />
-
+                        <div className='flex justify-center items-center'>
+                            <Controller
+                                name="countrycode"
+                                control={control}
+                                render={({ field }) => (
+                                    <FormControl className="mb-24" sx={{ width: '100px', paddingRight: "5px" }} required>
+                                        <InputLabel>Country</InputLabel>
+                                        <Select
+                                            {...field}
+                                            label="Country code"
+                                            error={!!errors.countrycode}
+                                            variant='outlined'
+                                            disabled={PasswordLoading}
+                                        >
+                                            {Country.map((country) => {
+                                                return (
+                                                    <MenuItem key={country.countrycode} value={country.mobcode}>
+                                                        {country.mobcode}
+                                                    </MenuItem>
+                                                )
+                                            })}
+                                        </Select>
+                                    </FormControl>
+                                )}
+                            />
+                            <Controller
+                                name="mobileno"
+                                control={control}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        className="mb-24"
+                                        label="Mobile No"
+                                        autoFocus={true}
+                                        disabled={PasswordLoading}
+                                        type="text"
+                                        error={!!errors.mobileno}
+                                        helperText={errors?.mobileno?.message}
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                    />
+                                )}
+                            />
+                        </div>
                         <Controller
                             name="password"
                             control={control}
