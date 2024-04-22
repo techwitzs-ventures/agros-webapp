@@ -74,18 +74,16 @@ function Address() {
   async function onSubmit({ address1, address2, city, state, country, zipCode }) {
     setLoading(true)
     const request = {
-      body: {
-        email: user.data.email,
-        mobilenumber: user.data.mobilenumber,
-        firstname: user.data.firstname,
-        lastname: user.data.lastname,
-        address1,
-        address2,
-        city,
-        state,
-        country,
-        zipCode
-      }
+      email: user.data.email,
+      mobilenumber: user.data.mobilenumber,
+      firstname: user.data.firstname,
+      lastname: user.data.lastname,
+      address1,
+      address2,
+      city,
+      state,
+      country,
+      zipCode
     }
     await JwtService.updateUserCredentialByUUID(request, user.tenant_id);
     setEditEnabled(false);

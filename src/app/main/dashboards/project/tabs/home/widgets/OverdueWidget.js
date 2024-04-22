@@ -7,7 +7,8 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { selectPurchaseOrderCount } from '../../../store/informationSlice';
 
 function OverdueWidget() {
-  const data = useSelector(selectPurchaseOrderCount)
+  // const data = useSelector(selectPurchaseOrderCount)
+  const data = 0
 
   return (
     <Paper className="flex flex-col justify-center items-center flex-auto shadow rounded-2xl overflow-hidden" style={{ height: "221px" }}>

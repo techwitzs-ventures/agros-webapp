@@ -1,8 +1,7 @@
 import FuseUtils from "@fuse/utils/FuseUtils";
 import axios from "axios";
-import { Amplify, API, Auth } from "aws-amplify";
+import { Amplify, Auth } from "aws-amplify";
 import awsconfig from "../../../../../../../aws-exports";
-import jwtServiceConfig from "./jwtServiceConfig";
 
 Amplify.configure(awsconfig);
 
@@ -58,15 +57,21 @@ class JwtService extends FuseUtils.EventEmitter {
 
   // Fetching user's details from the user dynamodb or table
   getSingleUserDetailsByUUID = async (data) => {
-    try {
-      return await API.post(
-        jwtServiceConfig.getuserbyuuid.apiname,
-        jwtServiceConfig.getuserbyuuid.path,
-        data
-      );
-    } catch (error) {
-      console.log(error);
-    }
+    return new Promise((resolve, reject) => {
+      axios.get('/user/getuserbyuuid', {
+        params: data
+      }).then((res) => {
+        if (res.status === 200) {
+          resolve(res.data.response)
+        } else {
+          console.log(res)
+          reject(res.data.response)
+        }
+      }).catch((error) => {
+        console.log(error)
+        reject(error)
+      })
+    })
   };
 
   // Fetching User Details by Tenant Id
@@ -93,18 +98,28 @@ class JwtService extends FuseUtils.EventEmitter {
     return new Promise((resolve, reject) => {
       Auth.currentAuthenticatedUser()
         .then(async (response) => {
+
           if (response) {
-            const result = await API.patch(
-              jwtServiceConfig.updateuserbyuuid.apiname,
-              `${jwtServiceConfig.updateuserbyuuid.path}/?uuid=${response.signInUserSession.accessToken.payload.sub}&tenant_id=${tenant_id}`,
-              data
-            );
-            this.emit("onUpdate", result.response);
-            resolve(result);
+
+            const result = await axios.patch('/user/updateuserbyuuid', data, {
+              params: {
+                uuid: response.signInUserSession.accessToken.payload.sub,
+                tenant_id
+              }
+            })
+
+            if (result.status === 200) {
+              this.emit("onUpdate", result.data.response);
+              resolve(result);
+            }else{
+              console.log(result);
+              reject(new Error("Failed to update user"));
+            }
           } else {
             this.logout();
             reject(new Error("Failed to login with Jwt Authentication Token"));
           }
+          
         })
         .catch((err) => {
           this.logout();
@@ -337,13 +352,11 @@ class JwtService extends FuseUtils.EventEmitter {
             this.emit("onCompleteOnboard", onboardingstatus);
 
             const user = await this.getSingleUserDetailsByUUID({
-              body: {
-                uuid: response.signInUserSession.accessToken.payload.sub,
-              },
+              uuid: response.signInUserSession.accessToken.payload.sub,
             });
 
             this.setSession(response.signInUserSession.accessToken.jwtToken);
-            resolve(user.response);
+            resolve(user);
 
           } else {
 
@@ -379,11 +392,11 @@ class JwtService extends FuseUtils.EventEmitter {
         this.emit("onCompleteOnboard", onboardingstatus);
 
         const user = await this.getSingleUserDetailsByUUID({
-          body: { uuid: result.signInUserSession.accessToken.payload.sub },
+          uuid: result.signInUserSession.accessToken.payload.sub
         });
 
         this.setSession(result.signInUserSession.accessToken.jwtToken);
-        this.emit("onLogin", user.response);
+        this.emit("onLogin", user);
 
         return { code: 1, status: true };
 

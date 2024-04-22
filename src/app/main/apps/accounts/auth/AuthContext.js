@@ -82,8 +82,8 @@ function AuthProvider({ children }) {
       Promise.all([
         dispatch(setUser(user)),
         dispatch(getAllTenant()),
-        dispatch(getAllItems()),
-        dispatch(getAllItemsCategories()),
+        // dispatch(getAllItems()),
+        // dispatch(getAllItemsCategories()),
       ]).then((values) => {
         setWaitAuthCheck(false);
         setIsAuthenticated(true);
