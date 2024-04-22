@@ -5,7 +5,7 @@ import axios from 'axios'
 
 export const getAllTenant = createAsyncThunk('tenant/getalltenant', 
 async (tenant, { dispatch, getState }) => {
-    const result = await axios.get('/onboarding/getalltenant');
+    const result = await axios.get('/tenant/getalltenant');
     return result.data.response;
 });
 

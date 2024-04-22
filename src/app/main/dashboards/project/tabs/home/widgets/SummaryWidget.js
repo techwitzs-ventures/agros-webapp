@@ -12,7 +12,8 @@ import { selectProductCount } from '../../../store/informationSlice';
 
 function SummaryWidget() {
   const user = useSelector(selectUser)
-  const data = user.role === "plateformadmin" ? useSelector(selectAllItems) : useSelector(selectProductCount)
+  // const data = user.role === "plateformadmin" ? useSelector(selectAllItems) : useSelector(selectProductCount)
+  const data = 0
 
   return (
     <Paper className="flex flex-col justify-center items-center flex-auto shadow rounded-2xl overflow-hidden" style={{ height: "221px" }}>

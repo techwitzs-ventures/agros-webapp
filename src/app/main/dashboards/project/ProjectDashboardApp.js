@@ -46,52 +46,52 @@ function ProjectDashboardApp(props) {
 
   const [tabValue, setTabValue] = useState(0);
 
-  const [loading, setloading] = useState(true)
+  const [loading, setloading] = useState(false) // temporary set to false
 
-  useEffect(() => {
-    if (user.role === "plateformadmin") {
-      dispatch(getAllPurchaseOrders()).then((res) => {
-        dispatch(setPurchaseOrderCount(res.payload));
-      });
-      dispatch(getAllSalesOrders()).then((res) => {
-        dispatch(setSalesOrderCount(res.payload));
-      });
-      dispatch(getAllInvoice()).then((res) => {
-        dispatch(setInvoiceCount(res.payload))
-        setloading(false)
-      })
-    }
-    else if (user.role === "retailer") {
-      dispatch(getWishlistItems({ tenant_id: user.tenant_id, active: false })).then((res) => {
-        dispatch(setProductCount(res.payload))
-      });
-      dispatch(getPurchaseOrders({ tenant_id: user.tenant_id, active: false })).then((res) => {
-        dispatch(setPurchaseOrderCount(res.payload));
-      });
-      dispatch(getRecievedSalesOrders({ org_id: user.tenant_id })).then((res) => {
-        dispatch(setSalesOrderCount(res.payload));
-      });
-      dispatch(getInvoiceList({ org_id: user.tenant_id })).then((res) => {
-        dispatch(setInvoiceCount(res.payload))
-        setloading(false)
-      })
-    }
-    else if (user.role === "seller") {
-      dispatch(getWishlistItems({ tenant_id: user.tenant_id, active: false })).then((res) => {
-        dispatch(setProductCount(res.payload))
-      });
-      dispatch(getRecievedPurchaseOrders({ org_id: user.tenant_id })).then((res) => {
-        dispatch(setPurchaseOrderCount(res.payload));
-      });
-      dispatch(getSalesOrders({ tenant_id: user.tenant_id, active: false })).then((res) => {
-        dispatch(setSalesOrderCount(res.payload));
-      });
-      dispatch(getMyInvoiceList({ org_id: user.tenant_id })).then((res) => {
-        dispatch(setInvoiceCount(res.payload))
-        setloading(false)
-      })
-    }
-  }, [dispatch]);
+  // useEffect(() => {
+  //   if (user.role === "plateformadmin") {
+  //     dispatch(getAllPurchaseOrders()).then((res) => {
+  //       dispatch(setPurchaseOrderCount(res.payload));
+  //     });
+  //     dispatch(getAllSalesOrders()).then((res) => {
+  //       dispatch(setSalesOrderCount(res.payload));
+  //     });
+  //     dispatch(getAllInvoice()).then((res) => {
+  //       dispatch(setInvoiceCount(res.payload))
+  //       setloading(false)
+  //     })
+  //   }
+  //   else if (user.role === "retailer") {
+  //     dispatch(getWishlistItems({ tenant_id: user.tenant_id, active: false })).then((res) => {
+  //       dispatch(setProductCount(res.payload))
+  //     });
+  //     dispatch(getPurchaseOrders({ tenant_id: user.tenant_id, active: false })).then((res) => {
+  //       dispatch(setPurchaseOrderCount(res.payload));
+  //     });
+  //     dispatch(getRecievedSalesOrders({ org_id: user.tenant_id })).then((res) => {
+  //       dispatch(setSalesOrderCount(res.payload));
+  //     });
+  //     dispatch(getInvoiceList({ org_id: user.tenant_id })).then((res) => {
+  //       dispatch(setInvoiceCount(res.payload))
+  //       setloading(false)
+  //     })
+  //   }
+  //   else if (user.role === "seller") {
+  //     dispatch(getWishlistItems({ tenant_id: user.tenant_id, active: false })).then((res) => {
+  //       dispatch(setProductCount(res.payload))
+  //     });
+  //     dispatch(getRecievedPurchaseOrders({ org_id: user.tenant_id })).then((res) => {
+  //       dispatch(setPurchaseOrderCount(res.payload));
+  //     });
+  //     dispatch(getSalesOrders({ tenant_id: user.tenant_id, active: false })).then((res) => {
+  //       dispatch(setSalesOrderCount(res.payload));
+  //     });
+  //     dispatch(getMyInvoiceList({ org_id: user.tenant_id })).then((res) => {
+  //       dispatch(setInvoiceCount(res.payload))
+  //       setloading(false)
+  //     })
+  //   }
+  // }, [dispatch]);
 
   function handleChangeTab(event, value) {
     setTabValue(value);
