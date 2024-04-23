@@ -376,6 +376,7 @@ class JwtService extends FuseUtils.EventEmitter {
 
   // Sign In with username and password
   signInWithEmailPassword = async (username, password) => {
+    
     try {
       const result = await Auth.signIn({ username, password });
 
