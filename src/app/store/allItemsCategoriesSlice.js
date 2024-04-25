@@ -6,7 +6,7 @@ import axios from 'axios';
 export const getAllItemsCategories = createAsyncThunk(
     'itemscategories/getallitemscategories',
     async (itemscategories, { dispatch, getState }) => {
-        const result = await axios.get('/itemscategeory/getallitemscategory');
+        const result = await axios.get('/itemscategory/getallitemscategory');
         return result.data.response
     });
 

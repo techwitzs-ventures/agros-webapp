@@ -5,7 +5,7 @@ import { saveItemsCategory, updateItemCategory, updateItemsCategoryStatus } from
 
 export const getItemsCategories = createAsyncThunk('inventoryApp/itemscategories/getItemsCategories',
   async (get_items_cat_obj) => {
-    const result = await axios.get('/itemscategeory/getitemscatlist', { params: get_items_cat_obj })
+    const result = await axios.get('/itemscategory/getitemscatlist', { params: get_items_cat_obj })
     return result.data.response
   });
 

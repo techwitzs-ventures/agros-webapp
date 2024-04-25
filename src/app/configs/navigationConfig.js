@@ -23,40 +23,40 @@ const navigationConfig = [
   //   auth: authRoles.onlySellerAndReatiler,
   //   url: 'apps/inventory/itemswishlist'
   // },
-  // {
-  //   id: 'apps.inventory',
-  //   title: 'Products',
-  //   auth: authRoles.plateformadmin,
-  //   type: 'collapse',
-  //   translate: 'Products',
-  //   icon: 'heroicons-outline:shopping-cart',
-  //   children: [
-  //     {
-  //       id: 'inventory-items-category',
-  //       title: 'Items Category',
-  //       type: 'item',
-  //       auth: authRoles.plateformadmin,
-  //       url: 'apps/inventory/itemscategory',
-  //       end: true,
-  //     },
-  //     {
-  //       id: 'inventory-items',
-  //       title: 'Items',
-  //       type: 'item',
-  //       auth: authRoles.plateformadmin,
-  //       url: 'apps/inventory/items',
-  //       end: true,
-  //     },
-  //     {
-  //       id: 'inventory-retailerswishlist',
-  //       title: "Retailer's Wishlist",
-  //       type: 'item',
-  //       auth: authRoles.plateformadmin,
-  //       url: 'apps/inventory/retailerswishlist',
-  //       end: true,
-  //     }
-  //   ],
-  // },
+  {
+    id: 'apps.inventory',
+    title: 'Products',
+    auth: authRoles.plateformadmin,
+    type: 'collapse',
+    translate: 'Products',
+    icon: 'heroicons-outline:shopping-cart',
+    children: [
+      {
+        id: 'inventory-items-category',
+        title: 'Items Category',
+        type: 'item',
+        auth: authRoles.plateformadmin,
+        url: 'apps/inventory/itemscategory',
+        end: true,
+      },
+      {
+        id: 'inventory-items',
+        title: 'Items',
+        type: 'item',
+        auth: authRoles.plateformadmin,
+        url: 'apps/inventory/items',
+        end: true,
+      },
+      {
+        id: 'inventory-retailerswishlist',
+        title: "Retailer's Wishlist",
+        type: 'item',
+        auth: authRoles.plateformadmin,
+        url: 'apps/inventory/retailerswishlist',
+        end: true,
+      }
+    ],
+  },
   // {
   //   id: 'marketplace.my-purchase-orders',
   //   title: 'Purchase Orders',
