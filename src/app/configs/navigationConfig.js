@@ -15,14 +15,14 @@ const navigationConfig = [
     translate: 'DASHBOARDS',
     url: 'dashboards/project'
   },
-  // {
-  //   id: 'marketplace.itemswishlist',
-  //   title: 'Products',
-  //   type: 'item',
-  //   icon: 'heroicons-outline:shopping-cart',
-  //   auth: authRoles.onlySellerAndReatiler,
-  //   url: 'apps/inventory/itemswishlist'
-  // },
+  {
+    id: 'marketplace.itemswishlist',
+    title: 'Products',
+    type: 'item',
+    icon: 'heroicons-outline:shopping-cart',
+    auth: authRoles.onlySellerAndReatiler,
+    url: 'apps/inventory/itemswishlist'
+  },
   {
     id: 'apps.inventory',
     title: 'Products',
