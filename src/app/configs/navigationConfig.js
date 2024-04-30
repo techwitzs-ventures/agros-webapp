@@ -93,24 +93,24 @@ const navigationConfig = [
     url: "apps/order/recievedsalesorder",
     end: true,
   },
-  // {
-  //   id: "marketplace.myinvoices",
-  //   title: "Invoices",
-  //   type: "item",
-  //   auth: authRoles.seller,
-  //   icon: 'heroicons-outline:calculator',
-  //   url: "apps/invoice/myinvoices",
-  //   end: true,
-  // },
-  // {
-  //   id: "marketplace.receivedinvoices",
-  //   title: "Invoices",
-  //   type: "item",
-  //   auth: authRoles.retailer,
-  //   icon: 'heroicons-outline:calculator',
-  //   url: "apps/invoice/receivedinvoices",
-  //   end: true,
-  // },
+  {
+    id: "marketplace.myinvoices",
+    title: "Invoices",
+    type: "item",
+    auth: authRoles.seller,
+    icon: 'heroicons-outline:calculator',
+    url: "apps/invoice/myinvoices",
+    end: true,
+  },
+  {
+    id: "marketplace.receivedinvoices",
+    title: "Invoices",
+    type: "item",
+    auth: authRoles.retailer,
+    icon: 'heroicons-outline:calculator',
+    url: "apps/invoice/receivedinvoices",
+    end: true,
+  },
   {
     id: 'marketplace.allpurchaseorders',
     title: 'Purchase Orders',
@@ -129,15 +129,15 @@ const navigationConfig = [
     url: "apps/order/allsalesorder",
     end: true
   },
-  // {
-  //   id: 'marketplace.allinvoices',
-  //   title: 'Invoices',
-  //   type: 'item',
-  //   auth: authRoles.plateformadmin,
-  //   icon: 'heroicons-outline:calculator',
-  //   url: "apps/invoice/allinvoices",
-  //   end: true
-  // },
+  {
+    id: 'marketplace.allinvoices',
+    title: 'Invoices',
+    type: 'item',
+    auth: authRoles.plateformadmin,
+    icon: 'heroicons-outline:calculator',
+    url: "apps/invoice/allinvoices",
+    end: true
+  },
   // {
   //   id: 'marketplace.users',
   //   title: 'Users',

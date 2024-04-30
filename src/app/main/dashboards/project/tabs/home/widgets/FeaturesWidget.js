@@ -7,8 +7,7 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { selectInvoiceCount } from '../../../store/informationSlice';
 
 function FeaturesWidget() {
-  // const data = useSelector(selectInvoiceCount);
-  const data = 0;
+  const data = useSelector(selectInvoiceCount);
 
   return (
     <Paper className="flex flex-col justify-center items-center flex-auto shadow rounded-2xl overflow-hidden" style={{ height: "221px" }}>

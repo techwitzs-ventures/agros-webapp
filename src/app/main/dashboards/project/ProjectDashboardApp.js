@@ -46,7 +46,7 @@ function ProjectDashboardApp(props) {
 
   const [tabValue, setTabValue] = useState(0);
 
-  const [loading, setloading] = useState(false)
+  const [loading, setloading] = useState(true)
 
   useEffect(() => {
     if (user.role === "plateformadmin") {

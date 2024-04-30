@@ -29,7 +29,7 @@ function HomeTab() {
       animate="show"
     >
       <motion.div variants={item}>
-        <SummaryWidget/>
+        <SummaryWidget />
       </motion.div>
       <motion.div variants={item}>
         <OverdueWidget />
