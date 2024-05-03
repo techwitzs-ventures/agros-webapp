@@ -6,14 +6,14 @@ const awsmobile = {
     "aws_cloud_logic_custom": [
         {
             "name": "techwitzsapi",
-            "endpoint": "https://85dciimtl9.execute-api.ap-southeast-1.amazonaws.com/staging",
+            "endpoint": "https://16zvbdtna2.execute-api.ap-southeast-1.amazonaws.com/production",
             "region": "ap-southeast-1"
         }
     ],
-    "aws_cognito_identity_pool_id": "ap-southeast-1:a61fe306-8a99-4a2c-a6e5-37e993d384e2",
+    "aws_cognito_identity_pool_id": "ap-southeast-1:6a48d3f5-ec17-4040-b67e-ccc643ceee76",
     "aws_cognito_region": "ap-southeast-1",
-    "aws_user_pools_id": "ap-southeast-1_A45jk8Jgh",
-    "aws_user_pools_web_client_id": "3qmvk0o7hb8jm7air3so6s6cdj",
+    "aws_user_pools_id": "ap-southeast-1_gysDqT3jh",
+    "aws_user_pools_web_client_id": "69opi6k6fo456morolehln3i8t",
     "oauth": {},
     "aws_cognito_username_attributes": [],
     "aws_cognito_social_providers": [],
@@ -35,39 +35,39 @@ const awsmobile = {
     "aws_dynamodb_all_tables_region": "ap-southeast-1",
     "aws_dynamodb_table_schemas": [
         {
-            "tableName": "invoice-staging",
+            "tableName": "invoice-production",
             "region": "ap-southeast-1"
         },
         {
-            "tableName": "itemscategory-staging",
+            "tableName": "itemscategory-production",
             "region": "ap-southeast-1"
         },
         {
-            "tableName": "items-staging",
+            "tableName": "items-production",
             "region": "ap-southeast-1"
         },
         {
-            "tableName": "itemswishlist-staging",
+            "tableName": "itemswishlist-production",
             "region": "ap-southeast-1"
         },
         {
-            "tableName": "maxdata-staging",
+            "tableName": "maxdata-production",
             "region": "ap-southeast-1"
         },
         {
-            "tableName": "purchaseorder-staging",
+            "tableName": "purchaseorder-production",
             "region": "ap-southeast-1"
         },
         {
-            "tableName": "salesorder-staging",
+            "tableName": "salesorder-production",
             "region": "ap-southeast-1"
         },
         {
-            "tableName": "tenant-staging",
+            "tableName": "tenant-production",
             "region": "ap-southeast-1"
         },
         {
-            "tableName": "user-staging",
+            "tableName": "user-production",
             "region": "ap-southeast-1"
         }
     ]
