@@ -175,7 +175,7 @@
             },
             "parameters": []
         },
-        "/itemscategeory/getallitemscategory": {
+        "/itemscategory/getallitemscategory": {
             "get": {
                 "summary": "Get Inventory Items Category",
                 "tags": [

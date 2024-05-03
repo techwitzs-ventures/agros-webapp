@@ -7,7 +7,7 @@ import mock from '../mock';
 let itemsCategoryDB = mockApi.components.examples.inventory_itemscategories.value;
 
 
-mock.onGet('/itemscategeory/getallitemscategory').reply((config) => {
+mock.onGet('/itemscategory/getallitemscategory').reply((config) => {
     return [200, {
         success: true,
         message: "All Items Category List (Mock)",
@@ -15,7 +15,7 @@ mock.onGet('/itemscategeory/getallitemscategory').reply((config) => {
     }]
 });
 
-mock.onGet('/itemscategeory/getitemscatlist').reply(({ params }) => {
+mock.onGet('/itemscategory/getitemscategorylist').reply(({ params }) => {
     const { organization_id, active } = params;
 
     const itemscategoriesfilteredbyorg = active ?
@@ -33,7 +33,7 @@ mock.onGet('/itemscategeory/getitemscatlist').reply(({ params }) => {
     }
 });
 
-mock.onGet('/itemscategeory/getitemscategory').reply(({ params }) => {
+mock.onGet('/itemscategory/getitemscategory').reply(({ params }) => {
     const { items_cat_id } = params
     const itemCategoryMatched = _.find(itemsCategoryDB, { items_cat_id });
     if (itemCategoryMatched) {
@@ -52,7 +52,7 @@ mock.onGet('/itemscategeory/getitemscategory').reply(({ params }) => {
 
 })
 
-mock.onPost('/itemscategeory/addcategory').reply(({ data, params }) => {
+mock.onPost('/itemscategory/addcategory').reply(({ data, params }) => {
     return [200, {
         success: true,
         message: "Items Category Added Successfully (Mock)",
@@ -60,7 +60,7 @@ mock.onPost('/itemscategeory/addcategory').reply(({ data, params }) => {
     }]
 })
 
-mock.onPut('/itemscategeory/updatecategory').reply(({ data, params }) => {
+mock.onPut('/itemscategory/updatecategory').reply(({ data, params }) => {
     return [200, {
         success: true,
         message: "Items Category Updated Successfully (Mock)",
@@ -68,7 +68,7 @@ mock.onPut('/itemscategeory/updatecategory').reply(({ data, params }) => {
     }]
 })
 
-mock.onPut('/itemscategeory/updatestatus').reply(({ data, params }) => {
+mock.onPut('/itemscategory/updatestatus').reply(({ data, params }) => {
     return [200, {
         success: true,
         message: "Status Updated Successfully (Mock)",

@@ -24,8 +24,6 @@ const settingsConfig = {
     Default redirect url for the logged-in user,
    */
   loginRedirectUrl: '/',
-  enableMockAPI: false,
-  backendAPIUrl: "https://qmubvi68z7.execute-api.eu-north-1.amazonaws.com/dev"
 };
 
 export default settingsConfig;

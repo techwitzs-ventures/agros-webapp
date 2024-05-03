@@ -5,7 +5,7 @@ import axios from 'axios';
 export const getItemsCategory = createAsyncThunk('inventoryApp/itemscategory/getItemsCategory',
   async (queryparams) => {
     try {
-      const result = await axios.get('/itemscategeory/getitemscategory', { params: queryparams })
+      const result = await axios.get('/itemscategory/getitemscategory', { params: queryparams })
       return result.data.response
     } catch (error) {
       console.log(error)
@@ -14,7 +14,7 @@ export const getItemsCategory = createAsyncThunk('inventoryApp/itemscategory/get
 
 export const updateItemCategory = createAsyncThunk('inventoryApp/itemscategory/updateItemsCategory',
   async (updatedItemsCategoryData, { dispatch, getState }) => {
-    const result = await axios.put('/itemscategeory/updatecategory', {
+    const result = await axios.put('/itemscategory/updatecategory', {
       items_cat_name: updatedItemsCategoryData.items_cat_name,
     }, {
       params: {
@@ -33,7 +33,7 @@ export const updateItemCategory = createAsyncThunk('inventoryApp/itemscategory/u
 export const updateItemsCategoryStatus = createAsyncThunk('inventoryApp/itemscategory/updateItemsCategoryStatus',
   async (new_updated_status_data, { dispatch, getState }) => {
     try {
-      const result = await axios.put('/itemscategeory/updatestatus', {
+      const result = await axios.put('/itemscategory/updatestatus', {
         status: new_updated_status_data.status
       }, {
         params: {
@@ -55,7 +55,7 @@ export const updateItemsCategoryStatus = createAsyncThunk('inventoryApp/itemscat
 
 export const saveItemsCategory = createAsyncThunk('inventoryApp/itemscategory/saveItemsCategory',
   async (itemCategoryData, { dispatch, getState }) => {
-    const result = await axios.post('/itemscategeory/addcategory', {
+    const result = await axios.post('/itemscategory/addcategory', {
       items_cat_name: itemCategoryData.data.items_cat_name,
     }, {
       params: {

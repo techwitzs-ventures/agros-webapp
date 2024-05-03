@@ -138,20 +138,20 @@ const navigationConfig = [
     url: "apps/invoice/allinvoices",
     end: true
   },
-  {
-    id: 'marketplace.users',
-    title: 'Users',
-    type: 'item',
-    icon: 'heroicons-outline:user-group',
-    auth: authRoles.plateformadmin
-  },
-  {
-    id: 'marketplace.settings',
-    title: 'Settings',
-    type: 'item',
-    icon: 'settings',
-    disabled: true
-  },
+  // {
+  //   id: 'marketplace.users',
+  //   title: 'Users',
+  //   type: 'item',
+  //   icon: 'heroicons-outline:user-group',
+  //   auth: authRoles.plateformadmin
+  // },
+  // {
+  //   id: 'marketplace.settings',
+  //   title: 'Settings',
+  //   type: 'item',
+  //   icon: 'settings',
+  //   disabled: true
+  // },
 ];
 
 export default navigationConfig;
