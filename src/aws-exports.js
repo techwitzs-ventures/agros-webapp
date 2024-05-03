@@ -6,14 +6,14 @@ const awsmobile = {
     "aws_cloud_logic_custom": [
         {
             "name": "techwitzsapi",
-            "endpoint": "https://zhk8szwz97.execute-api.ap-southeast-1.amazonaws.com/feature",
+            "endpoint": "https://qfmah3idx0.execute-api.ap-southeast-1.amazonaws.com/develop",
             "region": "ap-southeast-1"
         }
     ],
-    "aws_cognito_identity_pool_id": "ap-southeast-1:7f9bb6f7-4421-4a81-8018-1a0b5249e9c9",
+    "aws_cognito_identity_pool_id": "ap-southeast-1:0ddc9a90-581e-435f-8436-447aa4797d87",
     "aws_cognito_region": "ap-southeast-1",
-    "aws_user_pools_id": "ap-southeast-1_zsnjT1YkS",
-    "aws_user_pools_web_client_id": "2i6j3gm8pqou3pna8ujb2sqaas",
+    "aws_user_pools_id": "ap-southeast-1_wiEgYhzH0",
+    "aws_user_pools_web_client_id": "19ha8mmhb4oh3vp4vfr8l1nnie",
     "oauth": {},
     "aws_cognito_username_attributes": [],
     "aws_cognito_social_providers": [],
@@ -35,15 +35,39 @@ const awsmobile = {
     "aws_dynamodb_all_tables_region": "ap-southeast-1",
     "aws_dynamodb_table_schemas": [
         {
-            "tableName": "tenant-feature",
+            "tableName": "invoice-develop",
             "region": "ap-southeast-1"
         },
         {
-            "tableName": "user-feature",
+            "tableName": "itemscategory-develop",
             "region": "ap-southeast-1"
         },
         {
-            "tableName": "maxdata-feature",
+            "tableName": "items-develop",
+            "region": "ap-southeast-1"
+        },
+        {
+            "tableName": "itemswishlist-develop",
+            "region": "ap-southeast-1"
+        },
+        {
+            "tableName": "maxdata-develop",
+            "region": "ap-southeast-1"
+        },
+        {
+            "tableName": "purchaseorder-develop",
+            "region": "ap-southeast-1"
+        },
+        {
+            "tableName": "salesorder-develop",
+            "region": "ap-southeast-1"
+        },
+        {
+            "tableName": "tenant-develop",
+            "region": "ap-southeast-1"
+        },
+        {
+            "tableName": "user-develop",
             "region": "ap-southeast-1"
         }
     ]

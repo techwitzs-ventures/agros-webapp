@@ -139,7 +139,7 @@
         "start": "react-app-rewired  start",
         "build": "react-app-rewired build",
         "start:feature": "copy .env.feature .env && react-app-rewired start",
-        "start:development": "cp .env.dev .env && react-app-rewired start",
+        "start:development": "copy .env.dev .env && react-app-rewired start",
         "start:staging": "cp .env.staging .env && react-app-rewired start",
         "start:production": "cp .env.production .env && react-app-rewired start",
         "build:feature": "cp .env.feature .env && react-app-rewired build",
