@@ -57,7 +57,7 @@ function SignInWithMobileNumberPage() {
 
     async function onSubmit({ countrycode, mobileno, password }) {
         setPasswordLoading(true)
-        const mob=countrycode + mobileno
+        const mob = countrycode + mobileno
         try {
             const result = await jwtService.signInWithEmailPassword(mob, password)
 
@@ -159,7 +159,9 @@ function SignInWithMobileNumberPage() {
                     </div>
                     <div className="flex justify-center items-baseline mt-2 font-medium">
                         <Typography>Don't have an account?</Typography>
-                        <Link className="ml-4" to={`https://${process.env.REACT_APP_ONBOARDING_URL}.${process.env.REACT_APP_HOST_NAME}/`}>
+                        <Link
+                            className="ml-4"
+                            to={`https://${process.env.REACT_APP_ENV_NAME}.${process.env.REACT_APP_HOST_ID}.${process.env.REACT_APP_DOMAIN_NAME}/`}>
                             Create Account
                         </Link>
                     </div>
