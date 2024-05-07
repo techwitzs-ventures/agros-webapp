@@ -13,6 +13,10 @@ import * as yup from 'yup';
 import TextField from '@mui/material/TextField';
 import { LoadingButton } from '@mui/lab';
 import JwtService from '../../accounts/auth/services/jwtService';
+import { Box } from '@mui/material';
+import { lighten } from '@mui/material/styles'
+import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
+import FuseUtils from '@fuse/utils/FuseUtils';
 
 
 const schema = yup.object().shape({
@@ -26,11 +30,17 @@ const schema = yup.object().shape({
     ),
   firstname: yup.string().required('Enter your Firstname').min(2),
   lastname: yup.string().required('Enter your Lastname').min(2),
+  photoURL: yup.object().shape({
+    id: yup.string(),
+    url: yup.string(),
+    type: yup.string()
+  })
 });
 
 
 
 function Basic() {
+
   const user = useSelector(selectUser);
   const test = (x) => x + 1;
   const [editEnabled, setEditEnabled] = useState(false)
@@ -41,6 +51,7 @@ function Basic() {
     mobileno: user.data.mobilenumber,
     firstname: user.data.firstname,
     lastname: user.data.lastname,
+    photoURL: user.data.photoURL
   };
 
   const container = {
@@ -55,11 +66,13 @@ function Basic() {
     hidden: { opacity: 0, y: 40 },
     show: { opacity: 1, y: 0 },
   };
-  const { control, formState, handleSubmit, setError, reset } = useForm({
+
+  const { control, formState, handleSubmit, setError, reset, watch } = useForm({
     mode: 'onChange',
     defaultValues,
     resolver: yupResolver(schema),
   });
+
   const { isValid, dirtyFields, errors } = formState;
 
   const handleEditEnable = async () => {
@@ -67,7 +80,7 @@ function Basic() {
     reset(defaultValues);
   }
 
-  async function onSubmit({ email, mobileno, firstname, lastname }) {
+  async function onSubmit({ email, mobileno, firstname, lastname, photoURL }) {
     setLoading(true)
     const request = {
       email,
@@ -79,12 +92,15 @@ function Basic() {
       city: user.data.city,
       state: user.data.state,
       country: user.data.country,
-      zipCode: user.data.zipCode
+      zipCode: user.data.zipCode,
+      photoURL
     }
     await JwtService.updateUserCredentialByUUID(request, user.tenant_data.tenant_id);
     setEditEnabled(false);
     setLoading(false)
   }
+
+  const profile_image = watch('photoURL');
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className='md:w-full sm:w-auto w-full'>
@@ -197,6 +213,73 @@ function Basic() {
                       />
                     )}
                   />
+
+                  <Controller
+                    name="photoURL"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Box className="flex justify-start">
+                        <Box
+                          sx={{
+                            backgroundColor: (theme) =>
+                              theme.palette.mode === 'light'
+                                ? lighten(theme.palette.background.default, 0.4)
+                                : lighten(theme.palette.background.default, 0.02),
+                          }}
+                          component="label"
+                          htmlFor="button-file"
+                          className="flex items-center justify-center relative w-128 h-128 rounded-16 mb-24 overflow-hidden cursor-pointer shadow hover:shadow-lg"
+                        >
+                          <input
+                            accept="image/*"
+                            className="hidden"
+                            id="button-file"
+                            type="file"
+                            onChange={async (e) => {
+                              function readFileAsync() {
+                                return new Promise((resolve, reject) => {
+                                  const file = e.target.files[0];
+                                  if (!file) {
+                                    return;
+                                  }
+                                  const reader = new FileReader();
+
+                                  reader.onload = () => {
+                                    resolve({
+                                      id: FuseUtils.generateGUID(),
+                                      url: `data:${file.type};base64,${btoa(reader.result)}`,
+                                      type: 'image',
+                                    });
+                                  };
+
+                                  reader.onerror = reject;
+
+                                  reader.readAsBinaryString(file);
+                                });
+                              }
+
+                              const newImage = await readFileAsync();
+
+                              onChange(newImage);
+                            }}
+                          />
+                          <Box className="flex justify-center items-center"
+                            sx={{
+                              flexDirection: "column"
+                            }}>
+                            <FuseSvgIcon size={32} color="action">
+                              heroicons-outline:upload
+                            </FuseSvgIcon>
+                            <Typography>Change Profile</Typography>
+                          </Box>
+                        </Box>
+                        {user.data.photoURL.id !== profile_image.id && <div className='flex items-center justify-center relative w-128 h-128 rounded-16 mx-12 mb-24 overflow-hidden cursor-pointer outline-none shadow'>
+                          <img className="max-w-none w-auto h-full" src={profile_image.url} alt="User Avtar" />
+                        </div>}
+                      </Box>
+                    )}
+                  />
+
                   <div className='flex justify-between'>
                     <LoadingButton
                       variant="contained"
