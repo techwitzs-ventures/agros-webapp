@@ -5,13 +5,13 @@ import reducer from '../store';
 import PurchaseOrdersHeader from './purchase_orders_Header';
 import PurchaseOrdersTable from './purchase_orders_Table';
 import { useAuth } from '../../accounts/auth/AuthContext';
-import CompleteOnboardingPage from '../../completeOnboarding/completeOnboarding/completeOnboardingPage';
+import ConfirmOnboardingPage from '../../confirmonboarding/ConfirmOnboardingPage';
 
 function PurchaseOrders() {
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
   const { onboardingStatus } = useAuth();
   return (
-    !onboardingStatus ? <CompleteOnboardingPage /> :
+    !onboardingStatus ? <ConfirmOnboardingPage /> :
       <FusePageCarded
         header={<PurchaseOrdersHeader />}
         content={<PurchaseOrdersTable />}
