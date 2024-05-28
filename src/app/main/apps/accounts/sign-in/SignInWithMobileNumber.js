@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
@@ -17,18 +17,28 @@ import { showMessage } from 'app/store/fuse/messageSlice';
 
 const schema = yup.object().shape({
     countrycode: yup.string().required('Select your country code'),
-    mobileno: yup
-        .string()
-        .required('Enter your Mob.no')
-        .matches(
-            /^\d{10}$/,
-            'Mob.no contains 10 digits.'
-        ),
+    mobileno: yup.string().required('Enter your Mob.no').test('is-valid-mobileno', function (value) {
+
+        const { countrycode } = this.parent;
+
+        if (countrycode === '+91') {
+            if (!/^\d{10}$/.test(value)) {
+                return this.createError({ message: 'Mob.no must contain 10 digits' });
+            }
+        } else if (countrycode === '+65') {
+            if (!/^\d{8}$/.test(value)) {
+                return this.createError({ message: 'Mob.no must contain 8 digits' });
+            }
+        } else {
+            return this.createError({ message: 'Invalid country code' });
+        }
+        return true;
+
+    }),
     password: yup
         .string()
         .required('Please enter your password.')
 });
-
 
 const defaultValues = {
     mobileno: '',
@@ -47,7 +57,7 @@ function SignInWithMobileNumberPage() {
 
     const dispatch = useDispatch();
 
-    const { control, formState, handleSubmit, setError, reset } = useForm({
+    const { control, formState, handleSubmit, setError, reset, watch } = useForm({
         mode: 'onChange',
         defaultValues,
         resolver: yupResolver(schema),
@@ -55,10 +65,20 @@ function SignInWithMobileNumberPage() {
 
     const { isValid, dirtyFields, errors } = formState;
 
+    const watchCountryCode = watch("countrycode");
+
+    useEffect(() => {
+        reset();
+    }, [watchCountryCode]);
+
+
     async function onSubmit({ countrycode, mobileno, password }) {
+
         setPasswordLoading(true)
         const mob = countrycode + mobileno
+
         try {
+
             const result = await jwtService.signInWithEmailPassword(mob, password)
 
             if (!result.status && result.code === 2) {
