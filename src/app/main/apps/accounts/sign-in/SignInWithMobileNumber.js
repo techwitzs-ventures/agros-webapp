@@ -57,19 +57,13 @@ function SignInWithMobileNumberPage() {
 
     const dispatch = useDispatch();
 
-    const { control, formState, handleSubmit, setError, reset, watch } = useForm({
+    const { control, formState, handleSubmit, setError, reset } = useForm({
         mode: 'onChange',
         defaultValues,
         resolver: yupResolver(schema),
     });
 
     const { isValid, dirtyFields, errors } = formState;
-
-    const watchCountryCode = watch("countrycode");
-
-    useEffect(() => {
-        reset();
-    }, [watchCountryCode]);
 
 
     async function onSubmit({ countrycode, mobileno, password }) {
