@@ -66,7 +66,7 @@ const themesConfig = {
       },
       primary: {
         light: '#64748b',
-        main: '#004b1c',// main color
+        main: '#e3ece5',// main color
         dark: '#0f172a',
         contrastText: darkPaletteText.primary,
       },

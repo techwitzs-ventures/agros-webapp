@@ -158,8 +158,7 @@ function SignInWithMobileNumberPage() {
                 </Box>
 
                 <div className="z-10 relative w-full max-w-2xl">
-                    <div className="text-7xl font-bold leading-none text-gray-100">
-                        <div>Welcome to</div>
+                    <div className="text-7xl font-bold leading-none" style={{color:"#004b1c"}}>
                         <div>{config.APPLICATION_NAME}</div>
                     </div>
                 </div>
