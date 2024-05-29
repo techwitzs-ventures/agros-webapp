@@ -24,14 +24,14 @@ function AuthProvider({ children }) {
   useEffect(() => {
 
     jwtService.on('onAutoLogin', () => {
-      dispatch(showMessage({ message: 'Signing in with JWT' }));
+      // dispatch(showMessage({ message: 'Signing in with JWT' }));
       /**
        * Sign in and retrieve user data with stored token
        */
       jwtService
         .verifyAuth()
         .then((user) => {
-          success(user, 'Signed in with JWT');
+          success(user);
         })
         .catch((error) => {
           pass(error.message);

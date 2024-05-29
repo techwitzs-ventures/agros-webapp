@@ -159,11 +159,11 @@ function SignInWithMobileNumberPage() {
 
                 <div className="z-10 relative w-full max-w-2xl">
                     <div className="text-7xl font-bold leading-none" style={{color:"#004b1c"}}>
-                        <div>{config.APPLICATION_NAME}</div>
+                        <div className='text-center'>{config.APPLICATION_NAME}</div>
                     </div>
                 </div>
             </Box>
-            <Paper className="h-full sm:h-auto md:flex md:items-center w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none rtl:border-r-1 ltr:border-l-1">
+            <Paper className="h-full sm:h-auto md:flex md:items-center justify-center w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none rtl:border-r-1 ltr:border-l-1">
                 <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
                     <div className="flex justify-center">
                         <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">

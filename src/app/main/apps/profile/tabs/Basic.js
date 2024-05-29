@@ -13,10 +13,11 @@ import * as yup from 'yup';
 import TextField from '@mui/material/TextField';
 import { LoadingButton } from '@mui/lab';
 import JwtService from '../../accounts/auth/services/jwtService';
-import { Box } from '@mui/material';
-import { lighten } from '@mui/material/styles'
+import { Box, Chip } from '@mui/material';
+import { darken, lighten } from '@mui/material/styles'
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import FuseUtils from '@fuse/utils/FuseUtils';
+import { useAuth } from '../../accounts/auth/AuthContext';
 
 
 const schema = yup.object().shape({
@@ -42,6 +43,7 @@ const schema = yup.object().shape({
 function Basic() {
 
   const user = useSelector(selectUser);
+  const { mobileNumberVerificationStatus, emailVerificationStatus } = useAuth();
   const test = (x) => x + 1;
   const [editEnabled, setEditEnabled] = useState(false)
   const [loading, setLoading] = useState(false);
@@ -120,12 +122,46 @@ function Basic() {
                 </div>
 
                 <div className="mb-24">
-                  <Typography className="font-semibold mb-4 text-15">Email</Typography>
+                  <div className='flex'>
+                    <Typography className="font-semibold mb-4 text-15">Email</Typography>
+                    <Chip
+                      className="font-semibold text-10 ms-12"
+                      label={!emailVerificationStatus ? 'Not Verified' : 'Verified'}
+                      sx={{
+                        color: (theme) =>
+                          theme.palette.mode === 'light'
+                            ? darken("#398D3D", 0.4)
+                            : lighten("#398D3D", 0.8),
+                        backgroundColor: (theme) =>
+                          theme.palette.mode === 'light'
+                            ? lighten("#398D3D", 0.8)
+                            : darken("#398D3D", 0.1),
+                      }}
+                      size="small"
+                    />
+                  </div>
                   <Typography>{user.data.email}</Typography>
                 </div>
 
                 <div className="mb-24">
-                  <Typography className="font-semibold mb-4 text-15">Phone Number</Typography>
+                  <div className='flex'>
+                    <Typography className="font-semibold mb-4 text-15">Phone Number</Typography>
+                    <Chip
+                      className="font-semibold text-10 ms-12"
+                      label={!mobileNumberVerificationStatus ? 'Not Verified' : 'Verified'}
+                      sx={{
+                        color: (theme) =>
+                          theme.palette.mode === 'light'
+                            ? darken("#398D3D", 0.4)
+                            : lighten("#398D3D", 0.8),
+                        backgroundColor: (theme) =>
+                          theme.palette.mode === 'light'
+                            ? lighten("#398D3D", 0.8)
+                            : darken("#398D3D", 0.1),
+                      }}
+                      size="small"
+                    />
+                  </div>
                   <Typography>{user.data.mobilenumber}</Typography>
                 </div>
               </CardContent>
