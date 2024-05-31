@@ -104,12 +104,28 @@ const itemSlice = createSlice({
       reducer: (state, action) => action.payload,
       prepare: (event) => ({
         payload: {
-          item_name: '',
-          rate: '',
-          unit: '',
-          items_cat_id: '',
-          images: [],
-          featuredImageId: ''
+          items_cat_id: '',//done
+          items_cat_name: '',// done
+          item_name: '',//done
+          item_type: 'inventory',//done
+          product_type: 'goods',//done
+          description: '',//done
+          rate: 0,//done
+          purchase_rate: 0,//done
+          unit: '',//done
+          is_taxable: false,//done
+          tax_id: '',//done
+          images: [],//done
+          featuredImageId: '',//done
+          sku: '',// done
+          upc: 0,// done
+          ean: 0,// done
+          isbn: '',// done
+          part_number: '',// done
+          item_tax_preference: [],
+          hsn_or_sac: '',// done
+          sat_item_key_code: '',//done
+          unitkey_code: ''//done
         },
       }),
     },
