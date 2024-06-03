@@ -28,8 +28,6 @@ function BasicInfoTab(props) {
 
   }
 
-  const form = watch();
-  console.log(form)
   return (
     <>
       <div>
