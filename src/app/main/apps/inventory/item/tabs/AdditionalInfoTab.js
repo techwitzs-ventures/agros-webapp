@@ -91,6 +91,23 @@ function AdditonalInfoTab(props) {
                             />
 
                             <Controller
+                                name="asinno"
+                                control={control}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        className="mb-24"
+                                        label="ASIN"
+                                        type="text"
+                                        error={!!errors.asinno}
+                                        helperText={errors?.asinno?.message}
+                                        variant="outlined"
+                                        fullWidth
+                                    />
+                                )}
+                            />
+
+                            <Controller
                                 name="part_number"
                                 control={control}
                                 render={({ field }) => (
