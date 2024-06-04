@@ -39,7 +39,7 @@ function WishlistItemHeader(props) {
     setloading(true)
     const new_item = {
       data,
-      org_id: user.tenant_id
+      tenant_id: user.tenant_id
     }
     dispatch(saveWishlistItem(new_item)).then(() => {
       navigate('/apps/inventory/itemswishlist')

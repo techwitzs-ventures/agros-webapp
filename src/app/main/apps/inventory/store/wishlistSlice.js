@@ -65,29 +65,27 @@ export const updateWishlistItemQuantity = createAsyncThunk('inventoryApp/wishlis
 )
 
 export const saveWishlistItem = createAsyncThunk('inventoryApp/wishlistitem/saveWishlistItem',
+
     async (wishlistItemData, { dispatch, getState }) => {
-        const result = await axios.post('/itemswishlist/additem', {
-            item_id: wishlistItemData.data.item_id,
-            item_code: wishlistItemData.data.item_code,
-            item_name: wishlistItemData.data.item_name,
-            unit: wishlistItemData.data.unit,
-            rate: wishlistItemData.data.rate,
-            images: wishlistItemData.data.images,
-            featuredImageId: wishlistItemData.data.featuredImageId,
-            quantity: wishlistItemData.data.quantity
-        }, {
+
+        const result = await axios.post('/itemswishlist/additem', wishlistItemData.data, {
             params: {
-                tenant_id: wishlistItemData.org_id
+                tenant_id: wishlistItemData.tenant_id
             }
         })
-        if (result.status === 200) {
+
+        if (result.status === 201) {
+
             dispatch(showMessage({ message: result.data.message, variant: "success" }))
             return result.data.response
+
         } else {
+
             console.log(result)
+
         }
-    }
-);
+        
+    });
 
 const wishlistitemSlice = createSlice({
     name: 'inventoryApp/wishlistitem',
@@ -101,11 +99,26 @@ const wishlistitemSlice = createSlice({
                     item_id: event.item_id,
                     item_code: event.item_code,
                     item_name: event.item_name,
+                    description: event.description,
                     rate: event.rate,
+                    purchase_rate: event.purchase_rate,
                     unit: event.unit,
+                    is_taxable: false,
+                    tax_id: "",
                     images: event.images,
                     featuredImageId: event.featuredImageId,
-                    quantity: 0,
+                    sku: "",
+                    platform_sku: event.sku,
+                    upc: "",
+                    ean: "",
+                    isbn: "",
+                    asinno: "",
+                    part_number: "",
+                    item_tax_preference: [],
+                    hsn_or_sac: "",
+                    sat_item_key_code: "",
+                    unitkey_code: "",
+                    quantity: 0
                 },
             }),
         },

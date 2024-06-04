@@ -10,9 +10,12 @@ import { Units } from "app/configs/unitConfig";
 import { useParams } from "react-router-dom";
 
 function BasicInfoTab(props) {
+
   const methods = useFormContext();
+
   const { control, formState, getValues } = methods;
   const { errors } = formState;
+
   const val = getValues();
   const rootParams = useParams();
   const user = useSelector(selectUser);
@@ -65,19 +68,20 @@ function BasicInfoTab(props) {
               />
 
               <Controller
-                name="rate"
+                name="description"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     className="mb-24"
-                    label={`Rate ( ${user.tenant_data.currency_code} )`}
+                    label="Description"
                     type="text"
-                    disabled
-                    error={!!errors.rate}
-                    helperText={errors?.rate?.message}
+                    multiline
+                    error={!!errors.description}
+                    helperText={errors?.description?.message}
+                    rows={5}
                     variant="outlined"
-                    required
+                    fullWidth
                   />
                 )}
               />

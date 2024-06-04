@@ -26,6 +26,8 @@ import {
   resetWishlistItem,
   selectWishlistItem
 } from '../store/wishlistSlice';
+import PricingTab from './tabs/PricingTab';
+import AdditionalInfoTab from './tabs/AdditionalInfoTab';
 
 /**
  * Form Validation Schema
@@ -37,7 +39,12 @@ const schema = yup.object().shape({
     .string()
     .required('You must enter a item name')
     .min(2, 'The item name must be at least 2 characters'),
-  rate: yup.number().required('Enter item rate'),
+  rate: yup.number().required('Enter item rate')
+    .typeError("Rate must be a numeric value")
+    .test('is-number', 'Rate must be a numeric value', value => !isNaN(value)),
+  purchase_rate: yup.number().required('Enter item purchase rate')
+    .typeError("Purchase rate must be a numeric value")
+    .test('is-number', 'Purchase rate must be a numeric value', value => !isNaN(value)),
   unit: yup.string().required('Enter item unit'),
   quantity: yup.number().notRequired("This is optional")
     .typeError("Quantity must be a numeric value")
@@ -82,6 +89,7 @@ function WishlistItem(props) {
         const queryparams = {
           item_id: param2
         }
+
         dispatch(getItem(queryparams)).then((action) => {
           dispatch(newWishlistItem(action.payload));
         });
@@ -98,8 +106,7 @@ function WishlistItem(props) {
             setNoProduct(true);
           }
         });
-      }
-      else if (param1 === "view" && param2 !== undefined) {
+      } else if (param1 === "view" && param2 !== undefined) {
         const queryparams = {
           wishlist_item_id: param2
         }
@@ -196,6 +203,8 @@ function WishlistItem(props) {
             >
               <Tab className="h-64" label="Basic Info" />
               <Tab className="h-64" label="Product Images" />
+              <Tab className="h-64" label="Pricing" />
+              <Tab className="h-64" label="Additonal Info" />
             </Tabs>
             <div className="p-16 sm:p-24 max-w-3xl">
               <div className={tabValue !== 0 ? 'hidden' : ''}>
@@ -203,6 +212,12 @@ function WishlistItem(props) {
               </div>
               <div className={tabValue !== 1 ? 'hidden' : ''}>
                 <ItemImagesTab />
+              </div>
+              <div className={tabValue !== 2 ? 'hidden' : ''}>
+                <PricingTab />
+              </div>
+              <div className={tabValue !== 3 ? 'hidden' : ''}>
+                <AdditionalInfoTab />
               </div>
             </div>
           </>
