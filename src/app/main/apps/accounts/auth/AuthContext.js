@@ -8,6 +8,7 @@ import jwtService from './services/jwtService';
 import { getAllTenant } from 'app/store/tenantSlice';
 import { getAllItems } from 'app/store/allItemsSlice';
 import { getAllItemsCategories } from 'app/store/allItemsCategoriesSlice';
+import { getAllWishlistItems } from 'app/store/allWishlistItemsSlice';
 
 const AuthContext = React.createContext();
 
@@ -84,6 +85,7 @@ function AuthProvider({ children }) {
         dispatch(getAllTenant()),
         dispatch(getAllItems()),
         dispatch(getAllItemsCategories()),
+        dispatch(getAllWishlistItems())
       ]).then((values) => {
         setWaitAuthCheck(false);
         setIsAuthenticated(true);

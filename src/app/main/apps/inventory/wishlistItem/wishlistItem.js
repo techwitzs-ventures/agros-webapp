@@ -28,6 +28,7 @@ import {
 } from '../store/wishlistSlice';
 import PricingTab from './tabs/PricingTab';
 import AdditionalInfoTab from './tabs/AdditionalInfoTab';
+import { selectUser } from 'app/store/userSlice';
 
 /**
  * Form Validation Schema
@@ -55,13 +56,15 @@ const schema = yup.object().shape({
         return 0;
       }
       return value;
-    })
+    }),
+  sku: yup.string().required('Enter item unique SKU')
 });
 
 function WishlistItem(props) {
 
   const dispatch = useDispatch();
   const product = useSelector(selectWishlistItem);
+  const user = useSelector(selectUser);
 
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
   const routeParams = useParams();
@@ -91,7 +94,7 @@ function WishlistItem(props) {
         }
 
         dispatch(getItem(queryparams)).then((action) => {
-          dispatch(newWishlistItem(action.payload));
+          dispatch(newWishlistItem(action.payload, user.role));
         });
 
       } else if ((param1 === "updatestock" || param1 === "addstock") && param2 !== undefined) {
@@ -107,9 +110,11 @@ function WishlistItem(props) {
           }
         });
       } else if (param1 === "view" && param2 !== undefined) {
+
         const queryparams = {
           wishlist_item_id: param2
         }
+
         dispatch(getWishlistItem(queryparams)).then((action) => {
           /**
            * If the requested product is not exist show message
@@ -118,6 +123,7 @@ function WishlistItem(props) {
             setNoProduct(true);
           }
         });
+
       }
     }
 

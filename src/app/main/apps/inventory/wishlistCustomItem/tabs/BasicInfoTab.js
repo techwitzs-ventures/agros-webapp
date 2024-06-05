@@ -30,43 +30,6 @@ function BasicInfoTab(props) {
               noValidate
               className="flex flex-col"
             >
-              {/* {val.item_code !== undefined && <Controller
-                name="item_code"
-                defaultValue={val.item_code}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    className="mt-8 mb-16"
-                    required
-                    disabled
-                    label="Item Code"
-                    id="item_code"
-                    variant="outlined"
-                    fullWidth
-                  />
-                )}
-              />} */}
-              {/* <Controller
-                name="items_cat_id"
-                control={control}
-                render={({ field }) => (
-                  <FormControl className="mb-24" required>
-                    <InputLabel>Items Category</InputLabel>
-                    <Select
-                      {...field}
-                      label="Items Category"
-                      error={!!errors.items_cat_id}
-                      disabled
-                    >
-                      {products.map((itemcategory) => (
-                        <MenuItem key={itemcategory.id} value={itemcategory.items_cat_id}>
-                          {itemcategory.items_cat_name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                )}
-              /> */}
 
               <Controller
                 name="item_name"
@@ -86,18 +49,20 @@ function BasicInfoTab(props) {
               />
 
               <Controller
-                name="rate"
+                name="description"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     className="mb-24"
-                    label={`Rate ( ${user.tenant_data.currency_code} )`}
+                    label="Description"
                     type="text"
-                    error={!!errors.rate}
-                    helperText={errors?.rate?.message}
+                    multiline
+                    error={!!errors.description}
+                    helperText={errors?.description?.message}
+                    rows={5}
                     variant="outlined"
-                    required
+                    fullWidth
                   />
                 )}
               />
@@ -138,7 +103,7 @@ function BasicInfoTab(props) {
                   />
                 )}
               />
-              
+
             </form>
           </CardContent>
         </Card>

@@ -30,7 +30,7 @@ import {
 function RetailersWishlistItemsTable(props) {
 
   const dispatch = useDispatch();
-  const products = useSelector(selectAllWishlistItems);
+  const products = useSelector(selectAllWishlistItems).filter((item) => item.status === false);
   const user = useSelector(selectUser);
   const searchText = useSelector(selectAllWishlistItemsSearchText);
 

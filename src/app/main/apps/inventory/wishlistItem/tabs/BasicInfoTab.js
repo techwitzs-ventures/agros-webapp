@@ -76,6 +76,7 @@ function BasicInfoTab(props) {
                     className="mb-24"
                     label="Description"
                     type="text"
+                    disabled={param1 === "view" || user.role==="retailer" ? true : false}
                     multiline
                     error={!!errors.description}
                     helperText={errors?.description?.message}

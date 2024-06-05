@@ -56,6 +56,7 @@ function ItemHeader(props) {
           status: true,
           item_id: res.payload.item_id,
           item_code: res.payload.item_code,
+          platform_sku: res.payload.sku,
           tenant_id: user.tenant_id,
           items_wishlist_id: wishlistId
         }))

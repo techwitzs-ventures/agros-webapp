@@ -25,6 +25,8 @@ import {
 import WishlistCustomItemHeader from './wishlistCustomItemHeader';
 import BasicInfoTab from './tabs/BasicInfoTab';
 import ItemImagesTab from './tabs/ItemImagesTab';
+import PricingTab from './tabs/PricingTab';
+import AdditionalInfoTab from './tabs/AdditionalInfoTab';
 
 /**
  * Form Validation Schema
@@ -34,7 +36,12 @@ const schema = yup.object().shape({
         .string()
         .required('You must enter a item name')
         .min(2, 'The item name must be at least 2 characters'),
-    rate: yup.number().required('Enter item rate'),
+    rate: yup.number().required('Enter item rate')
+        .typeError("Rate must be a numeric value")
+        .test('is-number', 'Rate must be a numeric value', value => !isNaN(value)),
+    purchase_rate: yup.number().required('Enter item purchase rate')
+        .typeError("Purchase rate must be a numeric value")
+        .test('is-number', 'Purchase rate must be a numeric value', value => !isNaN(value)),
     unit: yup.string().required('Enter item unit'),
     quantity: yup.number().notRequired("This is optional")
         .typeError("Quantity must be a number")
@@ -45,7 +52,8 @@ const schema = yup.object().shape({
                 return 0;
             }
             return value;
-        })
+        }),
+    sku: yup.string().required('Enter item unique SKU'),
 });
 
 function WishlistCustomItem(props) {
@@ -176,6 +184,8 @@ function WishlistCustomItem(props) {
                         >
                             <Tab className="h-64" label="Basic Info" />
                             <Tab className="h-64" label="Product Images" />
+                            <Tab className="h-64" label="Pricing" />
+                            <Tab className="h-64" label="Additonal Info" />
                         </Tabs>
                         <div className="p-16 sm:p-24 max-w-3xl">
                             <div className={tabValue !== 0 ? 'hidden' : ''}>
@@ -183,6 +193,12 @@ function WishlistCustomItem(props) {
                             </div>
                             <div className={tabValue !== 1 ? 'hidden' : ''}>
                                 <ItemImagesTab />
+                            </div>
+                            <div className={tabValue !== 2 ? 'hidden' : ''}>
+                                <PricingTab />
+                            </div>
+                            <div className={tabValue !== 3 ? 'hidden' : ''}>
+                                <AdditionalInfoTab />
                             </div>
                         </div>
                     </>

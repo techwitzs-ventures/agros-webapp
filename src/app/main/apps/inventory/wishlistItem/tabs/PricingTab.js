@@ -6,11 +6,12 @@ import { motion } from "framer-motion";
 import { FormControl, FormControlLabel, FormHelperText, Checkbox } from "@mui/material";
 import { useSelector } from 'react-redux';
 import { selectUser } from 'app/store/userSlice';
+import { useParams } from "react-router-dom";
 
 function PricingTab(props) {
 
   const methods = useFormContext();
-
+  const rootParams = useParams();
   const { control, formState, watch } = methods;
   const { errors } = formState;
 
@@ -18,6 +19,7 @@ function PricingTab(props) {
 
   const is_taxable = watch('is_taxable');
 
+  const { param1, param2 } = rootParams;
   return (
     <>
       <div>
@@ -76,7 +78,7 @@ function PricingTab(props) {
                     <FormControlLabel
                       label="Enable Tax"
                       control={
-                        <Checkbox size="small" {...field} />
+                        <Checkbox size="small" disabled={param1 === "view" || user.role === "retailer" ? true : false} {...field} />
                       }
                     />
                     <FormHelperText>{errors?.is_taxable?.message}</FormHelperText>
@@ -93,6 +95,7 @@ function PricingTab(props) {
                     className="mb-24"
                     label="Tax Id"
                     type="text"
+                    disabled={param1 === "view" || user.role === "retailer" ? true : false}
                     error={!!errors.tax_id}
                     helperText={errors?.tax_id?.message}
                     variant="outlined"

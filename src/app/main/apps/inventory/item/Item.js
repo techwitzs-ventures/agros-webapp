@@ -28,14 +28,15 @@ import AdditionalInfoTab from './tabs/AdditionalInfoTab';
  * Form Validation Schema
  */
 const schema = yup.object().shape({
-  item_name: yup
-    .string()
-    .required('You must enter a item name')
-    .min(2, 'The item name must be at least 2 characters'),
+  items_cat_id: yup.string().required("Select item category"),
   items_cat_name: yup
     .string()
     .required('You must enter a item category name')
     .min(2, 'The item category name must be at least 2 characters'),
+  item_name: yup
+    .string()
+    .required('You must enter a item name')
+    .min(2, 'The item name must be at least 2 characters'),
   rate: yup.number().required('Enter item rate')
     .typeError("Rate must be a numeric value")
     .test('is-number', 'Rate must be a numeric value', value => !isNaN(value)),
@@ -43,7 +44,7 @@ const schema = yup.object().shape({
     .typeError("Purchase rate must be a numeric value")
     .test('is-number', 'Purchase rate must be a numeric value', value => !isNaN(value)),
   unit: yup.string().required('Enter item unit'),
-  items_cat_id: yup.string().required("Select item category")
+  sku: yup.string().required('Enter item unique SKU'),
 });
 
 function Item(props) {

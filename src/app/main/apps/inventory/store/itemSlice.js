@@ -4,24 +4,48 @@ import axios from 'axios';
 
 
 export const getItem = createAsyncThunk('inventoryApp/item/getItem',
+
   async (queryparams) => {
     try {
+
       const result = await axios.get('/item/getitem', { params: queryparams })
       return result.data.response
+
     } catch (error) {
+
       console.log(error)
+
     }
+
   });
 
 export const putCustomItem = createAsyncThunk('inventoryApp/item/putCustomItem',
+
   async (item_details) => {
     return {
-      item_name: item_details.item_name,
-      rate: item_details.rate,
-      unit: item_details.unit,
       items_cat_id: '',
+      items_cat_name: '',
+      item_name: item_details.item_name,
+      item_type: item_details.item_type,
+      product_type: item_details.product_type,
+      description: item_details.description,
+      rate: item_details.rate,
+      purchase_rate: item_details.purchase_rate,
+      unit: item_details.unit,
+      is_taxable: item_details.is_taxable,
+      tax_id: item_details.tax_id,
       images: item_details.images,
-      featuredImageId: item_details.featuredImageId
+      featuredImageId: item_details.featuredImageId,
+      sku: '',
+      upc: item_details.upc,
+      ean: item_details.ean,
+      isbn: item_details.isbn,
+      asinno: item_details.asinno,
+      part_number: item_details.part_number,
+      item_tax_preference: item_details.item_tax_preference,
+      hsn_or_sac: item_details.hsn_or_sac,
+      sat_item_key_code: item_details.sat_item_key_code,
+      unitkey_code: item_details.unitkey_code
     };
   })
 

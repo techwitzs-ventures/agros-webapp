@@ -118,7 +118,7 @@ function WishlistItemsTable(props) {
   }
 
   const addOrUpdateStockQuantity = async (wishlistItem) => {
-    const paramName = wishlistItem.quantity !== "0" ? 'updatestock' : 'addstock';
+    const paramName = wishlistItem.quantity !== 0 ? 'updatestock' : 'addstock';
     try {
       props.navigate(`/apps/inventory/itemswishlist/${paramName}/${wishlistItem.items_wishlist_id}`)
     } catch (error) {
