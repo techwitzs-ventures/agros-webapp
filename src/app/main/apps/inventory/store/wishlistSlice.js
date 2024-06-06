@@ -63,28 +63,51 @@ export const updateWishlistItemStatus = createAsyncThunk('inventoryApp/wishlisti
 
 );
 
-export const updateWishlistItemQuantity = createAsyncThunk('inventoryApp/wishlistitem/updatequantity',
+export const updateWishlistItem = createAsyncThunk('inventoryApp/wishlistitem/updatequantity',
     async (updated_value, { dispatch, getState }) => {
         try {
-            const result = await axios.put('/itemswishlist/updatequantity', {
-                quantity: updated_value.quantity
+
+            const result = await axios.put('/itemswishlist/updateitem', {
+                description: updated_value.description,
+                rate: updated_value.rate,
+                purchase_rate: updated_value.purchase_rate,
+                is_taxable: updated_value.is_taxable,
+                tax_id: updated_value.tax_id,
+                sku: updated_value.sku,
+                upc: updated_value.upc,
+                ean: updated_value.ean,
+                isbn: updated_value.isbn,
+                asinno: updated_value.asinno,
+                part_number: updated_value.part_number,
+                item_tax_preference: updated_value.item_tax_preference,
+                hsn_or_sac: updated_value.hsn_or_sac,
+                sat_item_key_code: updated_value.sat_item_key_code,
+                unitkey_code: updated_value.unitkey_code,
+                quantity: updated_value.quantity,
             }, {
                 params: {
                     tenant_id: updated_value.tenant_id,
                     items_wishlist_id: updated_value.items_wishlist_id
                 }
             })
+
             if (result.status === 200) {
-                dispatch(showMessage({ message: "Stock Updated!", variant: "success" }))
+
+                dispatch(showMessage({ message: "Product Updated!", variant: "success" }))
                 return result.data
+
             } else {
+
                 console.log(result)
+
             }
         } catch (error) {
+
             console.log(error)
+
         }
-    }
-)
+
+    })
 
 export const saveWishlistItem = createAsyncThunk('inventoryApp/wishlistitem/saveWishlistItem',
 
@@ -120,7 +143,7 @@ const wishlistitemSlice = createSlice({
             (
                 {
                     payload: {
-                        item_id: event.item_id, 
+                        item_id: event.item_id,
                         item_code: event.item_code,
                         item_name: event.item_name,
                         description: event.description,
@@ -153,7 +176,7 @@ const wishlistitemSlice = createSlice({
         [getWishlistItem.fulfilled]: (state, action) => action.payload,
         [saveWishlistItem.fulfilled]: (state, action) => action.payload,
         [updateWishlistItemStatus.fulfilled]: (state, action) => null,
-        [updateWishlistItemQuantity.fulfilled]: (state, action) => null
+        [updateWishlistItem.fulfilled]: (state, action) => null
     },
 });
 

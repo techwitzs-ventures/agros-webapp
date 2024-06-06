@@ -38,6 +38,7 @@ function ItemHeader(props) {
     setloading(true)
 
     if (itemId === 'new' && wishlistId === undefined) {
+
       dispatch(saveItem({
         data,
         tenant_id: user.tenant_id
@@ -45,7 +46,9 @@ function ItemHeader(props) {
         navigate('/apps/inventory/items')
         setloading(false)
       });
+
     } else if (itemId === 'newcustom' && wishlistId !== undefined) {
+
       dispatch(saveItem({
         data,
         tenant_id: user.tenant_id
@@ -62,6 +65,7 @@ function ItemHeader(props) {
         }))
       })
     }
+    
   }
 
   function handleUpdateItem() {

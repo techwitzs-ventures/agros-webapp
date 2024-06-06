@@ -9,7 +9,7 @@ import { useState } from 'react';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { selectUser } from 'app/store/userSlice';
 import { LoadingButton } from '@mui/lab';
-import { saveWishlistItem, updateWishlistItemQuantity } from '../store/wishlistSlice';
+import { saveWishlistItem, updateWishlistItem } from '../store/wishlistSlice';
 
 
 function WishlistItemHeader(props) {
@@ -36,6 +36,7 @@ function WishlistItemHeader(props) {
 
 
   function onSubmitNew(data) {
+
     setloading(true)
     const new_item = {
       data,
@@ -45,14 +46,18 @@ function WishlistItemHeader(props) {
       navigate('/apps/inventory/itemswishlist')
       setloading(false)
     });
+
   }
 
-  const addOrUpdateStock = () => {
+
+  const updateDetails = () => {
+
     setloading(true);
-    dispatch(updateWishlistItemQuantity(form)).then(() => {
+    dispatch(updateWishlistItem(form)).then(() => {
       navigate('/apps/inventory/itemswishlist');
       setloading(false)
     })
+
   }
 
   return (
@@ -129,16 +134,23 @@ function WishlistItemHeader(props) {
         </LoadingButton>
       </motion.div>}
 
-      {(param1 === "updatestock" || param1 === "addstock") && <LoadingButton
-        className="whitespace-nowrap mx-4"
-        variant="contained"
-        color="secondary"
-        loading={loading}
-        disabled={_.isEmpty(dirtyFields) || !isValid}
-        onClick={addOrUpdateStock}
+      {param1 === "update" && <motion.div
+        className="flex"
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0, transition: { delay: 0.3 } }}
+
       >
-        {param1 === "updatestock" ? 'Update Stock' : 'Add Stock'}
-      </LoadingButton>}
+        <LoadingButton
+          className="whitespace-nowrap mx-4"
+          variant="contained"
+          color="secondary"
+          loading={loading}
+          disabled={_.isEmpty(dirtyFields) || !isValid}
+          onClick={updateDetails}
+        >
+          Update
+        </LoadingButton>
+      </motion.div>}
     </div>
   );
 }

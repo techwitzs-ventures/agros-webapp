@@ -102,34 +102,16 @@ function WishlistItem(props) {
 
         }
 
-      } else if ((param1 === "updatestock" || param1 === "addstock") && param2 !== undefined) {
-        const queryparams = {
-          wishlist_item_id: param2
-        }
-        dispatch(getWishlistItem(queryparams)).then((action) => {
-          /**
-           * If the requested product is not exist show message
-           */
-          if (!action.payload) {
-            setNoProduct(true);
-          }
-        });
-      } else if (param1 === "view" && param2 !== undefined) {
+      } else if ((param1 === "update" || param1 === "view") && param2 !== undefined) {
 
-        const queryparams = {
-          wishlist_item_id: param2
-        }
-
-        dispatch(getWishlistItem(queryparams)).then((action) => {
-          /**
-           * If the requested product is not exist show message
-           */
+        dispatch(getWishlistItem({ wishlist_item_id: param2 })).then((action) => {
           if (!action.payload) {
             setNoProduct(true);
           }
         });
 
       }
+
     }
 
     updateProductState();
