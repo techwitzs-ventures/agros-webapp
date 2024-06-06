@@ -30,24 +30,6 @@ function AdditonalInfoTab(props) {
             >
 
               <Controller
-                name="platform_sku"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    className="mb-24"
-                    label="Platform SKU"
-                    type="text"
-                    disabled
-                    error={!!errors.platform_sku}
-                    helperText={errors?.platform_sku?.message}
-                    variant="outlined"
-                    fullWidth
-                  />
-                )}
-              />
-
-              <Controller
                 name="sku"
                 control={control}
                 render={({ field }) => (

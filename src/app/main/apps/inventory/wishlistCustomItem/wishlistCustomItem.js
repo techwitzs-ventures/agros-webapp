@@ -77,31 +77,31 @@ function WishlistCustomItem(props) {
     const form = watch();
 
     useDeepCompareEffect(() => {
+
         function updateProductState() {
+            
             const { param1, param2 } = routeParams;
 
             if (param1 === 'new') {
-                /**
-                 * Create New Product data
-                 */
+
                 dispatch(newWishlistCustomItem({ item_name: param2 }));
+
             } else {
-                /**
-                 * Get Product data
-                 */
-                const queryparams = {
-                    wishlist_item_id: param1
-                }
-                dispatch(getWishlistCustomItem(queryparams)).then((action) => {
+
+                dispatch(getWishlistCustomItem({ wishlist_item_id: param1 })).then((action) => {
+
                     /**
                      * If the requested product is not exist show message
                      */
                     if (!action.payload) {
                         setNoProduct(true);
                     }
+
                 });
+
             }
         }
+
         updateProductState();
     }, [dispatch, routeParams]);
 

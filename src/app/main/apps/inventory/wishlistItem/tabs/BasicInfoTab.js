@@ -32,22 +32,6 @@ function BasicInfoTab(props) {
               noValidate
               className="flex flex-col"
             >
-              {val.item_code !== undefined && <Controller
-                name="item_code"
-                defaultValue={val.item_code}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    className="mt-8 mb-16"
-                    required
-                    disabled
-                    label="Item Code"
-                    id="item_code"
-                    variant="outlined"
-                    fullWidth
-                  />
-                )}
-              />}
 
               <Controller
                 name="item_name"
@@ -76,11 +60,11 @@ function BasicInfoTab(props) {
                     className="mb-24"
                     label="Description"
                     type="text"
-                    disabled={param1 === "view" || user.role==="retailer" ? true : false}
+                    disabled={param1 === "view" || user.role === "retailer" ? true : false}
                     multiline
                     error={!!errors.description}
                     helperText={errors?.description?.message}
-                    rows={5}
+                    rows={10}
                     variant="outlined"
                     fullWidth
                   />

@@ -87,7 +87,7 @@ export const saveWishlistCustomItem = createAsyncThunk('inventoryApp/wishlistcus
             }
         })
 
-        if (result.status === 201) {
+        if (result.status === 201 || result.status === 200) {
 
             dispatch(showMessage({ message: result.data.message, variant: "success" }))
             return result.data.response

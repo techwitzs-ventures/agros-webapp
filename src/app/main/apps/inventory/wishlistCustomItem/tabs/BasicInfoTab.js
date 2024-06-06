@@ -60,7 +60,7 @@ function BasicInfoTab(props) {
                     multiline
                     error={!!errors.description}
                     helperText={errors?.description?.message}
-                    rows={5}
+                    rows={10}
                     variant="outlined"
                     fullWidth
                   />

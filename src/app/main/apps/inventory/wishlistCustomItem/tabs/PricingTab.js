@@ -36,7 +36,7 @@ function PricingTab(props) {
                                     <TextField
                                         {...field}
                                         className="mb-24"
-                                        label={`Rate ( ${user.tenant_data.currency_code} )`}
+                                        label={`Purchase rate ( ${user.tenant_data.currency_code} )`}
                                         type="number"
                                         error={!!errors.rate}
                                         helperText={errors?.rate?.message}
@@ -53,7 +53,7 @@ function PricingTab(props) {
                                     <TextField
                                         {...field}
                                         className="mb-24"
-                                        label={`Purchase rate ( ${user.tenant_data.currency_code} )`}
+                                        label={`Selling rate ( ${user.tenant_data.currency_code} )`}
                                         type="number"
                                         error={!!errors.purchase_rate}
                                         helperText={errors?.purchase_rate?.message}

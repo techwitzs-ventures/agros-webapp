@@ -281,21 +281,28 @@ function ItemsSearchConfig(props) {
   }
 
   function handleSuggestionSelected(event, { suggestion }) {
+
     event.preventDefault();
     event.stopPropagation();
+
     if (userRole === "retailer") {
-      if (!suggestion.item_id) {
+
+      if (!suggestion.items_wishlist_id) {
         return;
       }
       props.navigate(`/apps/inventory/itemswishlist/new/${suggestion.items_wishlist_id}`);
+
     } else if (userRole === "seller") {
+
       if (!suggestion.item_id) {
         return;
       }
       props.navigate(`/apps/inventory/itemswishlist/new/${suggestion.item_id}`);
+
     }
-    console.log(suggestion)
+
     hideSearch();
+    
   }
 
   function handleSuggestionsClearRequested() {

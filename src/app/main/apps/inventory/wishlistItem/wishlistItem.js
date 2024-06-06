@@ -82,20 +82,25 @@ function WishlistItem(props) {
   const form = watch();
 
   useDeepCompareEffect(() => {
+
     function updateProductState() {
       const { param1, param2 } = routeParams;
 
       if (param1 === 'new' && param2 !== undefined) {
-        /**
-         * Create New Product data
-         */
-        const queryparams = {
-          item_id: param2
-        }
 
-        dispatch(getItem(queryparams)).then((action) => {
-          dispatch(newWishlistItem(action.payload, user.role));
-        });
+        if (user.role === "retailer") {
+
+          dispatch(getWishlistItem({ wishlist_item_id: param2 })).then((action) => {
+            dispatch(newWishlistItem(action.payload, user.role));
+          });
+
+        } else if (user.role === "seller") {
+
+          dispatch(getItem({ item_id: param2 })).then((action) => {
+            dispatch(newWishlistItem(action.payload, user.role));
+          });
+
+        }
 
       } else if ((param1 === "updatestock" || param1 === "addstock") && param2 !== undefined) {
         const queryparams = {

@@ -34,10 +34,10 @@ const rows = [
     sort: true,
   },
   {
-    id: 'item_code',
+    id: 'sku',
     align: 'left',
     disablePadding: false,
-    label: 'Code',
+    label: 'SKU',
     sort: true,
   },
   {

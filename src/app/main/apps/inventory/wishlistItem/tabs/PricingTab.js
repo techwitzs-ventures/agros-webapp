@@ -31,23 +31,23 @@ function PricingTab(props) {
               className="flex flex-col"
             >
 
-              <Controller
+              {user.role === "seller" && <Controller
                 name="rate"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     className="mb-24"
-                    label={`Rate ( ${user.tenant_data.currency_code} )`}
+                    label={`Purchase rate ( ${user.tenant_data.currency_code} )`}
                     type="number"
-                    disabled
+                    disabled={param1 === "view" || user.role === "retailer" ? true : false}
                     error={!!errors.rate}
                     helperText={errors?.rate?.message}
                     variant="outlined"
                     required
                   />
                 )}
-              />
+              />}
 
               <Controller
                 name="purchase_rate"
@@ -56,9 +56,13 @@ function PricingTab(props) {
                   <TextField
                     {...field}
                     className="mb-24"
-                    label={`Purchase rate ( ${user.tenant_data.currency_code} )`}
+                    label={
+                      user.role === "retailer" ?
+                        `Purchase rate ( ${user.tenant_data.currency_code} )` :
+                        `Selling rate ( ${user.tenant_data.currency_code} )`
+                    }
                     type="number"
-                    disabled
+                    disabled={param1 === "view" || user.role === "retailer" ? true : false}
                     error={!!errors.purchase_rate}
                     helperText={errors?.purchase_rate?.message}
                     variant="outlined"

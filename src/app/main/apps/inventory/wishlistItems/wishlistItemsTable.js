@@ -257,7 +257,7 @@ function WishlistItemsTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {n.items_wishlist_code}
+                      {n.sku}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16 truncate" component="th" scope="row">
@@ -327,7 +327,7 @@ function WishlistItemsTable(props) {
                             addOrUpdateStockQuantity(selectedItem);
                             closeSelectedProductsMenu();
                           }}>
-                            <ListItemText primary={selectedItem.quantity !== "0" ? 'Update Stock' : 'Add Stock'} />
+                            <ListItemText primary={selectedItem.quantity !== 0 ? 'Update Stock' : 'Add Stock'} />
                           </MenuItem>}
                         </MenuList>
                       </Menu>}

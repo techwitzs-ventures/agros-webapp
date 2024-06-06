@@ -96,7 +96,7 @@ export const saveWishlistItem = createAsyncThunk('inventoryApp/wishlistitem/save
             }
         })
 
-        if (result.status === 201) {
+        if (result.status === 201 || result.status === 200) {
 
             dispatch(showMessage({ message: result.data.message, variant: "success" }))
             return result.data.response
@@ -116,32 +116,32 @@ const wishlistitemSlice = createSlice({
         resetWishlistItem: () => null,
         newWishlistItem: {
             reducer: (state, action) => action.payload,
-            prepare: (event, role) =>
+            prepare: (event, user_role) =>
             (
                 {
                     payload: {
-                        item_id: event.item_id,
+                        item_id: event.item_id, 
                         item_code: event.item_code,
                         item_name: event.item_name,
                         description: event.description,
-                        rate: role === 'retailer' ? event.rate : 0,
-                        purchase_rate: role === 'retailer' ? event.purchase_rate : 0,
+                        rate: user_role === 'retailer' ? event.rate : 0,
+                        purchase_rate: user_role === 'retailer' ? event.purchase_rate : 0,
                         unit: event.unit,
-                        is_taxable: role === 'retailer' ? event.is_taxable : false,
-                        tax_id: role === 'retailer' ? event.tax_id : "",
+                        is_taxable: user_role === 'retailer' ? event.is_taxable : false,
+                        tax_id: user_role === 'retailer' ? event.tax_id : "",
                         images: event.images,
                         featuredImageId: event.featuredImageId,
-                        sku: role === 'retailer' ? event.sku : "",
-                        platform_sku: event.sku,
-                        upc: role === 'retailer' ? event.upc : "",
-                        ean: role === 'retailer' ? event.ean : "",
-                        isbn: role === 'retailer' ? event.isbn : "",
-                        asinno: role === 'retailer' ? event.asinno : "",
-                        part_number: role === 'retailer' ? event.part_number : "",
-                        item_tax_preference: role === 'retailer' ? event.item_tax_preference : [],
-                        hsn_or_sac: role === 'retailer' ? event.hsn_or_sac : "",
-                        sat_item_key_code: role === 'retailer' ? event.sat_item_key_code : "",
-                        unitkey_code: role === 'retailer' ? event.unitkey_code : "",
+                        sku: user_role === 'retailer' ? event.sku : "",
+                        platform_sku: user_role === 'retailer' ? event.platform_sku : event.sku,
+                        upc: user_role === 'retailer' ? event.upc : "",
+                        ean: user_role === 'retailer' ? event.ean : "",
+                        isbn: user_role === 'retailer' ? event.isbn : "",
+                        asinno: user_role === 'retailer' ? event.asinno : "",
+                        part_number: user_role === 'retailer' ? event.part_number : "",
+                        item_tax_preference: user_role === 'retailer' ? event.item_tax_preference : [],
+                        hsn_or_sac: user_role === 'retailer' ? event.hsn_or_sac : "",
+                        sat_item_key_code: user_role === 'retailer' ? event.sat_item_key_code : "",
+                        unitkey_code: user_role === 'retailer' ? event.unitkey_code : "",
                         quantity: 0,
                         status: true
                     },
