@@ -16,7 +16,7 @@ import { LoadingButton } from '@mui/lab';
 import { useEffect, useState } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import JwtService from '../../../accounts/auth/services/jwtService';
+import JwtService from '../../../../../accounts/auth/services/jwtService';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'app/store/userSlice';
