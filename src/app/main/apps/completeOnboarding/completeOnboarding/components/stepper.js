@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import AccountVerification from './accountverification/accountVerification';
 
-const steps = ['Account Verification', 'Stripe Onboarding', 'Do something...'];
+const steps = ['Account Verification', 'Business Verification', 'Review & Completed'];
 
 export default function AppStepper() {
 

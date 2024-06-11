@@ -47,8 +47,8 @@ const defaultValues = {
 };
 
 const Country = [
-    { name: "singapore", countrycode: 'sg', mobcode: '+65', label: 'Singapore' },
-    { name: "india", countrycode: 'in', mobcode: '+91', label: 'India' }
+    { name: "singapore", countrycode: 'SG', mobcode: '+65', label: 'Singapore' },
+    { name: "india", countrycode: 'IN', mobcode: '+91', label: 'India' }
 ]
 
 function SignInWithMobileNumberPage() {
