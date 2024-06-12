@@ -6,7 +6,7 @@ const CompleteOnboardingPage = (props) => {
 
     return (
         <div className="relative flex flex-col flex-auto min-w-0 overflow-scroll">
-            <div className="relative pt-16 pb-32 sm:pt-32 sm:pb-32 px-24 sm:px-64 overflow-scroll">
+            <div className="pt-16 pb-32 sm:pt-32 sm:pb-32 px-24 sm:px-64 overflow-scroll">
                 <svg
                     className="-z-1 absolute inset-0 pointer-events-none"
                     viewBox="0 0 960 540"

@@ -107,7 +107,7 @@ function MobileCard(props) {
                 <span>{title}</span>
                 {verificationStatus
                     ?
-                    <FuseSvgIcon className="text-green-600 ms-8" size={25}>
+                    <FuseSvgIcon className="ms-8" sx={{ color: "#004b1c" }} size={25}>
                         heroicons-solid:badge-check
                     </FuseSvgIcon>
                     :
@@ -117,12 +117,12 @@ function MobileCard(props) {
                         sx={{
                             color: (theme) =>
                                 theme.palette.mode === 'light'
-                                    ? darken("#398D3D", 0.4)
-                                    : lighten("#398D3D", 0.8),
+                                    ? darken("#004b1c", 0.4)
+                                    : lighten("#004b1c", 0.8),
                             backgroundColor: (theme) =>
                                 theme.palette.mode === 'light'
-                                    ? lighten("#398D3D", 0.8)
-                                    : darken("#398D3D", 0.1),
+                                    ? lighten("#004b1c", 0.8)
+                                    : darken("#004b1c", 0.1),
                         }}
                         size="small"
                     />}
@@ -134,17 +134,17 @@ function MobileCard(props) {
 
             <Divider className="w-32 h-4 my-4 rounded bg-accent" />
 
-            {!loading ? <LoadingButton
-                className="mt-40 w-full"
-                size="large"
-                variant={verificationStatus ? 'contained' : 'outlined'}
-                color={'success'}
-                style={{ cursor: `${verificationStatus ? 'not-allowed' : 'allowed'}` }}
-                loading={loading}
-                onClick={() => sendOTPforVerification()}
-            >
-                {buttonTitle}
-            </LoadingButton> :
+            {!loading ?
+                !verificationStatus && <LoadingButton
+                    className="mt-40 w-full"
+                    size="large"
+                    variant='outlined'
+                    sx={{ color: "#004b1c" }}
+                    loading={loading}
+                    onClick={() => sendOTPforVerification()}
+                >
+                    {buttonTitle}
+                </LoadingButton> :
                 !_.isEmpty(dirtyFields) && isValid
                     ?
                     <Typography className='flex justify-center items-center mt-40 w-full text-2xl font-semibold tracking-tight leading-tight'>
