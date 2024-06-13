@@ -80,6 +80,12 @@ const themesConfig = {
         paper: '#FFFFFF',
         default: '#FFFFFF',
       },
+      success: {
+        light: '#64748b',
+        main: '#004b1c',// main color
+        dark: '#0f172a',
+        contrastText: agroWebsitePaletteText.primary,
+      },
       error: {
         light: '#ffcdd2',
         main: '#f44336',
