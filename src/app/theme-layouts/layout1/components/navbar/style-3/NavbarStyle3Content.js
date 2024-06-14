@@ -10,7 +10,7 @@ import { selectContrastMainTheme } from 'app/store/fuse/settingsSlice';
 import { useLocation } from 'react-router-dom';
 import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
 import { selectNavigation } from 'app/store/fuse/navigationSlice';
-import config from '../../../../../configs/navigation-i18n/en';
+import config from 'src/appConfig';
 
 const Root = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
@@ -107,7 +107,7 @@ function NavbarStyle3Content(props) {
     <ClickAwayListener onClickAway={() => setPanelOpen(false)}>
       <Root className={clsx('flex flex-auto flex h-full', props.className)}>
         <div id="fuse-navbar-side-panel" className="flex shrink-0 flex-col items-center">
-          <span className='my-20 text-2xl font-semibold'>{config.APPLICATION_NAME}</span>
+          <span className='my-20 text-2xl font-semibold'>{config.application_name}</span>
           {/* <img className="w-44 my-32" src="assets/images/logo/logo.svg" alt="logo" /> */}
 
           <FuseScrollbars

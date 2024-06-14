@@ -9,11 +9,11 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import _ from '@lodash';
-import config from '../../../../configs/navigation-i18n/en'
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import jwtService from '../auth/services/jwtService';
 import { showMessage } from 'app/store/fuse/messageSlice';
+import config from 'src/appConfig';
 
 const schema = yup.object().shape({
     countrycode: yup.string().required('Select your country code'),
@@ -159,7 +159,7 @@ function SignInWithMobileNumberPage() {
 
                 <div className="z-10 relative w-full max-w-2xl">
                     <div className="text-7xl font-bold leading-none" style={{color:"#004b1c"}}>
-                        <div className='text-center'>{config.APPLICATION_NAME}</div>
+                        <div className='text-center'>{config.application_name}</div>
                     </div>
                 </div>
             </Box>
@@ -174,7 +174,7 @@ function SignInWithMobileNumberPage() {
                         <Typography>Don't have an account?</Typography>
                         <Link
                             className="ml-4"
-                            to={`https://${process.env.REACT_APP_ENV_NAME}.${process.env.REACT_APP_HOST_ID}.${process.env.REACT_APP_DOMAIN_NAME}/`}>
+                            to={config.signup_url}>
                             Create Account
                         </Link>
                     </div>
