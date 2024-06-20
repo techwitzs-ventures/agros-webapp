@@ -21,11 +21,18 @@ import ItemHeader from './ItemHeader';
 import BasicInfoTab from './tabs/BasicInfoTab';
 import ItemImagesTab from './tabs/ItemImagesTab';
 import { getWishlistItem } from '../store/wishlistSlice';
+import PricingTab from './tabs/PricingTab';
+import AdditionalInfoTab from './tabs/AdditionalInfoTab';
 
 /**
  * Form Validation Schema
  */
 const schema = yup.object().shape({
+  items_cat_id: yup.string().required("Select item category"),
+  items_cat_name: yup
+    .string()
+    .required('You must enter a item category name')
+    .min(2, 'The item category name must be at least 2 characters'),
   item_name: yup
     .string()
     .required('You must enter a item name')
@@ -33,15 +40,21 @@ const schema = yup.object().shape({
   rate: yup.number().required('Enter item rate')
     .typeError("Rate must be a numeric value")
     .test('is-number', 'Rate must be a numeric value', value => !isNaN(value)),
+  purchase_rate: yup.number().required('Enter item purchase rate')
+    .typeError("Purchase rate must be a numeric value")
+    .test('is-number', 'Purchase rate must be a numeric value', value => !isNaN(value)),
   unit: yup.string().required('Enter item unit'),
-  items_cat_id: yup.string().required("Select item category")
+  sku: yup.string().required('Enter item unique SKU'),
 });
 
 function Item(props) {
+
   const dispatch = useDispatch();
   const product = useSelector(selectItem);
+
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
   const routeParams = useParams();
+
   const [tabValue, setTabValue] = useState(0);
   const [noProduct, setNoProduct] = useState(false);
 
@@ -50,6 +63,7 @@ function Item(props) {
     defaultValues: {},
     resolver: yupResolver(schema),
   });
+
   const { reset, watch, control, onChange, formState } = methods;
   const form = watch();
 
@@ -175,6 +189,8 @@ function Item(props) {
             >
               <Tab className="h-64" label="Basic Info" />
               <Tab className="h-64" label="Product Images" />
+              <Tab className="h-64" label="Pricing" />
+              <Tab className="h-64" label="Additonal Info" />
             </Tabs>
             <div className="p-16 sm:p-24 max-w-3xl">
               <div className={tabValue !== 0 ? 'hidden' : ''}>
@@ -182,6 +198,12 @@ function Item(props) {
               </div>
               <div className={tabValue !== 1 ? 'hidden' : ''}>
                 <ItemImagesTab />
+              </div>
+              <div className={tabValue !== 2 ? 'hidden' : ''}>
+                <PricingTab />
+              </div>
+              <div className={tabValue !== 3 ? 'hidden' : ''}>
+                <AdditionalInfoTab />
               </div>
             </div>
           </>

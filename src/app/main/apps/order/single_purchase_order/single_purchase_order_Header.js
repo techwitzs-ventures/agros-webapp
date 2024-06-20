@@ -38,16 +38,16 @@ function SinglePurchaseOrderHeader(props) {
     setloading(true)
     dispatch(saveSinglePurchaseOrder({
       data,
-      org_id: user.tenant_id
+      tenant_id: user.tenant_id
     })).then(() => {
       navigate('/apps/order/purchaseorder')
       setloading(false)
     });
   }
 
-  function handleUpdatePurchaseOrder(){
+  function handleUpdatePurchaseOrder() {
     setloading(true)
-    dispatch(updatePurchaseOrder(form)).then(()=>{
+    dispatch(updatePurchaseOrder(form)).then(() => {
       navigate('/apps/order/purchaseorder')
       setloading(false)
     })
@@ -107,7 +107,7 @@ function SinglePurchaseOrderHeader(props) {
         >
           Update
         </LoadingButton>}
-        
+
         {form.purchase_order_id === undefined && <LoadingButton
           className="whitespace-nowrap mx-4"
           variant="contained"

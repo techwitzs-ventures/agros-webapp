@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
@@ -9,26 +9,36 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import _ from '@lodash';
-import config from '../../../../configs/navigation-i18n/en'
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import jwtService from '../auth/services/jwtService';
 import { showMessage } from 'app/store/fuse/messageSlice';
+import config from 'src/appConfig';
 
 const schema = yup.object().shape({
     countrycode: yup.string().required('Select your country code'),
-    mobileno: yup
-        .string()
-        .required('Enter your Mob.no')
-        .matches(
-            /^\d{10}$/,
-            'Mob.no contains 10 digits.'
-        ),
+    mobileno: yup.string().required('Enter your Mob.no').test('is-valid-mobileno', function (value) {
+
+        const { countrycode } = this.parent;
+
+        if (countrycode === '+91') {
+            if (!/^\d{10}$/.test(value)) {
+                return this.createError({ message: 'Mob.no must contain 10 digits' });
+            }
+        } else if (countrycode === '+65') {
+            if (!/^\d{8}$/.test(value)) {
+                return this.createError({ message: 'Mob.no must contain 8 digits' });
+            }
+        } else {
+            return this.createError({ message: 'Invalid country code' });
+        }
+        return true;
+
+    }),
     password: yup
         .string()
         .required('Please enter your password.')
 });
-
 
 const defaultValues = {
     mobileno: '',
@@ -37,8 +47,8 @@ const defaultValues = {
 };
 
 const Country = [
-    { name: "singapore", countrycode: 'sg', mobcode: '+65', label: 'Singapore' },
-    { name: "india", countrycode: 'in', mobcode: '+91', label: 'India' }
+    { name: "singapore", countrycode: 'SG', mobcode: '+65', label: 'Singapore' },
+    { name: "india", countrycode: 'IN', mobcode: '+91', label: 'India' }
 ]
 
 function SignInWithMobileNumberPage() {
@@ -55,10 +65,14 @@ function SignInWithMobileNumberPage() {
 
     const { isValid, dirtyFields, errors } = formState;
 
+
     async function onSubmit({ countrycode, mobileno, password }) {
+
         setPasswordLoading(true)
         const mob = countrycode + mobileno
+
         try {
+
             const result = await jwtService.signInWithEmailPassword(mob, password)
 
             if (!result.status && result.code === 2) {
@@ -144,13 +158,12 @@ function SignInWithMobileNumberPage() {
                 </Box>
 
                 <div className="z-10 relative w-full max-w-2xl">
-                    <div className="text-7xl font-bold leading-none text-gray-100">
-                        <div>Welcome to</div>
-                        <div>{config.APPLICATION_NAME}</div>
+                    <div className="text-7xl font-bold leading-none" style={{color:"#004b1c"}}>
+                        <div className='text-center'>{config.application_name}</div>
                     </div>
                 </div>
             </Box>
-            <Paper className="h-full sm:h-auto md:flex md:items-center w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none rtl:border-r-1 ltr:border-l-1">
+            <Paper className="h-full sm:h-auto md:flex md:items-center justify-center w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none rtl:border-r-1 ltr:border-l-1">
                 <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
                     <div className="flex justify-center">
                         <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
@@ -161,7 +174,7 @@ function SignInWithMobileNumberPage() {
                         <Typography>Don't have an account?</Typography>
                         <Link
                             className="ml-4"
-                            to={`https://${process.env.REACT_APP_ENV_NAME}.${process.env.REACT_APP_HOST_ID}.${process.env.REACT_APP_DOMAIN_NAME}/`}>
+                            to={config.signup_url}>
                             Create Account
                         </Link>
                     </div>

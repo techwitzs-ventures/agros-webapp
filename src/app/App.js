@@ -15,14 +15,17 @@ import settingsConfig from 'app/configs/settingsConfig';
 import withAppProviders from './withAppProviders';
 import { AuthProvider } from './main/apps/accounts/auth/AuthContext';
 import axios from 'axios';
+import awsmobile from 'src/aws-exports';
 
 if (process.env.REACT_APP_ENV_NAME === 'develop' && process.env.REACT_APP_ENABLE_MOCK_API === "true") {
+
   import('@mock-api')
+  
 } else {
   /**
    * Axios HTTP Request defaults
    */
-  axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL
+  axios.defaults.baseURL = awsmobile.aws_cloud_logic_custom[0].endpoint
   // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   axios.defaults.headers.common['Content-Type'] = 'application/json';
 }

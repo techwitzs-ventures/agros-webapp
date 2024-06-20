@@ -39,14 +39,13 @@ function ProfileApp() {
     <Root
       header={
         <div className="flex flex-col">
-
           <div className="flex flex-col flex-0 lg:flex-row items-center max-w-5xl w-full mx-auto px-32 lg:h-150">
             <div className="mt-16 lg:mt-0 rounded-full">
               <motion.div initial={{ scale: 0 }} animate={{ scale: 1, transition: { delay: 0.1 } }}>
                 <Avatar
                   sx={{ borderColor: 'background.paper' }}
                   className="w-128 h-128 border-4"
-                  src="assets/images/avatars/user.png"
+                  src={user.data.photoURL.url}
                   alt="User avatar"
                 />
               </motion.div>

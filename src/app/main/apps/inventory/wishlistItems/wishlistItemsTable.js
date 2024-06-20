@@ -102,28 +102,33 @@ function WishlistItemsTable(props) {
   }
 
   const viewWishlistItemDetails = async (wishlistItem) => {
+
     try {
       props.navigate(`/apps/inventory/itemswishlist/view/${wishlistItem.items_wishlist_id}`);
     } catch (error) {
       console.log(error)
     }
+
   }
 
   const editCustomWishlistItem = async (wishlistItem) => {
+
     try {
       props.navigate(`/apps/inventory/customitemswishlist/${wishlistItem.items_wishlist_id}`)
     } catch (error) {
       console.log(error)
     }
+
   }
 
-  const addOrUpdateStockQuantity = async (wishlistItem) => {
-    const paramName = wishlistItem.quantity !== "0" ? 'updatestock' : 'addstock';
+  const updateWishlistItem = async (wishlistItem) => {
+
     try {
-      props.navigate(`/apps/inventory/itemswishlist/${paramName}/${wishlistItem.items_wishlist_id}`)
+      props.navigate(`/apps/inventory/itemswishlist/update/${wishlistItem.items_wishlist_id}`)
     } catch (error) {
       console.log(error)
     }
+
   }
 
   function handleCheck(event, id) {
@@ -257,7 +262,7 @@ function WishlistItemsTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {n.items_wishlist_code}
+                      {n.sku}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16 truncate" component="th" scope="row">
@@ -274,15 +279,10 @@ function WishlistItemsTable(props) {
                           <FuseSvgIcon className="text-green" size={20}>
                             heroicons-outline:check-circle
                           </FuseSvgIcon>
-                          {/* <span className='ps-2'>Approved</span> */}
                         </span>
                       ) : (
                         <span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
-                          {/* <FuseSvgIcon className="text-red" size={20}>
-                            heroicons-outline:minus-circle
-                          </FuseSvgIcon> */}
-                          <span style={{borderBottom:"3px solid black"}} className='w-12'></span>
-                          {/* <span className='ps-2'>Not Approved</span> */}
+                          <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
                         </span>
                       )}
                     </TableCell>
@@ -324,10 +324,10 @@ function WishlistItemsTable(props) {
                           </MenuItem>}
 
                           {selectedItem.status && <MenuItem onClick={() => {
-                            addOrUpdateStockQuantity(selectedItem);
+                            updateWishlistItem(selectedItem);
                             closeSelectedProductsMenu();
                           }}>
-                            <ListItemText primary={selectedItem.quantity !== "0" ? 'Update Stock' : 'Add Stock'} />
+                            <ListItemText primary="Update" />
                           </MenuItem>}
                         </MenuList>
                       </Menu>}

@@ -48,7 +48,7 @@ export const saveSinglePurchaseOrder = createAsyncThunk('orderApp/singlepurchase
     },
       {
         params:
-          { tenant_id: purchaseOrderData.org_id }
+          { tenant_id: purchaseOrderData.tenant_id }
       })
     if (result.status === 200) {
       dispatch(showMessage({ message: result.data.message, variant: "success" }))
@@ -69,8 +69,9 @@ const singlepurchaseorderSlice = createSlice({
       prepare: (event) => ({
         payload: {
           /* when multiple plateform sellers or sellers are available then ,
-          this vendor is field will become a empty string. */
-          vendor_id: 'c56e3e85-fee8-4f35-943a-0081255acbf3',
+          this vendor id field will become a empty string 
+          otherwise the seller id will be hardcoded in vendor id key */
+          vendor_id: 'bb5bf091-7c66-4e89-8a46-72bf08c1c3a0',
           delivery_address: '',
           exp_delivery_date: '',
           item_list: [{
