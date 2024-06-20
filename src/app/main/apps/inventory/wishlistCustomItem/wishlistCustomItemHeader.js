@@ -16,7 +16,9 @@ function WishlistCustomItemHeader(props) {
 
     const dispatch = useDispatch();
     const methods = useFormContext();
+
     const rootParams = useParams();
+
     const { formState, watch, handleSubmit } = methods;
     const { isValid, dirtyFields } = formState;
 
@@ -24,9 +26,12 @@ function WishlistCustomItemHeader(props) {
     const images = watch('images');
     const item_name = watch('item_name');
     const form = watch();
+
     const theme = useTheme();
     const navigate = useNavigate();
+    
     const user = useSelector(selectUser)
+
     const { param1 } = rootParams
 
     const [loading, setloading] = useState(false)
@@ -36,7 +41,7 @@ function WishlistCustomItemHeader(props) {
         setloading(true)
         const new_item = {
             data,
-            org_id: user.tenant_id
+            tenant_id: user.tenant_id
         }
         dispatch(saveWishlistCustomItem(new_item)).then(() => {
             navigate('/apps/inventory/itemswishlist')

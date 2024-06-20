@@ -1,5 +1,5 @@
 const locale = {
-  APPLICATION_NAME:'Agroshub',
+  APPLICATION_NAME:'Agros Hub',
   DASHBOARDS: 'Dashboards'
 };
 

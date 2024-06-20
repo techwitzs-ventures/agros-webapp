@@ -4,16 +4,19 @@ import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
 import reducer from '../store';
 import PurchaseOrdersHeader from './purchase_orders_Header';
 import PurchaseOrdersTable from './purchase_orders_Table';
+import { useAuth } from '../../accounts/auth/AuthContext';
+import ConfirmOnboardingPage from '../../confirmonboarding/ConfirmOnboardingPage';
 
 function PurchaseOrders() {
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
-
+  const { onboardingStatus } = useAuth();
   return (
-    <FusePageCarded
-      header={<PurchaseOrdersHeader />}
-      content={<PurchaseOrdersTable />}
-      scroll={isMobile ? 'normal' : 'content'}
-    />
+    !onboardingStatus ? <ConfirmOnboardingPage /> :
+      <FusePageCarded
+        header={<PurchaseOrdersHeader />}
+        content={<PurchaseOrdersTable />}
+        scroll={isMobile ? 'normal' : 'content'}
+      />
   );
 }
 

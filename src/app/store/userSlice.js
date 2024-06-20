@@ -101,7 +101,11 @@ const initialState = {
   data: {
     firstname: 'John',
     lastname: 'Doe',
-    photoURL: 'assets/images/avatars/brian-hughes.jpg',
+    photoURL: {
+      id: '',
+      url: '',
+      type: ''
+    },
     email: 'johndoe@withinpixels.com',
     shortcuts: ['apps.calendar', 'apps.mailbox', 'apps.contacts', 'apps.tasks'],
   },

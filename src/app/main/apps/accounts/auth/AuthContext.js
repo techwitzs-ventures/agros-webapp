@@ -8,6 +8,7 @@ import jwtService from './services/jwtService';
 import { getAllTenant } from 'app/store/tenantSlice';
 import { getAllItems } from 'app/store/allItemsSlice';
 import { getAllItemsCategories } from 'app/store/allItemsCategoriesSlice';
+import { getAllWishlistItems } from 'app/store/allWishlistItemsSlice';
 
 const AuthContext = React.createContext();
 
@@ -24,14 +25,14 @@ function AuthProvider({ children }) {
   useEffect(() => {
 
     jwtService.on('onAutoLogin', () => {
-      dispatch(showMessage({ message: 'Signing in with JWT' }));
+      // dispatch(showMessage({ message: 'Signing in with JWT' }));
       /**
        * Sign in and retrieve user data with stored token
        */
       jwtService
         .verifyAuth()
         .then((user) => {
-          success(user, 'Signed in with JWT');
+          success(user);
         })
         .catch((error) => {
           pass(error.message);
@@ -84,6 +85,7 @@ function AuthProvider({ children }) {
         dispatch(getAllTenant()),
         dispatch(getAllItems()),
         dispatch(getAllItemsCategories()),
+        dispatch(getAllWishlistItems())
       ]).then((values) => {
         setWaitAuthCheck(false);
         setIsAuthenticated(true);

@@ -59,11 +59,13 @@ function Address() {
     hidden: { opacity: 0, y: 40 },
     show: { opacity: 1, y: 0 },
   };
+
   const { control, formState, handleSubmit, setError, reset } = useForm({
     mode: 'onChange',
     defaultValues,
     resolver: yupResolver(schema),
   });
+
   const { isValid, dirtyFields, errors } = formState;
 
   const handleEditEnable = async () => {
@@ -83,7 +85,8 @@ function Address() {
       city,
       state,
       country,
-      zipCode
+      zipCode,
+      photoURL: user.data.photoURL
     }
     await JwtService.updateUserCredentialByUUID(request, user.tenant_id);
     setEditEnabled(false);

@@ -14,13 +14,21 @@ import {
 import { useState } from 'react';
 import { selectAllItems } from 'app/store/allItemsSlice';
 import ItemsSearchConfig from 'src/app/@itemsSearch/ItemsSearchConfig';
+import { selectUser } from 'app/store/userSlice';
+import { selectAllWishlistItems } from 'app/store/allWishlistItemsSlice';
 
 
 function WishlistItemsHeader(props) {
+
   const dispatch = useDispatch();
   const [checked, setchecked] = useState(false)
+
+  const user = useSelector(selectUser);
   const searchText = useSelector(selectWishlistItemsSearchText);
-  const items = useSelector(selectAllItems)
+
+  const items = user.role === "retailer" ?
+    useSelector(selectAllWishlistItems).filter((item) => item.status === true) :
+    useSelector(selectAllItems)
 
   const handleActiveStatusChange = async (event) => {
     try {
@@ -83,7 +91,7 @@ function WishlistItemsHeader(props) {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
         >
-          <ItemsSearchConfig navigation={items} />
+          <ItemsSearchConfig navigation={items} userRole={user.role} />
         </motion.div>
       </div>
     </div>

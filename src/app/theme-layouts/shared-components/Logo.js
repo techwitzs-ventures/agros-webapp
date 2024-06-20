@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles';
-import config from '../../configs/navigation-i18n/en'
+import config from 'src/appConfig';
+
 const Root = styled('div')(({ theme }) => ({
   '& > .logo-icon': {
     transition: theme.transitions.create(['width', 'height'], {
@@ -24,7 +25,7 @@ function Logo() {
         className="badge flex items-center py-4 px-8 mx-8 rounded"
         style={{ backgroundColor: '#121212', color: '#61DAFB' }}
       >
-        <span className="react-text text-12 mx-4">{config.APPLICATION_NAME}</span>
+        <span className="react-text text-12 mx-4">{config.application_name}</span>
       </div>
     </Root>
   );

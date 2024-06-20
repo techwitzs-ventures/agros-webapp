@@ -184,10 +184,10 @@ class JwtService extends FuseUtils.EventEmitter {
 
   // update Onboarding Status
   updateOnboardingStatus = (data) => {
-    this.emit("onCompleteOnboard", true);
     return new Promise((resolve, reject) => {
       axios.put('/auth/onboardingstatus/update', data).then((response) => {
         if (response.status === 200) {
+          this.emit("onCompleteOnboard", true);
           resolve(response.data)
         } else {
           console.log(response)

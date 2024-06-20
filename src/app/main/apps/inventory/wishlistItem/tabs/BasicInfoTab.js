@@ -10,9 +10,12 @@ import { Units } from "app/configs/unitConfig";
 import { useParams } from "react-router-dom";
 
 function BasicInfoTab(props) {
+
   const methods = useFormContext();
+
   const { control, formState, getValues } = methods;
   const { errors } = formState;
+
   const val = getValues();
   const rootParams = useParams();
   const user = useSelector(selectUser);
@@ -29,22 +32,6 @@ function BasicInfoTab(props) {
               noValidate
               className="flex flex-col"
             >
-              {val.item_code !== undefined && <Controller
-                name="item_code"
-                defaultValue={val.item_code}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    className="mt-8 mb-16"
-                    required
-                    disabled
-                    label="Item Code"
-                    id="item_code"
-                    variant="outlined"
-                    fullWidth
-                  />
-                )}
-              />}
 
               <Controller
                 name="item_name"
@@ -65,19 +52,21 @@ function BasicInfoTab(props) {
               />
 
               <Controller
-                name="rate"
+                name="description"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     className="mb-24"
-                    label={`Rate ( ${user.tenant_data.currency_code} )`}
+                    label="Description"
                     type="text"
-                    disabled
-                    error={!!errors.rate}
-                    helperText={errors?.rate?.message}
+                    disabled={param1 === "view" || user.role === "retailer" ? true : false}
+                    multiline
+                    error={!!errors.description}
+                    helperText={errors?.description?.message}
+                    rows={10}
                     variant="outlined"
-                    required
+                    fullWidth
                   />
                 )}
               />

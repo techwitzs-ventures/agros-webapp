@@ -8,13 +8,7 @@ export const getAllWishlistItems = createAsyncThunk(
     async (wishlistitems, { dispatch, getState }) => {
         const result = await axios.get('/itemswishlist/getallitems');
         if (result.status === 200) {
-            let arr = [];
-            result.data.response.forEach((item) => {
-                if (!item.status) {
-                    arr.push(item)
-                }
-            })
-            return arr;
+            return result.data.response;
         } else {
             console.log(result)
         }

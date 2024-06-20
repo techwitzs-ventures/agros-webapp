@@ -16,16 +16,16 @@ import { LoadingButton } from '@mui/lab';
 import { useEffect, useState } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import JwtService from '../../../accounts/auth/services/jwtService';
-import { useDispatch } from 'react-redux';
+import JwtService from '../../../../../accounts/auth/services/jwtService';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'app/store/userSlice';
+import { useDispatch } from 'react-redux';
 import { showMessage } from 'app/store/fuse/messageSlice';
 
-function EmailCard(props) {
+function MobileCard(props) {
     const { title, subtitle, buttonTitle, verificationStatus } = props;
 
-    const user = useSelector(selectUser);
+    const user = useSelector(selectUser)
     const dispatch = useDispatch()
 
     const [loading, setLoading] = useState(false)
@@ -49,7 +49,7 @@ function EmailCard(props) {
 
     async function onSubmit({ otp }) {
         try {
-            const res = await JwtService.verifyEmailOtp(user.data.mobilenumber, otp);
+            const res = await JwtService.verifyMobileNumberOtp(user.data.mobilenumber, otp);
             if (res.success) {
                 setLoading(false)
                 setOpen(false)
@@ -68,8 +68,8 @@ function EmailCard(props) {
     const sendOTPforVerification = async () => {
         setLoading(true)
         try {
-            dispatch(showMessage({ message: "OTP Sent!", variant: "success" }));
-            await JwtService.sendOtpToEmail(user.data.email);
+            dispatch(showMessage({ message: "OTP Sent", variant: "success" }));
+            await JwtService.sendOtpToMobileNumber(user.data.mobilenumber);
         } catch (error) {
             console.log(error)
         }
@@ -80,7 +80,7 @@ function EmailCard(props) {
             setOpen(true)
             const handleSubmitEventCalled = async () => {
                 try {
-                    await handleSubmit(onSubmit)(); // Submitting the form
+                    await handleSubmit(onSubmit)();
                 } catch (error) {
                     console.log(error)
                 }
@@ -107,7 +107,7 @@ function EmailCard(props) {
                 <span>{title}</span>
                 {verificationStatus
                     ?
-                    <FuseSvgIcon className="text-green-600 ms-8" size={25}>
+                    <FuseSvgIcon className="ms-8" sx={{ color: "#004b1c" }} size={25}>
                         heroicons-solid:badge-check
                     </FuseSvgIcon>
                     :
@@ -117,12 +117,12 @@ function EmailCard(props) {
                         sx={{
                             color: (theme) =>
                                 theme.palette.mode === 'light'
-                                    ? darken("#398D3D", 0.4)
-                                    : lighten("#398D3D", 0.8),
+                                    ? darken("#004b1c", 0.4)
+                                    : lighten("#004b1c", 0.8),
                             backgroundColor: (theme) =>
                                 theme.palette.mode === 'light'
-                                    ? lighten("#398D3D", 0.8)
-                                    : darken("#398D3D", 0.1),
+                                    ? lighten("#004b1c", 0.8)
+                                    : darken("#004b1c", 0.1),
                         }}
                         size="small"
                     />}
@@ -134,21 +134,21 @@ function EmailCard(props) {
 
             <Divider className="w-32 h-4 my-4 rounded bg-accent" />
 
-            {!loading ? <LoadingButton
-                className="mt-40 w-full"
-                size="large"
-                variant={verificationStatus ? 'contained' : 'outlined'}
-                color={'success'}
-                style={{ cursor: `${verificationStatus ? 'not-allowed' : 'allowed'}` }}
-                loading={loading}
-                onClick={() => sendOTPforVerification()}
-            >
-                {buttonTitle}
-            </LoadingButton> :
+            {!loading ?
+                !verificationStatus && <LoadingButton
+                    className="mt-40 w-full"
+                    size="large"
+                    variant='outlined'
+                    sx={{ color: "#004b1c" }}
+                    loading={loading}
+                    onClick={() => sendOTPforVerification()}
+                >
+                    {buttonTitle}
+                </LoadingButton> :
                 !_.isEmpty(dirtyFields) && isValid
                     ?
                     <Typography className='flex justify-center items-center mt-40 w-full text-2xl font-semibold tracking-tight leading-tight'>
-                        Verifying Email...
+                        Verifying Mobile Number...
                     </Typography>
                     :
                     <form
@@ -182,11 +182,11 @@ function EmailCard(props) {
     );
 }
 
-EmailCard.defaultProps = {
+MobileCard.defaultProps = {
     title: '',
     subtitle: '',
     buttonTitle: '',
     verificationStatus: false
 };
 
-export default EmailCard;
+export default MobileCard;

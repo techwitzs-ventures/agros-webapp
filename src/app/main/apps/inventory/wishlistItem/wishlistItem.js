@@ -26,6 +26,9 @@ import {
   resetWishlistItem,
   selectWishlistItem
 } from '../store/wishlistSlice';
+import PricingTab from './tabs/PricingTab';
+import AdditionalInfoTab from './tabs/AdditionalInfoTab';
+import { selectUser } from 'app/store/userSlice';
 
 /**
  * Form Validation Schema
@@ -37,7 +40,12 @@ const schema = yup.object().shape({
     .string()
     .required('You must enter a item name')
     .min(2, 'The item name must be at least 2 characters'),
-  rate: yup.number().required('Enter item rate'),
+  rate: yup.number().required('Enter item rate')
+    .typeError("Rate must be a numeric value")
+    .test('is-number', 'Rate must be a numeric value', value => !isNaN(value)),
+  purchase_rate: yup.number().required('Enter item purchase rate')
+    .typeError("Purchase rate must be a numeric value")
+    .test('is-number', 'Purchase rate must be a numeric value', value => !isNaN(value)),
   unit: yup.string().required('Enter item unit'),
   quantity: yup.number().notRequired("This is optional")
     .typeError("Quantity must be a numeric value")
@@ -48,13 +56,15 @@ const schema = yup.object().shape({
         return 0;
       }
       return value;
-    })
+    }),
+  sku: yup.string().required('Enter item unique SKU')
 });
 
 function WishlistItem(props) {
 
   const dispatch = useDispatch();
   const product = useSelector(selectWishlistItem);
+  const user = useSelector(selectUser);
 
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
   const routeParams = useParams();
@@ -72,46 +82,36 @@ function WishlistItem(props) {
   const form = watch();
 
   useDeepCompareEffect(() => {
+
     function updateProductState() {
       const { param1, param2 } = routeParams;
 
       if (param1 === 'new' && param2 !== undefined) {
-        /**
-         * Create New Product data
-         */
-        const queryparams = {
-          item_id: param2
+
+        if (user.role === "retailer") {
+
+          dispatch(getWishlistItem({ wishlist_item_id: param2 })).then((action) => {
+            dispatch(newWishlistItem(action.payload, user.role));
+          });
+
+        } else if (user.role === "seller") {
+
+          dispatch(getItem({ item_id: param2 })).then((action) => {
+            dispatch(newWishlistItem(action.payload, user.role));
+          });
+
         }
-        dispatch(getItem(queryparams)).then((action) => {
-          dispatch(newWishlistItem(action.payload));
+
+      } else if ((param1 === "update" || param1 === "view") && param2 !== undefined) {
+
+        dispatch(getWishlistItem({ wishlist_item_id: param2 })).then((action) => {
+          if (!action.payload) {
+            setNoProduct(true);
+          }
         });
 
-      } else if ((param1 === "updatestock" || param1 === "addstock") && param2 !== undefined) {
-        const queryparams = {
-          wishlist_item_id: param2
-        }
-        dispatch(getWishlistItem(queryparams)).then((action) => {
-          /**
-           * If the requested product is not exist show message
-           */
-          if (!action.payload) {
-            setNoProduct(true);
-          }
-        });
       }
-      else if (param1 === "view" && param2 !== undefined) {
-        const queryparams = {
-          wishlist_item_id: param2
-        }
-        dispatch(getWishlistItem(queryparams)).then((action) => {
-          /**
-           * If the requested product is not exist show message
-           */
-          if (!action.payload) {
-            setNoProduct(true);
-          }
-        });
-      }
+
     }
 
     updateProductState();
@@ -196,6 +196,8 @@ function WishlistItem(props) {
             >
               <Tab className="h-64" label="Basic Info" />
               <Tab className="h-64" label="Product Images" />
+              <Tab className="h-64" label="Pricing" />
+              <Tab className="h-64" label="Additonal Info" />
             </Tabs>
             <div className="p-16 sm:p-24 max-w-3xl">
               <div className={tabValue !== 0 ? 'hidden' : ''}>
@@ -203,6 +205,12 @@ function WishlistItem(props) {
               </div>
               <div className={tabValue !== 1 ? 'hidden' : ''}>
                 <ItemImagesTab />
+              </div>
+              <div className={tabValue !== 2 ? 'hidden' : ''}>
+                <PricingTab />
+              </div>
+              <div className={tabValue !== 3 ? 'hidden' : ''}>
+                <AdditionalInfoTab />
               </div>
             </div>
           </>
