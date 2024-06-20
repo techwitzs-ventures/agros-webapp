@@ -38,6 +38,7 @@ function ItemHeader(props) {
     setloading(true)
 
     if (itemId === 'new' && wishlistId === undefined) {
+
       dispatch(saveItem({
         data,
         tenant_id: user.tenant_id
@@ -45,7 +46,9 @@ function ItemHeader(props) {
         navigate('/apps/inventory/items')
         setloading(false)
       });
+
     } else if (itemId === 'newcustom' && wishlistId !== undefined) {
+
       dispatch(saveItem({
         data,
         tenant_id: user.tenant_id
@@ -56,11 +59,13 @@ function ItemHeader(props) {
           status: true,
           item_id: res.payload.item_id,
           item_code: res.payload.item_code,
+          platform_sku: res.payload.sku,
           tenant_id: user.tenant_id,
           items_wishlist_id: wishlistId
         }))
       })
     }
+    
   }
 
   function handleUpdateItem() {

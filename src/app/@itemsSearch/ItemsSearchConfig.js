@@ -217,7 +217,7 @@ function reducer(state, action) {
       return {
         ...state,
         suggestions: [],
-        
+
       };
     }
     case 'setNoSuggestions': {
@@ -236,7 +236,7 @@ function reducer(state, action) {
 }
 
 function ItemsSearchConfig(props) {
-  const { navigation } = props;
+  const { navigation, userRole } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const suggestionsNode = useRef(null);
@@ -281,13 +281,28 @@ function ItemsSearchConfig(props) {
   }
 
   function handleSuggestionSelected(event, { suggestion }) {
+
     event.preventDefault();
     event.stopPropagation();
-    if (!suggestion.item_id) {
-      return;
+
+    if (userRole === "retailer") {
+
+      if (!suggestion.items_wishlist_id) {
+        return;
+      }
+      props.navigate(`/apps/inventory/itemswishlist/new/${suggestion.items_wishlist_id}`);
+
+    } else if (userRole === "seller") {
+
+      if (!suggestion.item_id) {
+        return;
+      }
+      props.navigate(`/apps/inventory/itemswishlist/new/${suggestion.item_id}`);
+
     }
-    props.navigate(`/apps/inventory/itemswishlist/new/${suggestion.item_id}`);
+
     hideSearch();
+    
   }
 
   function handleSuggestionsClearRequested() {
@@ -372,7 +387,7 @@ function ItemsSearchConfig(props) {
                         className='flex justify-start px-16 py-12'
                       >
                         <Typography className='text-lg font-semibold px-16 py-12'>{props.noResults}</Typography>
-                        <Button
+                        {userRole !== "retailer" && <Button
                           className="px-16 py-12"
                           variant="contained"
                           color="secondary"
@@ -380,7 +395,7 @@ function ItemsSearchConfig(props) {
                           onClick={navigateToAddCustomForm}
                         >
                           Add Custom Product
-                        </Button>
+                        </Button>}
                       </motion.div>
                     )}
                   </Paper>
@@ -450,7 +465,7 @@ function ItemsSearchConfig(props) {
                                 className='flex justify-start px-16 py-12'
                               >
                                 <Typography className='text-lg font-semibold px-16 py-12'>{props.noResults}</Typography>
-                                <Button
+                                {userRole !== "retailer" && <Button
                                   className="px-16 py-12"
                                   variant="contained"
                                   color="secondary"
@@ -458,7 +473,7 @@ function ItemsSearchConfig(props) {
                                   onClick={navigateToAddCustomForm}
                                 >
                                   Add Custom Product
-                                </Button>
+                                </Button>}
                               </motion.div>
                             )}
                           </Paper>

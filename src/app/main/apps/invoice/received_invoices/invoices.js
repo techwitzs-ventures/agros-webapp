@@ -4,16 +4,20 @@ import useThemeMediaQuery from "@fuse/hooks/useThemeMediaQuery";
 import reducer from "../store";
 import InvoicesHeader from "./invoices_Header";
 import InvoicesTable from "./invoices_Table";
+import { useAuth } from "../../accounts/auth/AuthContext";
+import ConfirmOnboardingPage from "../../confirmonboarding/ConfirmOnboardingPage";
 
 function Invoices() {
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down("lg"));
+  const { onboardingStatus } = useAuth();
 
   return (
-    <FusePageCarded
-      header={<InvoicesHeader />}
-      content={<InvoicesTable />}
-      scroll={isMobile ? "normal" : "content"}
-    />
+    !onboardingStatus ? <ConfirmOnboardingPage /> :
+      <FusePageCarded
+        header={<InvoicesHeader />}
+        content={<InvoicesTable />}
+        scroll={isMobile ? "normal" : "content"}
+      />
   );
 }
 

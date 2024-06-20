@@ -1,5 +1,4 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { saveItem, updateItem, updateItemStatus } from './itemSlice';
 import axios from 'axios';
 
 
@@ -41,9 +40,6 @@ const itemsSlice = createSlice({
   },
   extraReducers: {
     [getItems.fulfilled]: itemsAdapter.setAll,
-    [updateItem.fulfilled]: itemsAdapter.upsertOne,
-    [updateItemStatus.fulfilled]: itemsAdapter.upsertOne,
-    [saveItem.fulfilled]: itemsAdapter.addOne,
     [removeItems.fulfilled]: (state, action) =>
       itemsAdapter.removeMany(state, action.payload),
   },
