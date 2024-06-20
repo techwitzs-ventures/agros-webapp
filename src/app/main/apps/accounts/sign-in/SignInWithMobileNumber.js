@@ -158,7 +158,7 @@ function SignInWithMobileNumberPage() {
                 </Box>
 
                 <div className="z-10 relative w-full max-w-2xl">
-                    <div className="text-7xl font-bold leading-none" style={{color:"#004b1c"}}>
+                    <div className="text-7xl font-bold leading-none" style={{ color: "#004b1c" }}>
                         <div className='text-center'>{config.application_name}</div>
                     </div>
                 </div>
@@ -166,19 +166,10 @@ function SignInWithMobileNumberPage() {
             <Paper className="h-full sm:h-auto md:flex md:items-center justify-center w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none rtl:border-r-1 ltr:border-l-1">
                 <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
                     <div className="flex justify-center">
-                        <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
+                        <Typography className="mt-28 text-4xl font-extrabold tracking-tight leading-tight">
                             Sign in
                         </Typography>
                     </div>
-                    <div className="flex justify-center items-baseline mt-2 font-medium">
-                        <Typography>Don't have an account?</Typography>
-                        <Link
-                            className="ml-4"
-                            to={config.signup_url}>
-                            Create Account
-                        </Link>
-                    </div>
-
                     <form
                         name="loginForm"
                         noValidate
@@ -248,11 +239,15 @@ function SignInWithMobileNumberPage() {
                                 />
                             )}
                         />
-
+                        <Link
+                            className="ml-4"
+                            to="">
+                            Forgot Password?
+                        </Link>
                         <LoadingButton
                             variant="contained"
                             color="secondary"
-                            className=" w-full mt-16"
+                            className=" w-full mt-20"
                             aria-label="Sign in"
                             disabled={_.isEmpty(dirtyFields) || !isValid}
                             type="submit"
@@ -262,6 +257,14 @@ function SignInWithMobileNumberPage() {
                             <span>Sign In</span>
                         </LoadingButton>
                     </form>
+                    <div className="flex justify-center items-baseline mt-20 font-medium">
+                        <Typography>Don't have an account?</Typography>
+                        <Link
+                            className="ml-4"
+                            to={config.signup_url}>
+                            Create Account
+                        </Link>
+                    </div>
                 </div>
             </Paper>
         </div>
