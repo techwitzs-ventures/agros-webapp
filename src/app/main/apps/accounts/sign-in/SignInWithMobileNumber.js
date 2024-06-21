@@ -239,11 +239,13 @@ function SignInWithMobileNumberPage() {
                                 />
                             )}
                         />
+                        <div className='flex justify-end'>
                         <Link
                             className="ml-4"
                             to="">
                             Forgot Password?
                         </Link>
+                        </div>
                         <LoadingButton
                             variant="contained"
                             color="secondary"
