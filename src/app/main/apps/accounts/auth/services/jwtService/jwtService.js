@@ -93,6 +93,27 @@ class JwtService extends FuseUtils.EventEmitter {
     })
   }
 
+  // Fetching User Details by Tenant Mobile Number
+  getUserByMobileNumber = (mobilenumber) => {
+    return new Promise((resolve, reject) => {
+      axios.get('/tenant/getuserbymobile', {
+        params: {
+          mobilenumber
+        }
+      }).then((res) => {
+        if (res.status === 200) {
+          resolve(res.data);
+        } else {
+          console.log(res.data);
+          reject(res.data)
+        }
+      }).catch((error) => {
+        console.log(error)
+        reject(error)
+      })
+    })
+  }
+
   // User Table API to update the user's credentials
   updateUserCredentialByUUID = async (data, tenant_id) => {
     return new Promise((resolve, reject) => {
@@ -111,7 +132,7 @@ class JwtService extends FuseUtils.EventEmitter {
             if (result.status === 200) {
               this.emit("onUpdate", result.data.response);
               resolve(result);
-            }else{
+            } else {
               console.log(result);
               reject(new Error("Failed to update user"));
             }
@@ -119,7 +140,7 @@ class JwtService extends FuseUtils.EventEmitter {
             this.logout();
             reject(new Error("Failed to login with Jwt Authentication Token"));
           }
-          
+
         })
         .catch((err) => {
           this.logout();
@@ -374,7 +395,7 @@ class JwtService extends FuseUtils.EventEmitter {
 
   // Sign In with username and password
   signInWithEmailPassword = async (username, password) => {
-    
+
     try {
       const result = await Auth.signIn({ username, password });
 
@@ -429,57 +450,32 @@ class JwtService extends FuseUtils.EventEmitter {
   };
 
   // Send Email OTP for reset password
-  sendEmailOTPForResetPassword = async () => {
+  sendEmailOTPForResetPassword = async (mobilenumber) => {
     return new Promise((resolve, reject) => {
-      Auth.currentAuthenticatedUser()
-        .then((response) => {
-          const { attributes } = response;
-          Auth.forgotPassword(attributes.phone_number)
-            .then((response) => {
-              resolve(response);
-            })
-            .catch((error) => {
-              reject(new Error(error.message));
-            });
-        })
-        .catch(() => {
-          this.logout();
-          reject(new Error("Failed to login with Jwt Authentication Token"));
-        });
+
+      Auth.forgotPassword(mobilenumber).then((response) => {
+        resolve(response);
+      }).catch((error) => {
+        reject(new Error(error.message));
+      });
+
     });
   };
 
   // Verification of the code to reset the password
-  resetPasswordSumbit = async (code, newpassword) => {
+  resetPasswordSumbit = async (mobilenumber, code, newpassword) => {
     return new Promise((resolve, reject) => {
-      Auth.currentAuthenticatedUser()
-        .then((response) => {
-          if (response) {
-            const { attributes } = response;
-            Auth.forgotPasswordSubmit(
-              attributes.phone_number,
-              code,
-              newpassword
-            )
-              .then((response) => {
-                resolve(response);
-              })
-              .catch((error) => {
-                if (error.code === "CodeMismatchException") {
-                  resolve(error.code);
-                } else {
-                  reject(new Error(error));
-                }
-              });
-          } else {
-            this.logout();
-            reject(new Error("Failed to login with Jwt Authentication Token"));
-          }
-        })
-        .catch(() => {
-          this.logout();
-          reject(new Error("Failed to login with Jwt Authentication Token"));
-        });
+
+      Auth.forgotPasswordSubmit(mobilenumber, code, newpassword).then((response) => {
+        resolve(response);
+      }).catch((error) => {
+        if (error.code === "CodeMismatchException") {
+          resolve(error.code);
+        } else {
+          reject(new Error(error));
+        }
+      });
+
     });
   };
 

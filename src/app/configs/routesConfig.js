@@ -6,12 +6,14 @@ import appsConfigs from '../main/apps/appsConfig';
 import SignInConfig from '../main/apps/accounts/sign-in/SignInConfig';
 import SignOutConfig from '../main/apps/accounts/sign-out/SignOutConfig';
 import dashboardsConfigs from '../main/dashboards/dashboardsConfigs';
+import ForgotPasswordConfig from '../main/apps/accounts/forgot-password/ForgotPasswordConfig';
 
 const routeConfigs = [
   ...appsConfigs,
   ...dashboardsConfigs,
   SignOutConfig,
   SignInConfig,
+  ForgotPasswordConfig
 ];
 
 const routes = [

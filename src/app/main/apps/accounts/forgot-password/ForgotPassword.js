@@ -6,7 +6,7 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import _ from '@lodash';
 import Box from '@mui/material/Box';
@@ -34,15 +34,11 @@ const schema = yup.object().shape({
         }
         return true;
 
-    }),
-    password: yup
-        .string()
-        .required('Please enter your password.')
+    })
 });
 
 const defaultValues = {
     mobileno: '',
-    password: '',
     countrycode: '+91'
 };
 
@@ -51,11 +47,12 @@ const Country = [
     { name: "india", countrycode: 'IN', mobcode: '+91', label: 'India' }
 ]
 
-function SignInWithMobileNumberPage() {
+function ForgotPassword() {
 
-    const [PasswordLoading, setPasswordLoading] = useState(false)
+    const [Loading, setLoading] = useState(false)
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const { control, formState, handleSubmit, setError, reset } = useForm({
         mode: 'onChange',
@@ -66,33 +63,41 @@ function SignInWithMobileNumberPage() {
     const { isValid, dirtyFields, errors } = formState;
 
 
-    async function onSubmit({ countrycode, mobileno, password }) {
+    async function onSubmit({ countrycode, mobileno }) {
 
-        setPasswordLoading(true)
+        setLoading(true)
         const mob = countrycode + mobileno
 
         try {
 
-            const result = await jwtService.signInWithEmailPassword(mob, password)
+            const result = await jwtService.getUserByMobileNumber(mob);
 
-            if (!result.status && result.code === 2) {
+            if (result.success === true) {
 
-                dispatch(showMessage({ message: "Incorrect Username Password", variant: "error" }));
-                setPasswordLoading(false);
+                const result = await jwtService.sendEmailOTPForResetPassword(mob);
 
-            } else if (!result.status && result.code === 0) {
+                if (result) {
 
-                dispatch(showMessage({ message: 'Mobile Number Not Registered!', variant: "warning" }));
-                setPasswordLoading(false);
+                    dispatch(showMessage({ message: `OTP sent to ${result.CodeDeliveryDetails.Destination}`, variant: "success" }))
 
-            } else if (result.status && result.code === 1) {
+                    navigate(`/reset-password/${mob}`);
 
-                setPasswordLoading(false);
-                reset(defaultValues);
+                    setLoading(false)
+
+                    reset(defaultValues)
+
+                } else {
+
+                    console.log("Error occured")
+
+                }
 
             } else {
 
-                console.log(result)
+                dispatch(showMessage({ message: "Mobile Number not registered!", variant: "warning" }));
+
+                setLoading(false)
+
             }
 
         } catch (_errors) {
@@ -165,18 +170,22 @@ function SignInWithMobileNumberPage() {
             </Box>
             <Paper className="h-full sm:h-auto md:flex md:items-center justify-center w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none rtl:border-r-1 ltr:border-l-1">
                 <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
+
                     <div className="flex justify-center">
                         <Typography className="mt-28 text-4xl font-extrabold tracking-tight leading-tight">
-                            Sign in
+                            Forgot Password
                         </Typography>
                     </div>
+
                     <form
-                        name="loginForm"
+                        name="forgotpasswordForm"
                         noValidate
                         className="flex flex-col justify-center w-full mt-32"
                         onSubmit={handleSubmit(onSubmit)}
                     >
+
                         <div className='flex justify-center items-center'>
+
                             <Controller
                                 name="countrycode"
                                 control={control}
@@ -188,7 +197,7 @@ function SignInWithMobileNumberPage() {
                                             label="Country code"
                                             error={!!errors.countrycode}
                                             variant='outlined'
-                                            disabled={PasswordLoading}
+                                            disabled={Loading}
                                         >
                                             {Country.map((country) => {
                                                 return (
@@ -201,6 +210,7 @@ function SignInWithMobileNumberPage() {
                                     </FormControl>
                                 )}
                             />
+
                             <Controller
                                 name="mobileno"
                                 control={control}
@@ -210,7 +220,7 @@ function SignInWithMobileNumberPage() {
                                         className="mb-24"
                                         label="Mobile No"
                                         autoFocus={true}
-                                        disabled={PasswordLoading}
+                                        disabled={Loading}
                                         type="text"
                                         error={!!errors.mobileno}
                                         helperText={errors?.mobileno?.message}
@@ -220,32 +230,17 @@ function SignInWithMobileNumberPage() {
                                     />
                                 )}
                             />
+
                         </div>
-                        <Controller
-                            name="password"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    className="mb-24"
-                                    label="Password"
-                                    type="password"
-                                    disabled={PasswordLoading}
-                                    error={!!errors.password}
-                                    helperText={errors?.password?.message}
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                />
-                            )}
-                        />
+
                         <div className='flex justify-end'>
                             <Link
                                 className="ml-4"
-                                to="/forgot-password">
-                                Forgot Password?
+                                to="/sign-in">
+                                Sign in
                             </Link>
                         </div>
+
                         <LoadingButton
                             variant="contained"
                             color="secondary"
@@ -254,11 +249,13 @@ function SignInWithMobileNumberPage() {
                             disabled={_.isEmpty(dirtyFields) || !isValid}
                             type="submit"
                             size="large"
-                            loading={PasswordLoading}
+                            loading={Loading}
                         >
-                            <span>Sign In</span>
+                            <span>Send Email OTP</span>
                         </LoadingButton>
+
                     </form>
+
                     <div className="flex justify-center items-baseline mt-20 font-medium">
                         <Typography>Don't have an account?</Typography>
                         <Link
@@ -267,10 +264,11 @@ function SignInWithMobileNumberPage() {
                             Create Account
                         </Link>
                     </div>
+
                 </div>
             </Paper>
         </div>
     );
 }
 
-export default SignInWithMobileNumberPage;
+export default ForgotPassword;
