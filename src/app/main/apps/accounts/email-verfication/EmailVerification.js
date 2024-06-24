@@ -149,12 +149,12 @@ function EmailVerification() {
 
                     <div className="flex justify-center">
                         <Typography className="mt-28 text-4xl font-extrabold tracking-tight leading-tight">
-                            Forgot Password
+                            Email Verification
                         </Typography>
                     </div>
                     <Paper
                         className={clsx(
-                            'flex-col max-w-sm md:max-w-none p-24 sm:py-48 sm:px-40 relative'
+                            'flex-col max-w-sm md:max-w-none p-24 sm:py-48 sm:px-40 relative mt-8'
                         )}
                         style={{ minHeight: "262px" }}
                     >
