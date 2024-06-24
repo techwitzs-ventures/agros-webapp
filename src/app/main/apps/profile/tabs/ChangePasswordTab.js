@@ -13,6 +13,8 @@ import JwtService from '../../accounts/auth/services/jwtService';
 import { TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { showMessage } from 'app/store/fuse/messageSlice';
+import { useSelector } from 'react-redux';
+import { selectUser } from 'app/store/userSlice';
 
 const schema = yup.object().shape({
   otp: yup.string().required('Enter Otp').matches(/^\d{6}$/, 'OTP must be 6 digits'),
@@ -41,7 +43,7 @@ function Basic() {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-
+  const user = useSelector(selectUser);
   const container = {
     show: {
       transition: {
@@ -66,14 +68,14 @@ function Basic() {
   async function onSubmit({ otp, confirmPassword }) {
     try {
       setLoading(true)
-      const result = await JwtService.resetPasswordSumbit(otp, confirmPassword)
+      const result = await JwtService.resetPasswordSumbit(user.data.mobilenumber, otp, confirmPassword)
       if (result === "SUCCESS") {
         dispatch(showMessage({ message: "Password Reset Successfull" }))
         setLoading(false)
         reset(defaultValues);
         setShowForm(false)
-      }else if(result==='CodeMismatchException'){
-        dispatch(showMessage({message:"Invalid Verification Code, try again"}))
+      } else if (result === 'CodeMismatchException') {
+        dispatch(showMessage({ message: "Invalid Verification Code, try again" }))
         setLoading(false);
         reset(defaultValues);
       }
@@ -88,7 +90,7 @@ function Basic() {
   const handleEmailClick = async (e) => {
     e.preventDefault();
     try {
-      const result = await JwtService.sendEmailOTPForResetPassword();
+      const result = await JwtService.sendEmailOTPForResetPassword(user.data.mobilenumber);
       if (result) {
         setShowForm(true)
         dispatch(showMessage({ message: `OTP sent to ${result.CodeDeliveryDetails.Destination}` }))
@@ -104,7 +106,7 @@ function Basic() {
     <motion.div variants={container} initial="hidden" animate="show" className='md:w-full sm:w-auto w-full'>
       <div className="md:flex">
         <div className="flex flex-col md:items-center md:ltr:pr-32 md:rtl:pl-32 w-full">
-          {!showForm&&<LoadingButton
+          {!showForm && <LoadingButton
             variant="contained"
             color="secondary"
             disabled={showForm}
