@@ -70,25 +70,35 @@ function ForgotPassword() {
 
         try {
 
-            const result = await jwtService.getUserByMobileNumber(mob);
+            const user_result = await jwtService.getUserByMobileNumber(mob);
 
-            if (result.success === true) {
+            if (user_result.success === true) {
 
-                const result = await jwtService.sendEmailOTPForResetPassword(mob);
+                const email_verification_result = await jwtService.getEmailVerificationStatus(mob);
 
-                if (result) {
+                if (email_verification_result.response) {
 
-                    dispatch(showMessage({ message: `OTP sent to ${result.CodeDeliveryDetails.Destination}`, variant: "success" }))
+                    const result = await jwtService.sendEmailOTPForResetPassword(mob);
 
-                    navigate(`/reset-password/${mob}`);
+                    if (result) {
 
-                    setLoading(false)
+                        dispatch(showMessage({ message: `OTP sent to ${result.CodeDeliveryDetails.Destination}`, variant: "success" }))
 
-                    reset(defaultValues)
+                        navigate(`/reset-password/${mob}`);
+
+                        setLoading(false)
+
+                        reset(defaultValues)
+
+                    } else {
+
+                        console.log("Error occured")
+
+                    }
 
                 } else {
 
-                    console.log("Error occured")
+                    navigate(`/email-verification/${user_result.response.mobilenumber}/${user_result.response.email}/${email_verification_result.response}`)
 
                 }
 

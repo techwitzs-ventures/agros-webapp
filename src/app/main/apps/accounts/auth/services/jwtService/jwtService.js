@@ -114,6 +114,27 @@ class JwtService extends FuseUtils.EventEmitter {
     })
   }
 
+  // Checking User Email Verification Status
+  getEmailVerificationStatus = (mobilenumber) => {
+    return new Promise((resolve, reject) => {
+      axios.get('/tenant/emailverificationstatus', {
+        params: {
+          mobilenumber
+        }
+      }).then((res) => {
+        if (res.status === 200) {
+          resolve(res.data)
+        } else {
+          console.log(res.data);
+          reject(res.data)
+        }
+      }).catch((error) => {
+        console.log(error);
+        reject(error)
+      })
+    })
+  }
+
   // User Table API to update the user's credentials
   updateUserCredentialByUUID = async (data, tenant_id) => {
     return new Promise((resolve, reject) => {

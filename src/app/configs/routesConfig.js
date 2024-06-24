@@ -7,20 +7,22 @@ import SignInConfig from '../main/apps/accounts/sign-in/SignInConfig';
 import SignOutConfig from '../main/apps/accounts/sign-out/SignOutConfig';
 import dashboardsConfigs from '../main/dashboards/dashboardsConfigs';
 import ForgotPasswordConfig from '../main/apps/accounts/forgot-password/ForgotPasswordConfig';
+import EmailVerificationConfig from '../main/apps/accounts/email-verfication/EmailVerificationConfig';
 
 const routeConfigs = [
   ...appsConfigs,
   ...dashboardsConfigs,
   SignOutConfig,
   SignInConfig,
-  ForgotPasswordConfig
+  ForgotPasswordConfig,
+  EmailVerificationConfig
 ];
 
 const routes = [
   ...FuseUtils.generateRoutesFromConfigs(routeConfigs, settingsConfig.defaultAuth),
   {
     path: '/',
-    element: <Navigate to="dashboards/project"/>,
+    element: <Navigate to="dashboards/project" />,
     auth: settingsConfig.defaultAuth,
   },
   {
