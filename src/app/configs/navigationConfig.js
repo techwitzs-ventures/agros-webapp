@@ -20,7 +20,7 @@ const navigationConfig = [
     title: 'Products',
     type: 'item',
     icon: 'heroicons-outline:shopping-cart',
-    auth: authRoles.onlySellerAndReatiler,
+    auth: authRoles.onlySellerAndRetailer,
     url: 'apps/inventory/itemswishlist'
   },
   {

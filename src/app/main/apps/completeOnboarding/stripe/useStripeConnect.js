@@ -10,7 +10,7 @@ export const useStripeConnect = (account_id) => {
 
             const fetchClientSecret = async () => {
                 try {
-                    const response = await axios.post('/tenant/account_session', {
+                    const response = await axios.post('/stripe/account_session', {
                         account_id,
                     }, {
                         headers: {

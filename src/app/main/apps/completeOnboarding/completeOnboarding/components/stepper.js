@@ -71,7 +71,7 @@ function AppStepper(props) {
 
         const fetch_Stripe_accountDetails = async () => {
 
-            const response = await axios.post('/tenant/retrieve_stripe_account', {
+            const response = await axios.post('/stripe/retrieve_stripe_account', {
                 account_id: user.tenant_data.account_id
             }, {
                 headers: {

@@ -121,6 +121,22 @@ export const saveWishlistItem = createAsyncThunk('inventoryApp/wishlistitem/save
 
         if (result.status === 201 || result.status === 200) {
 
+            const stripe_product_creation_result = await axios.post('/stripe/create_product', {
+                name: wishlistItemData.data.item_name,
+                description: wishlistItemData.data.description,
+                unit_amount: wishlistItemData.data.purchase_rate,
+                unit_label: wishlistItemData.data.unit,
+                images: []
+            }, {
+                params: {
+                    account_id: wishlistItemData.stripe_account_id
+                }
+            })
+
+            if (stripe_product_creation_result.status !== 201) {
+                console.log(stripe_product_creation_result)
+            }
+
             dispatch(showMessage({ message: result.data.message, variant: "success" }))
             return result.data.response
 

@@ -8,7 +8,7 @@ const authRoles = {
   forall: ['plateformadmin', 'seller', 'retailer'],
   onlyPlateformAdminAndSeller: ['plateformadmin', 'seller'],
   onlyPlateformAdminAndRetailer: ['plateformadmin', 'retailer'],
-  onlySellerAndReatiler: ['seller', 'retailer'],
+  onlySellerAndRetailer: ['seller', 'retailer'],
   onlyGuest: [],
 };
 

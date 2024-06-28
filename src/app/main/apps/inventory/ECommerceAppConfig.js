@@ -35,7 +35,7 @@ const ECommerceAppConfig = {
     {
       path: 'apps/inventory/itemswishlist',
       element: <WishlistItems />,
-      auth: authRoles.onlySellerAndReatiler
+      auth: authRoles.onlySellerAndRetailer
     },
     {
       path: 'apps/inventory/items/:itemId/*',
@@ -55,17 +55,17 @@ const ECommerceAppConfig = {
     {
       path: 'apps/inventory/itemswishlist/:param1/:param2',
       element: <WishlistItem />,
-      auth: authRoles.onlySellerAndReatiler
+      auth: authRoles.onlySellerAndRetailer
     },
     {
       path: 'apps/inventory/customitemswishlist/:param1/*',
       element: <WishlistCustomItem />,
-      auth: authRoles.onlySellerAndReatiler
+      auth: authRoles.onlySellerAndRetailer
     },
     {
       path: 'apps/inventory/customitemswishlist/:param1/:param2',
       element: <WishlistCustomItem />,
-      auth: authRoles.onlySellerAndReatiler
+      auth: authRoles.onlySellerAndRetailer
     },
     {
       path: 'apps/inventory',

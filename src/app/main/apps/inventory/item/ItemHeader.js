@@ -41,7 +41,8 @@ function ItemHeader(props) {
 
       dispatch(saveItem({
         data,
-        tenant_id: user.tenant_id
+        tenant_id: user.tenant_id,
+        stripe_account_id: user.tenant_data.account_id
       })).then(() => {
         navigate('/apps/inventory/items')
         setloading(false)
@@ -51,7 +52,8 @@ function ItemHeader(props) {
 
       dispatch(saveItem({
         data,
-        tenant_id: user.tenant_id
+        tenant_id: user.tenant_id,
+        stripe_account_id: user.tenant_data.account_id
       })).then((res) => {
         navigate('/apps/inventory/items')
         setloading(false)
@@ -65,7 +67,7 @@ function ItemHeader(props) {
         }))
       })
     }
-    
+
   }
 
   function handleUpdateItem() {
