@@ -146,27 +146,12 @@ export const saveItem = createAsyncThunk('inventoryApp/item/saveItem',
 
     const result = await axios.post('/item/additem', itemData.data, {
       params: {
-        tenant_id: itemData.tenant_id
+        tenant_id: itemData.tenant_id,
+        stripe_account_id: itemData.stripe_account_id
       }
     })
 
     if (result.status === 201) {
-
-      const stripe_product_creation_result = await axios.post('/stripe/create_product', {
-        name: itemData.data.item_name,
-        description: itemData.data.description,
-        unit_amount: itemData.data.purchase_rate,
-        unit_label: itemData.data.unit,
-        images: []
-      }, {
-        params: {
-          account_id: itemData.stripe_account_id
-        }
-      })
-
-      if (stripe_product_creation_result.status !== 201) {
-        console.log(stripe_product_creation_result)
-      }
 
       dispatch(showMessage({ message: result.data.message, variant: "success" }));
       return result.data.response
