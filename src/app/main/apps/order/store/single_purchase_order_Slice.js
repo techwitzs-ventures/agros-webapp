@@ -71,7 +71,7 @@ const singlepurchaseorderSlice = createSlice({
           /* when multiple plateform sellers or sellers are available then ,
           this vendor id field will become a empty string 
           otherwise the seller id will be hardcoded in vendor id key */
-          vendor_id: 'bb5bf091-7c66-4e89-8a46-72bf08c1c3a0',
+          vendor_id: '7236905f-451b-4781-a0d9-5b090bc9aad6',
           delivery_address: '',
           exp_delivery_date: '',
           item_list: [{

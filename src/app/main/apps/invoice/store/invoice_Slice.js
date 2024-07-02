@@ -38,10 +38,12 @@ export const saveInvoice = createAsyncThunk('invoiceApp/saveinvoice',
         total_amount: invoiceData.data.total_amount
       }, {
       params: {
-        tenant_id: invoiceData.org_id
+        tenant_id: invoiceData.tenant_id,
+        stripe_account_id: invoiceData.stripe_account_id,
+        stripe_customer_id: invoiceData.stripe_customer_id
       }
     })
-    if (result.status===200) {
+    if (result.status === 201) {
       return result.data.response
     } else {
       console.log(result)

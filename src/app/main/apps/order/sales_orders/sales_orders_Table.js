@@ -112,25 +112,27 @@ function SalesOrdersTable(props) {
   const handleCreateInvoice = async (salesorder) => {
     setLoading(true)
     try {
-        const obj = {
-          data: {
-            customer_id: salesorder.customer_id,
-            sales_order_id: salesorder.sales_order_id,
-            sales_order_code: salesorder.sales_order_code,
-            purchase_order_id: salesorder.purchase_order_id,
-            purchase_order_code: salesorder.purchase_order_code,
-            due_date: 'Pay after 7 days',
-            total_due: salesorder.total_amount,
-            total_amount: salesorder.total_amount
-          },
-          org_id: salesorder.tenant_id
-        }
-        dispatch(saveInvoice(obj)).then((action) => {
-          props.navigate(`/apps/invoice/${action.payload.invoice_id}/${action.payload.tenant_id}`);
-          setLoading(false)
-        }).catch((error) => {
-          console.log(error)
-        })
+      const obj = {
+        data: {
+          customer_id: salesorder.customer_id,
+          sales_order_id: salesorder.sales_order_id,
+          sales_order_code: salesorder.sales_order_code,
+          purchase_order_id: salesorder.purchase_order_id,
+          purchase_order_code: salesorder.purchase_order_code,
+          due_date: 'Pay after 7 days',
+          total_due: salesorder.total_amount,
+          total_amount: salesorder.total_amount
+        },
+        tenant_id: salesorder.tenant_id,
+        stripe_account_id: user.tenant_data.account_id,
+        stripe_customer_id: 'cus_QOWmSI6uMBTEHz'
+      }
+      dispatch(saveInvoice(obj)).then((action) => {
+        props.navigate(`/apps/invoice/${action.payload.invoice_id}/${action.payload.tenant_id}`);
+        setLoading(false)
+      }).catch((error) => {
+        console.log(error)
+      })
     } catch (error) {
       console.log(error);
     }
@@ -252,14 +254,14 @@ function SalesOrdersTable(props) {
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {n.purchase_order_code !== "N/A" ? n.purchase_order_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
-                          <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
-                        </span>)}
+                        <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
+                      </span>)}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
                       {n.invoice_code !== "N/A" ? n.invoice_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
-                          <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
-                        </span>)}
+                        <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
+                      </span>)}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
@@ -289,7 +291,7 @@ function SalesOrdersTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      <SOOrdersStatus value={n.processing_status}/>
+                      <SOOrdersStatus value={n.processing_status} />
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
