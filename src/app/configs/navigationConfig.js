@@ -138,6 +138,15 @@ const navigationConfig = [
     url: "apps/invoice/allinvoices",
     end: true
   },
+  {
+    id: 'customers',
+    title: 'Customers',
+    type: 'item',
+    auth: authRoles.seller,
+    icon: 'heroicons-outline:user-group',
+    translate: 'CUSTOMERS',
+    url: 'apps/customers/customers'
+  },
   // {
   //   id: 'marketplace.users',
   //   title: 'Users',
