@@ -40,7 +40,7 @@ function CustomersHeader(props) {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Customers
+        Retailers
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -53,7 +53,7 @@ function CustomersHeader(props) {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Search customers by name"
+            placeholder="Search retailers by name"
             className="flex flex-1"
             disableUnderline
             fullWidth
@@ -75,7 +75,7 @@ function CustomersHeader(props) {
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >
-            Add Customer
+            Add Retailer
           </Button>
         </motion.div>
       </div>

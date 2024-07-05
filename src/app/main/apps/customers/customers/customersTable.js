@@ -194,7 +194,7 @@ function CustomersTable(props) {
                     role="checkbox"
                     aria-checked={isSelected}
                     tabIndex={-1}
-                    key={n.id}
+                    key={n.email}
                     selected={isSelected}
                   >
                     <TableCell className="p-4 md:p-16" component="th" scope="row">

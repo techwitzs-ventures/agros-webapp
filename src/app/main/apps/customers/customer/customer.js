@@ -146,7 +146,7 @@ function Customer(props) {
                 className="flex flex-col flex-1 items-center justify-center h-full"
             >
                 <Typography color="text.secondary" variant="h5">
-                    There is no such customer!
+                    There is no such retailer!
                 </Typography>
                 <Button
                     className="mt-24"
@@ -155,7 +155,7 @@ function Customer(props) {
                     to="/apps/customers/customers"
                     color="inherit"
                 >
-                    Go to Customers Page
+                    Go to Retailers Page
                 </Button>
             </motion.div>
         );
@@ -185,7 +185,7 @@ function Customer(props) {
                             scrollButtons="auto"
                             classes={{ root: 'w-full h-64 border-b-1' }}
                         >
-                            <Tab className="h-64" label="Customer Info" />
+                            <Tab className="h-64" label="Retailer Info" />
                         </Tabs>
                         <div className="p-16 sm:p-24 max-w-3xl">
                             <div className={tabValue !== 0 ? 'hidden' : ''}>

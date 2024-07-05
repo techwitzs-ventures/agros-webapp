@@ -58,7 +58,7 @@ function CustomerHeader(props) {
                                 ? 'heroicons-outline:arrow-sm-left'
                                 : 'heroicons-outline:arrow-sm-right'}
                         </FuseSvgIcon>
-                        <span className="flex mx-4 font-medium">Customer</span>
+                        <span className="flex mx-4 font-medium">Retailer</span>
                     </Typography>
                 </motion.div>
 
@@ -72,7 +72,7 @@ function CustomerHeader(props) {
                             {name}
                         </Typography>
                         <Typography variant="caption" className="font-medium">
-                            Customer Details
+                            Retailer Details
                         </Typography>
                     </motion.div>
                 </div>

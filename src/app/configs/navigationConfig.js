@@ -140,11 +140,10 @@ const navigationConfig = [
   },
   {
     id: 'customers',
-    title: 'Customers',
+    title: 'Retailers',
     type: 'item',
     auth: authRoles.seller,
     icon: 'heroicons-outline:user-group',
-    translate: 'CUSTOMERS',
     url: 'apps/customers/customers'
   },
   // {
