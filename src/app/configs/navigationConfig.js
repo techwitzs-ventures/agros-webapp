@@ -16,6 +16,22 @@ const navigationConfig = [
     url: 'dashboards/project'
   },
   {
+    id: 'vendors',
+    title: 'Sellers',
+    type: 'item',
+    auth: authRoles.onlySellerAndRetailer,
+    icon: 'heroicons-outline:user-group',
+    url: 'apps/vendors/vendors'
+  },
+  {
+    id: 'customers',
+    title: 'Retailers',
+    type: 'item',
+    auth: authRoles.seller,
+    icon: 'heroicons-outline:user-group',
+    url: 'apps/customers/customers'
+  },
+  {
     id: 'marketplace.itemswishlist',
     title: 'Products',
     type: 'item',
@@ -137,15 +153,7 @@ const navigationConfig = [
     icon: 'heroicons-outline:calculator',
     url: "apps/invoice/allinvoices",
     end: true
-  },
-  {
-    id: 'customers',
-    title: 'Retailers',
-    type: 'item',
-    auth: authRoles.seller,
-    icon: 'heroicons-outline:user-group',
-    url: 'apps/customers/customers'
-  },
+  }
   // {
   //   id: 'marketplace.users',
   //   title: 'Users',
