@@ -9,7 +9,8 @@ import { useState } from 'react';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { selectUser } from 'app/store/userSlice';
 import { LoadingButton } from '@mui/lab';
-import { saveVendor } from '../store/vendorSlice';
+import { getVendorByEmail, saveVendor } from '../store/vendorSlice';
+import { showMessage } from 'app/store/fuse/messageSlice';
 
 
 function VendorHeader(props) {
@@ -30,14 +31,23 @@ function VendorHeader(props) {
     const user = useSelector(selectUser)
 
     function onSubmitNew(data) {
+
         setloading(true)
-        dispatch(saveVendor({
-            data,
-            tenant_id: user.tenant_id,
-        })).then(() => {
-            navigate('/apps/vendors/vendors')
-            setloading(false)
-        })
+
+        dispatch(getVendorByEmail(data.email)).then((action) => {
+            if (action.payload) {
+                dispatch(showMessage({ message: "Email already added!" }));
+                setloading(false)
+            } else {
+                dispatch(saveVendor({
+                    data,
+                    tenant_id: user.tenant_id,
+                })).then(() => {
+                    navigate('/apps/vendors/vendors')
+                    setloading(false)
+                })
+            }
+        });
 
     }
 

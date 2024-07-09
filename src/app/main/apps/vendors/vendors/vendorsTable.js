@@ -131,6 +131,9 @@ function VendorsTable(props) {
     setSelectedVendor("")
   }
 
+  function handleViewVendorDetails(selectedVendor) {
+    props.navigate(`/apps/vendors/vendors/${selectedVendor.vendor_id}`)
+  }
 
   if (loading) {
     return (
@@ -148,12 +151,12 @@ function VendorsTable(props) {
         className="flex flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          There are no vendors!
+          There are no sellers!
         </Typography>
       </motion.div>
     );
   }
-  
+
   return (
     <div className="w-full flex flex-col min-h-full">
       <FuseScrollbars className="grow overflow-x-auto">
@@ -194,7 +197,7 @@ function VendorsTable(props) {
                     role="checkbox"
                     aria-checked={isSelected}
                     tabIndex={-1}
-                    key={n.email}
+                    key={n.id}
                     selected={isSelected}
                   >
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
@@ -241,12 +244,12 @@ function VendorsTable(props) {
                         onClose={closeSelectedVendorsMenu}
                       >
                         <MenuList>
-                          {/* <MenuItem onClick={() => {
-                            handleUpdateItemStatus(selectedVendor);
+                          <MenuItem onClick={() => {
+                            handleViewVendorDetails(selectedVendor);
                             closeSelectedVendorsMenu();
                           }}>
-                            {selectedVendor.status ? <ListItemText primary="Deactivate" /> : <ListItemText primary="Activate" />}
-                          </MenuItem> */}
+                            <ListItemText primary="View Details" />
+                          </MenuItem>
                         </MenuList>
                       </Menu>}
 
