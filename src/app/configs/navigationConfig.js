@@ -17,7 +17,7 @@ const navigationConfig = [
   },
   {
     id: 'vendors',
-    title: 'Sellers',
+    title: 'Vendors',
     type: 'item',
     auth: authRoles.onlySellerAndRetailer,
     icon: 'heroicons-outline:user-group',
@@ -25,9 +25,9 @@ const navigationConfig = [
   },
   {
     id: 'customers',
-    title: 'Retailers',
+    title: 'Customers',
     type: 'item',
-    auth: authRoles.seller,
+    auth: authRoles.onlySellerAndRetailer,
     icon: 'heroicons-outline:user-group',
     url: 'apps/customers/customers'
   },

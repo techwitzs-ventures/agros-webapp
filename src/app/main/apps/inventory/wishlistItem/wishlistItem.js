@@ -40,12 +40,12 @@ const schema = yup.object().shape({
     .string()
     .required('You must enter a item name')
     .min(2, 'The item name must be at least 2 characters'),
-  rate: yup.number().required('Enter item rate')
-    .typeError("Rate must be a numeric value")
-    .test('is-number', 'Rate must be a numeric value', value => !isNaN(value)),
   purchase_rate: yup.number().required('Enter item purchase rate')
-    .typeError("Purchase rate must be a numeric value")
-    .test('is-number', 'Purchase rate must be a numeric value', value => !isNaN(value)),
+    .typeError("Purchase Rate must be a numeric value")
+    .test('is-number', 'Purchase Rate must be a numeric value', value => !isNaN(value)),
+  selling_rate: yup.number().required('Enter item selling rate')
+    .typeError("Selling rate must be a numeric value")
+    .test('is-number', 'Selling rate must be a numeric value', value => !isNaN(value)),
   unit: yup.string().required('Enter item unit'),
   quantity: yup.number().notRequired("This is optional")
     .typeError("Quantity must be a numeric value")

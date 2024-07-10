@@ -9,32 +9,45 @@ import { useState } from 'react';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { selectUser } from 'app/store/userSlice';
 import { LoadingButton } from '@mui/lab';
-import { saveCustomer } from '../store/customerSlice';
+import { getCustomerByEmail, saveCustomer } from '../store/customerSlice';
+import { showMessage } from 'app/store/fuse/messageSlice';
 
 
 function CustomerHeader(props) {
 
+    const [loading, setloading] = useState(false)
+
     const dispatch = useDispatch();
+
     const methods = useFormContext();
     const { formState, watch, handleSubmit } = methods;
     const { isValid, dirtyFields } = formState;
 
-    const name = watch('name');
+    const firstname = watch('firstname');
+    const lastname = watch('lastname');
 
     const theme = useTheme();
     const navigate = useNavigate();
+
     const user = useSelector(selectUser)
-    const [loading, setloading] = useState(false)
 
     function onSubmitNew(data) {
         setloading(true)
-        dispatch(saveCustomer({
-            data,
-            tenant_id: user.tenant_id,
-            stripe_account_id: user.tenant_data.account_id
-        })).then(() => {
-            navigate('/apps/customers/customers')
-            setloading(false)
+
+        dispatch(getCustomerByEmail(data.email)).then((action) => {
+            if (action.payload) {
+                dispatch(showMessage({ message: "Email already added!" }));
+                setloading(false)
+            } else {
+                dispatch(saveCustomer({
+                    data,
+                    tenant_id: user.tenant_id,
+                    stripe_account_id: user.tenant_data.account_id
+                })).then(() => {
+                    navigate('/apps/customers/customers')
+                    setloading(false)
+                })
+            }
         })
 
     }
@@ -58,7 +71,7 @@ function CustomerHeader(props) {
                                 ? 'heroicons-outline:arrow-sm-left'
                                 : 'heroicons-outline:arrow-sm-right'}
                         </FuseSvgIcon>
-                        <span className="flex mx-4 font-medium">Retailer</span>
+                        <span className="flex mx-4 font-medium">Customer</span>
                     </Typography>
                 </motion.div>
 
@@ -69,10 +82,10 @@ function CustomerHeader(props) {
                         animate={{ x: 0, transition: { delay: 0.3 } }}
                     >
                         <Typography className="text-16 sm:text-20 truncate font-semibold">
-                            {name}
+                            {firstname} {lastname}
                         </Typography>
                         <Typography variant="caption" className="font-medium">
-                            Retailer Details
+                            Customer Details
                         </Typography>
                     </motion.div>
                 </div>

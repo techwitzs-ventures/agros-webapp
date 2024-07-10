@@ -149,7 +149,7 @@ function Vendor(props) {
                 className="flex flex-col flex-1 items-center justify-center h-full"
             >
                 <Typography color="text.secondary" variant="h5">
-                    There is no such seller!
+                    There is no such vendor!
                 </Typography>
                 <Button
                     className="mt-24"
@@ -158,7 +158,7 @@ function Vendor(props) {
                     to="/apps/vendors/vendors"
                     color="inherit"
                 >
-                    Go to Sellers Page
+                    Go to Vendors Page
                 </Button>
             </motion.div>
         );
@@ -188,7 +188,7 @@ function Vendor(props) {
                             scrollButtons="auto"
                             classes={{ root: 'w-full h-64 border-b-1' }}
                         >
-                            <Tab className="h-64" label="Seller Info" />
+                            <Tab className="h-64" label="Vendor Info" />
                         </Tabs>
                         <div className="p-16 sm:p-24 max-w-3xl">
                             <div className={tabValue !== 0 ? 'hidden' : ''}>

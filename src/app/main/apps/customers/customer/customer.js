@@ -29,7 +29,7 @@ const schema = yup.object().shape({
         'Invalid email format'
     ),
     countrycode: yup.string().required('Select country code'),
-    phone: yup.string().required(`Enter customer's Mob.no`).test('is-valid-phone', function (value) {
+    mobilenumber: yup.string().required(`Enter customer's Mob.no`).test('is-valid-mobilenumber', function (value) {
 
         const { countrycode } = this.parent;
 
@@ -47,14 +47,17 @@ const schema = yup.object().shape({
         return true;
 
     }),
-    name: yup.string().required('Enter customer name').min(2, 'Name must be at least 2 characters'),
+    firstname: yup.string().required('Enter customer first name').min(2, 'First Name must be at least 2 characters'),
+    lastname: yup.string().required('Enter customer last name').min(2, 'Last Name must be at least 2 characters'),
+
 });
 
 const defaultValues = {
     email: '',
     countrycode: '+91',
-    phone: '',
-    name: ''
+    mobilenumber: '',
+    firstname: '',
+    lastname: '',
 }
 
 function Customer(props) {
@@ -146,7 +149,7 @@ function Customer(props) {
                 className="flex flex-col flex-1 items-center justify-center h-full"
             >
                 <Typography color="text.secondary" variant="h5">
-                    There is no such retailer!
+                    There is no such customer!
                 </Typography>
                 <Button
                     className="mt-24"
@@ -155,7 +158,7 @@ function Customer(props) {
                     to="/apps/customers/customers"
                     color="inherit"
                 >
-                    Go to Retailers Page
+                    Go to Customers Page
                 </Button>
             </motion.div>
         );
@@ -185,7 +188,7 @@ function Customer(props) {
                             scrollButtons="auto"
                             classes={{ root: 'w-full h-64 border-b-1' }}
                         >
-                            <Tab className="h-64" label="Retailer Info" />
+                            <Tab className="h-64" label="Customer Info" />
                         </Tabs>
                         <div className="p-16 sm:p-24 max-w-3xl">
                             <div className={tabValue !== 0 ? 'hidden' : ''}>

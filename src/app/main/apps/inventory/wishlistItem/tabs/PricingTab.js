@@ -32,7 +32,7 @@ function PricingTab(props) {
             >
 
               {user.role === "seller" && <Controller
-                name="rate"
+                name="purchase_rate"
                 control={control}
                 render={({ field }) => (
                   <TextField
@@ -41,8 +41,8 @@ function PricingTab(props) {
                     label={`Purchase rate ( ${user.tenant_data.currency_code} )`}
                     type="number"
                     disabled={param1 === "view" || user.role === "retailer" ? true : false}
-                    error={!!errors.rate}
-                    helperText={errors?.rate?.message}
+                    error={!!errors.purchase_rate}
+                    helperText={errors?.purchase_rate?.message}
                     variant="outlined"
                     required
                   />
@@ -50,7 +50,7 @@ function PricingTab(props) {
               />}
 
               <Controller
-                name="purchase_rate"
+                name="selling_rate"
                 control={control}
                 render={({ field }) => (
                   <TextField
@@ -63,8 +63,8 @@ function PricingTab(props) {
                     }
                     type="number"
                     disabled={param1 === "view" || user.role === "retailer" ? true : false}
-                    error={!!errors.purchase_rate}
-                    helperText={errors?.purchase_rate?.message}
+                    error={!!errors.selling_rate}
+                    helperText={errors?.selling_rate?.message}
                     variant="outlined"
                     fullWidth
                     required

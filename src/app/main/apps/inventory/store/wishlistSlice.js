@@ -69,8 +69,8 @@ export const updateWishlistItem = createAsyncThunk('inventoryApp/wishlistitem/up
 
             const result = await axios.put('/itemswishlist/updateitem', {
                 description: updated_value.description,
-                rate: updated_value.rate,
                 purchase_rate: updated_value.purchase_rate,
+                selling_rate: updated_value.selling_rate,
                 is_taxable: updated_value.is_taxable,
                 tax_id: updated_value.tax_id,
                 sku: updated_value.sku,
@@ -148,8 +148,8 @@ const wishlistitemSlice = createSlice({
                         item_code: event.item_code,
                         item_name: event.item_name,
                         description: event.description,
-                        rate: user_role === 'retailer' ? event.rate : 0,
                         purchase_rate: user_role === 'retailer' ? event.purchase_rate : 0,
+                        selling_rate: user_role === 'retailer' ? event.selling_rate : 0,
                         unit: event.unit,
                         is_taxable: user_role === 'retailer' ? event.is_taxable : false,
                         tax_id: user_role === 'retailer' ? event.tax_id : "",

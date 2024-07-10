@@ -6,7 +6,24 @@ import axios from 'axios';
 export const getCustomer = createAsyncThunk('customersApp/customer/getCustomer',
 
     async (queryparams) => {
+
         try {
+            const result = await axios.get(
+                '/customer/getcustomer',
+                {
+                    params: {
+                        customer_id: queryparams.customer_id
+                    }
+                }
+            );
+
+            return {
+                email: result.data.response.email,
+                mobilenumber: result.data.response.mobilenumber.slice(3),
+                countrycode: result.data.response.mobilenumber.slice(0, 3),
+                firstname: result.data.response.firstname,
+                lastname: result.data.response.lastname
+            }
 
         } catch (error) {
 
@@ -16,30 +33,63 @@ export const getCustomer = createAsyncThunk('customersApp/customer/getCustomer',
 
     });
 
+export const getCustomerByEmail = createAsyncThunk('customersApp/customer/getCustomerByEmail',
+    async (email, { dispatch, getState }) => {
+        try {
+            const result = await axios.get(
+                '/customer/customersbyemail',
+                {
+                    params: {
+                        email
+                    }
+                }
+            );
+            if (result.status === 200) {
+                if (result.data.response.length > 0) {
+                    return true
+                } else {
+                    return false
+                }
+            }
 
+        } catch (error) {
+            console.log(error)
+        }
+    }
+)
 
 export const saveCustomer = createAsyncThunk('customersApp/customer/saveCustomer',
 
     async (customerData, { dispatch, getState }) => {
+
         const body = {
             email: customerData.data.email,
-            name: customerData.data.name,
-            phone: `${customerData.data.countrycode}${customerData.data.phone}`
+            mobilenumber: `${customerData.data.countrycode}${customerData.data.mobilenumber}`,
+            firstname: customerData.data.firstname,
+            lastname: customerData.data.lastname
         }
+
         try {
-            const result = await axios.post('/customer/add_customer', body, {
-                params: {
-                    vendor_id: customerData.tenant_id,
-                    stripe_account_id: customerData.stripe_account_id
+            const result = await axios.post(
+                '/customer/create_customer',
+                body,
+                {
+                    params: {
+                        tenant_id: customerData.tenant_id,
+                        stripe_account_id: customerData.stripe_account_id
+                    }
                 }
-            })
+            )
 
             if (result.status === 201) {
                 dispatch(showMessage({ message: result.data.message, variant: "success" }));
                 return result.data.response
             }
+
         } catch (error) {
+
             console.log(error)
+
         }
 
     });
@@ -54,8 +104,9 @@ const customerSlice = createSlice({
             prepare: (event) => ({
                 payload: {
                     email: "",
-                    name: "",
-                    phone: ""
+                    mobilenumber: "",
+                    firstname: "",
+                    lastname: "",
                 },
             }),
         },

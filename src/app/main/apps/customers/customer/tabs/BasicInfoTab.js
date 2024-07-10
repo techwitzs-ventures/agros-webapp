@@ -73,7 +73,7 @@ function BasicInfoTab(props) {
                                     )}
                                 />
                                 <Controller
-                                    name="phone"
+                                    name="mobilenumber"
                                     control={control}
                                     render={({ field }) => (
                                         <TextField
@@ -81,8 +81,8 @@ function BasicInfoTab(props) {
                                             className="mb-24"
                                             label="Mobile No"
                                             type="text"
-                                            error={!!errors.phone}
-                                            helperText={errors?.phone?.message}
+                                            error={!!errors.mobilenumber}
+                                            helperText={errors?.mobilenumber?.message}
                                             variant="outlined"
                                             required
                                             fullWidth
@@ -92,16 +92,33 @@ function BasicInfoTab(props) {
                             </div>
 
                             {<Controller
-                                name="name"
+                                name="firstname"
                                 render={({ field }) => (
                                     <TextField
                                         {...field}
                                         className="mt-8 mb-16"
                                         required
-                                        label="Name"
-                                        id="name"
-                                        error={!!errors.name}
-                                        helperText={errors?.name?.message}
+                                        label="First Name"
+                                        id="firstname"
+                                        error={!!errors.firstname}
+                                        helperText={errors?.firstname?.message}
+                                        variant="outlined"
+                                        fullWidth
+                                    />
+                                )}
+                            />}
+
+                            {<Controller
+                                name="lastname"
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        className="mt-8 mb-16"
+                                        required
+                                        label="Last Name"
+                                        id="lastname"
+                                        error={!!errors.lastname}
+                                        helperText={errors?.lastname?.message}
                                         variant="outlined"
                                         fullWidth
                                     />

@@ -70,7 +70,7 @@ function VendorHeader(props) {
                                 ? 'heroicons-outline:arrow-sm-left'
                                 : 'heroicons-outline:arrow-sm-right'}
                         </FuseSvgIcon>
-                        <span className="flex mx-4 font-medium">Seller</span>
+                        <span className="flex mx-4 font-medium">Vendor</span>
                     </Typography>
                 </motion.div>
 
@@ -84,7 +84,7 @@ function VendorHeader(props) {
                             {firstname} {lastname}
                         </Typography>
                         <Typography variant="caption" className="font-medium">
-                            Seller Details
+                            Vendor Details
                         </Typography>
                     </motion.div>
                 </div>

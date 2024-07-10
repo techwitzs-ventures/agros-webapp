@@ -41,10 +41,10 @@ const rows = [
     sort: true,
   },
   {
-    id: 'rate',
+    id: 'selling_rate',
     align: 'left',
     disablePadding: false,
-    label: 'Rate',
+    label: 'Selling Rate',
     sort: true,
   },
   {
@@ -129,7 +129,7 @@ function WishlistItemsTableHead(props) {
                     className="font-semibold"
                   >
                     {
-                      row.id === 'rate' ?
+                      row.id === 'selling_rate' ?
                         `${row.label} (${!user.data.country !== "" && user.tenant_data.currency_code})` :
                         row.label
                     }

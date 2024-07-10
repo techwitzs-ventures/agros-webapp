@@ -5,11 +5,12 @@ import axios from 'axios';
 export const getCustomers = createAsyncThunk('customersApp/customers/getCustomers', async (get_customers_obj) => {
   try {
 
-    const result = await axios.get('/customer/getcustomerlistbyvendorid', {
+    const result = await axios.get('/customer/customersbytenantid', {
       params: {
-        vendor_id: get_customers_obj.tenant_id
+        tenant_id: get_customers_obj.tenant_id
       }
     })
+    
     return result.data.response
 
   } catch (error) {
@@ -17,10 +18,9 @@ export const getCustomers = createAsyncThunk('customersApp/customers/getCustomer
   }
 });
 
-export const removeCustomers = createAsyncThunk(
-  'customersApp/customers', () => {
+export const removeCustomers = createAsyncThunk('customersApp/customers', async () => {
 
-  }
+}
 );
 
 const customersAdapter = createEntityAdapter({});

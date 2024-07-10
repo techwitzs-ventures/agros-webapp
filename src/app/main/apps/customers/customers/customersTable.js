@@ -59,7 +59,7 @@ function CustomersTable(props) {
   useEffect(() => {
     if (searchText.length !== 0) {
       setData(
-        _.filter(customers, (item) => item.name.toLowerCase().includes(searchText.toLowerCase()))
+        _.filter(customers, (item) => item.firstname.toLowerCase().includes(searchText.toLowerCase()))
       );
       setPage(0);
     } else {
@@ -131,6 +131,10 @@ function CustomersTable(props) {
     setSelectedCustomer("")
   }
 
+  function handleViewCustomerDetails(selectedCustomer) {
+    props.navigate(`/apps/customers/customers/${selectedCustomer.customer_id}`)
+  }
+
 
   if (loading) {
     return (
@@ -153,7 +157,7 @@ function CustomersTable(props) {
       </motion.div>
     );
   }
-  
+
   return (
     <div className="w-full flex flex-col min-h-full">
       <FuseScrollbars className="grow overflow-x-auto">
@@ -194,11 +198,11 @@ function CustomersTable(props) {
                     role="checkbox"
                     aria-checked={isSelected}
                     tabIndex={-1}
-                    key={n.email}
+                    key={n.id}
                     selected={isSelected}
                   >
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
-                      {n.name}
+                      {n.firstname} {n.lastname}
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
@@ -206,7 +210,7 @@ function CustomersTable(props) {
                     </TableCell>
 
                     <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      {n.phone}
+                      {n.mobilenumber}
                     </TableCell>
 
                     {/* <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
@@ -241,12 +245,12 @@ function CustomersTable(props) {
                         onClose={closeSelectedCustomersMenu}
                       >
                         <MenuList>
-                          {/* <MenuItem onClick={() => {
-                            handleUpdateItemStatus(selectedCustomer);
+                          <MenuItem onClick={() => {
+                            handleViewCustomerDetails(selectedCustomer);
                             closeSelectedCustomersMenu();
                           }}>
-                            {selectedCustomer.status ? <ListItemText primary="Deactivate" /> : <ListItemText primary="Activate" />}
-                          </MenuItem> */}
+                            <ListItemText primary="View Details" />
+                          </MenuItem>
                         </MenuList>
                       </Menu>}
 
@@ -274,6 +278,7 @@ function CustomersTable(props) {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+
     </div>
   );
 }

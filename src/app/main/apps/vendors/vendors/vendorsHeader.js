@@ -40,7 +40,7 @@ function VendorsHeader(props) {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Sellers
+        Vendors
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -53,7 +53,7 @@ function VendorsHeader(props) {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Search sellers by name"
+            placeholder="Search vendors by name"
             className="flex flex-1"
             disableUnderline
             fullWidth
@@ -75,7 +75,7 @@ function VendorsHeader(props) {
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >
-            Add Seller
+            Add Vendor
           </Button>
         </motion.div>
       </div>
