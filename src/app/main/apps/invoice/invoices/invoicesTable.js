@@ -20,28 +20,25 @@ import withRouter from "@fuse/core/withRouter";
 import FuseLoading from "@fuse/core/FuseLoading";
 import FuseSvgIcon from "@fuse/core/FuseSvgIcon";
 import {
-  getMyInvoiceList,
-  selectMyInvoices,
-  selectMyInvoicesSearchText,
-  selectMyInvoiceActiveStatus
-} from "../store/my_invoices_Slice";
-import MyInvoicesTableHead from "./all_my_invoices_TableHead";
+  getInvoiceList,
+  selectInvoices,
+  selectInvoicesSearchText,
+  selectInvoiceActiveStatus
+} from "../store/invoicesSlice";
+import InvoicesTableHead from "./invoicesTableHead";
 import { showMessage } from "app/store/fuse/messageSlice";
-import { selectTenant } from "app/store/tenantSlice";
-import { getAllInvoice, selectAllinvoices } from "app/store/allInvoicesSlice";
+import { getCustomers } from "../../customers/store/customersSlice";
 
-function AllInvoicesTable(props) {
+function InvoicesTable(props) {
 
   const dispatch = useDispatch();
-
-  const invoices = useSelector(selectAllinvoices);
-
+  const invoices = useSelector(selectInvoices);
   const user = useSelector(selectUser);
-  const tenants = useSelector(selectTenant)
 
-  const searchText = useSelector(selectMyInvoicesSearchText);
-  const activeStatus = useSelector(selectMyInvoiceActiveStatus);
+  const searchText = useSelector(selectInvoicesSearchText);
+  const activeStatus = useSelector(selectInvoiceActiveStatus);
 
+  const [customers, setcustomers] = useState([])
   const [selectedInvoicesMenu, setSelectedInvoicesMenu] = useState(null);
   const [selectedInvoices, setSelectedInvoices] = useState("");
 
@@ -56,18 +53,29 @@ function AllInvoicesTable(props) {
     id: null,
   });
 
-
   useEffect(() => {
     if (user) {
-      user.data.country === "" && dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
-      dispatch(getAllInvoice()).then(() => setLoading(false));
+      user.data.country === "" &&
+        dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }));
+      setLoading(true);
+      const get_invoices_obj = {
+        tenant_id: user.tenant_id,
+        // active_status: activeStatus,
+      };
+      dispatch(getInvoiceList(get_invoices_obj)).then((res) => {
+        dispatch(getCustomers({ tenant_id: user.tenant_id })).then((res) => {
+          setcustomers(res.payload)
+          setLoading(false);
+        })
+      });
     }
   }, [dispatch]);
 
   useEffect(() => {
     if (searchText.length !== 0) {
       setData(
-        _.filter(invoices, (invoiceData) => invoiceData.invoice_code.toLowerCase().includes(searchText.toLowerCase()))
+        _.filter(invoices, (invoiceData) =>
+          invoiceData.invoice_code.toLowerCase().includes(searchText.toLowerCase()))
       );
       setPage(0);
     } else {
@@ -100,11 +108,6 @@ function AllInvoicesTable(props) {
   function handleDeselect() {
     setSelected([]);
   }
-
-  const getTenant = (selectedId) => {
-    const selectedTenant = tenants.find(tenant => tenant.tenant_id === selectedId);
-    return selectedTenant;
-  };
 
   function handleCheck(event, id) {
     const selectedIndex = selected.indexOf(id);
@@ -166,11 +169,16 @@ function AllInvoicesTable(props) {
     );
   }
 
+  const getCustomer = (customerId) => {
+    const customer = customers.find((customer) => customer.customer_id === customerId);
+    return `${customer.firstname} ${customer.lastname}`
+  }
+
   return (
     <div className="w-full flex flex-col min-h-full">
       <FuseScrollbars className="grow overflow-x-auto">
         <Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
-          <MyInvoicesTableHead
+          <InvoicesTableHead
             selectedProductIds={selected}
             invoiceData={invoiceData}
             onSelectAllClick={handleSelectAllClick}
@@ -223,7 +231,7 @@ function AllInvoicesTable(props) {
                       scope="row"
                       align="left"
                     >
-                      {n.sales_order_code}
+                      {customers.length > 0 && getCustomer(n.customer_id) || "Customer Name"}
                     </TableCell>
 
                     <TableCell
@@ -232,9 +240,7 @@ function AllInvoicesTable(props) {
                       scope="row"
                       align="left"
                     >
-                      {n.purchase_order_code !== "N/A" ? n.purchase_order_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
-                        <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
-                      </span>)}
+                      {n.item_list.length}
                     </TableCell>
 
                     <TableCell
@@ -243,7 +249,7 @@ function AllInvoicesTable(props) {
                       scope="row"
                       align="left"
                     >
-                      {getTenant(n.customer_id).tenant_name || "Customer Name"}
+                      {n.status ? "active" : "inactive"}
                     </TableCell>
 
                     <TableCell
@@ -252,7 +258,7 @@ function AllInvoicesTable(props) {
                       scope="row"
                       align="left"
                     >
-                      {getTenant(n.vendor_id).tenant_name || "Vendor Name"}
+                      {n.total_amount}
                     </TableCell>
 
                     <TableCell
@@ -266,24 +272,6 @@ function AllInvoicesTable(props) {
                         day: 'numeric',
                         year: 'numeric',
                       })}
-                    </TableCell>
-
-                    <TableCell
-                      className="p-4 md:p-16"
-                      component="th"
-                      scope="row"
-                      align="left"
-                    >
-                      {n.due_date}
-                    </TableCell>
-
-                    <TableCell
-                      className="p-4 md:p-16"
-                      component="th"
-                      scope="row"
-                      align="left"
-                    >
-                      {`${n.total_amount} ( ${getTenant(n.vendor_id).currency_code})`}
                     </TableCell>
 
                     <TableCell
@@ -318,32 +306,13 @@ function AllInvoicesTable(props) {
                             <MenuItem
                               onClick={() => {
                                 closeSelectedInvoiceMenu();
+                                props.navigate(`/apps/invoice/invoices/${selectedInvoices.invoice_id}`)
                               }}
                             >
                               <ListItemText
-                                primary={"View Invoice"}
+                                primary="View Invoice"
                               />
                             </MenuItem>
-
-                            {selectedInvoices.purchase_order_id !== "N/A" && <MenuItem
-                              onClick={() => {
-                                closeSelectedInvoiceMenu();
-                              }}
-                            >
-                              <ListItemText
-                                primary={"View Purchase Order"}
-                              />
-                            </MenuItem>}
-
-                            {<MenuItem
-                              onClick={() => {
-                                closeSelectedInvoiceMenu();
-                              }}
-                            >
-                              <ListItemText
-                                primary={"View Sales Order"}
-                              />
-                            </MenuItem>}
 
                           </MenuList>
                         </Menu>
@@ -375,4 +344,4 @@ function AllInvoicesTable(props) {
   );
 }
 
-export default withRouter(AllInvoicesTable);
+export default withRouter(InvoicesTable);

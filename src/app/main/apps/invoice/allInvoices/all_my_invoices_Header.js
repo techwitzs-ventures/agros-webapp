@@ -12,13 +12,13 @@ import {
   selectInvoicesSearchText,
   setInvoicesSearchText,
   setInvoiceActiveStatus,
-} from '../store/received_invoices_Slice';
+} from '../store/invoicesSlice';
 import { useState } from 'react';
 import { selectUser } from 'app/store/userSlice';
 import { showMessage } from 'app/store/fuse/messageSlice';
 
 
-function InvoicesHeader(props) {
+function AllInvoicesHeader(props) {
 
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ function InvoicesHeader(props) {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Received Invoices
+        Invoices
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -80,7 +80,7 @@ function InvoicesHeader(props) {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Search Invoice"
+            placeholder="Search products"
             className="flex flex-1"
             disableUnderline
             fullWidth
@@ -96,4 +96,4 @@ function InvoicesHeader(props) {
   );
 }
 
-export default InvoicesHeader;
+export default AllInvoicesHeader;

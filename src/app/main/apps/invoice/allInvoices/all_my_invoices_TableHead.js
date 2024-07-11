@@ -41,6 +41,13 @@ const rows = [
     sort: true,
   },
   {
+    id: "customer_name",
+    align: "left",
+    disablePadding: false,
+    label: "Customer Name",
+    sort: true,
+  },
+  {
     id: "vendor_name",
     align: "left",
     disablePadding: false,
@@ -59,13 +66,6 @@ const rows = [
     align: "left",
     disablePadding: false,
     label: "Due Date",
-    sort: true,
-  },
-  {
-    id: 'status',
-    align: 'left',
-    disablePadding: false,
-    label: 'Status',
     sort: true,
   },
   {
@@ -136,7 +136,7 @@ function InvoicesTableHead(props) {
                     onClick={createSortHandler(row.id)}
                     className="font-semibold"
                   >
-                    {row.id === "total_amount" ? `${row.label} (${!user.data.country !== "" && user.tenant_data.currency_code})` : row.label}
+                    {row.label}
                   </TableSortLabel>
                 </Tooltip>
               )}

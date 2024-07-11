@@ -20,25 +20,27 @@ import withRouter from "@fuse/core/withRouter";
 import FuseLoading from "@fuse/core/FuseLoading";
 import FuseSvgIcon from "@fuse/core/FuseSvgIcon";
 import {
-  getMyInvoiceList,
-  selectMyInvoices,
-  selectMyInvoicesSearchText,
-  selectMyInvoiceActiveStatus
-} from "../store/my_invoices_Slice";
-import MyInvoicesTableHead from "./my_invoices_TableHead";
+  getInvoiceList,
+  selectInvoices,
+  selectInvoicesSearchText,
+  selectInvoiceActiveStatus
+} from "../store/invoicesSlice";
+import InvoicesTableHead from "./all_my_invoices_TableHead";
 import { showMessage } from "app/store/fuse/messageSlice";
 import { selectTenant } from "app/store/tenantSlice";
-import InvoiceStatus from "../invoice_ui/invoice_status";
+import { getAllInvoice, selectAllinvoices } from "app/store/allInvoicesSlice";
 
-function MyInvoicesTable(props) {
+function AllInvoicesTable(props) {
 
   const dispatch = useDispatch();
-  const invoices = useSelector(selectMyInvoices);
+
+  const invoices = useSelector(selectAllinvoices);
+
   const user = useSelector(selectUser);
   const tenants = useSelector(selectTenant)
 
-  const searchText = useSelector(selectMyInvoicesSearchText);
-  const activeStatus = useSelector(selectMyInvoiceActiveStatus);
+  const searchText = useSelector(selectInvoicesSearchText);
+  const activeStatus = useSelector(selectInvoiceActiveStatus);
 
   const [selectedInvoicesMenu, setSelectedInvoicesMenu] = useState(null);
   const [selectedInvoices, setSelectedInvoices] = useState("");
@@ -54,17 +56,11 @@ function MyInvoicesTable(props) {
     id: null,
   });
 
+
   useEffect(() => {
     if (user) {
-      user.data.country === "" && dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }));
-      setLoading(true);
-      const get_invoices_obj = {
-        org_id: user.tenant_id,
-        // active_status: activeStatus,
-      };
-      dispatch(getMyInvoiceList(get_invoices_obj)).then((res) => {
-        setLoading(false);
-      });
+      user.data.country === "" && dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
+      dispatch(getAllInvoice()).then(() => setLoading(false));
     }
   }, [dispatch]);
 
@@ -107,7 +103,7 @@ function MyInvoicesTable(props) {
 
   const getTenant = (selectedId) => {
     const selectedTenant = tenants.find(tenant => tenant.tenant_id === selectedId);
-    return selectedTenant ? selectedTenant.tenant_name : '';
+    return selectedTenant;
   };
 
   function handleCheck(event, id) {
@@ -174,7 +170,7 @@ function MyInvoicesTable(props) {
     <div className="w-full flex flex-col min-h-full">
       <FuseScrollbars className="grow overflow-x-auto">
         <Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
-          <MyInvoicesTableHead
+          <InvoicesTableHead
             selectedProductIds={selected}
             invoiceData={invoiceData}
             onSelectAllClick={handleSelectAllClick}
@@ -237,8 +233,8 @@ function MyInvoicesTable(props) {
                       align="left"
                     >
                       {n.purchase_order_code !== "N/A" ? n.purchase_order_code : (<span className='flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
-                          <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
-                        </span>)}
+                        <span style={{ borderBottom: "3px solid black" }} className='w-12'></span>
+                      </span>)}
                     </TableCell>
 
                     <TableCell
@@ -247,7 +243,16 @@ function MyInvoicesTable(props) {
                       scope="row"
                       align="left"
                     >
-                      {getTenant(n.customer_id) || "Customer Name"}
+                      {getTenant(n.customer_id).tenant_name || "Customer Name"}
+                    </TableCell>
+
+                    <TableCell
+                      className="p-4 md:p-16"
+                      component="th"
+                      scope="row"
+                      align="left"
+                    >
+                      {getTenant(n.vendor_id).tenant_name || "Vendor Name"}
                     </TableCell>
 
                     <TableCell
@@ -272,17 +277,13 @@ function MyInvoicesTable(props) {
                       {n.due_date}
                     </TableCell>
 
-                    <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                      <InvoiceStatus value={n.processing_status} />
-                    </TableCell>
-
                     <TableCell
                       className="p-4 md:p-16"
                       component="th"
                       scope="row"
                       align="left"
                     >
-                      {n.total_amount}
+                      {`${n.total_amount} ( ${getTenant(n.vendor_id).currency_code})`}
                     </TableCell>
 
                     <TableCell
@@ -314,33 +315,34 @@ function MyInvoicesTable(props) {
                         >
                           <MenuList>
 
-                            {selectedInvoices.processing_status === "submitted" && <MenuItem
+                            <MenuItem
                               onClick={() => {
                                 closeSelectedInvoiceMenu();
-                                props.navigate(`/apps/invoice/${selectedInvoices.invoice_id}/${selectedInvoices.tenant_id}`)
                               }}
                             >
                               <ListItemText
                                 primary={"View Invoice"}
                               />
-                            </MenuItem>}
-
-                            {selectedInvoices.sales_order_id !== "N/A" && <MenuItem
-                              onClick={() => {
-                                closeSelectedInvoiceMenu();
-                                props.navigate(`/apps/order/viewsalesorder/${selectedInvoices.sales_order_id}/${selectedInvoices.tenant_id}`)
-                              }}
-                            >
-                              <ListItemText primary="View Sales Order" />
-                            </MenuItem>}
+                            </MenuItem>
 
                             {selectedInvoices.purchase_order_id !== "N/A" && <MenuItem
                               onClick={() => {
                                 closeSelectedInvoiceMenu();
-                                props.navigate(`/apps/order/viewpurchaseorder/${selectedInvoices.purchase_order_id}/${selectedInvoices.tenant_id}`)
                               }}
                             >
-                              <ListItemText primary="View Purchase Order" />
+                              <ListItemText
+                                primary={"View Purchase Order"}
+                              />
+                            </MenuItem>}
+
+                            {<MenuItem
+                              onClick={() => {
+                                closeSelectedInvoiceMenu();
+                              }}
+                            >
+                              <ListItemText
+                                primary={"View Sales Order"}
+                              />
                             </MenuItem>}
 
                           </MenuList>
@@ -373,4 +375,4 @@ function MyInvoicesTable(props) {
   );
 }
 
-export default withRouter(MyInvoicesTable);
+export default withRouter(AllInvoicesTable);

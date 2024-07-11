@@ -27,7 +27,7 @@ import {
 } from '../store/sales_orders_Slice';
 import SalesOrdersTableHead from './sales_orders_TableHead';
 import { showMessage } from 'app/store/fuse/messageSlice';
-import { saveInvoice } from '../../invoice/store/invoice_Slice';
+import { saveInvoice } from '../../invoice/store/invoiceSlice';
 import { selectTenant } from 'app/store/tenantSlice';
 import SOOrdersStatus from '../single_sales_order/single_sales_order_status';
 

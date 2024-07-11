@@ -27,20 +27,6 @@ const rows = [
     sort: true,
   },
   {
-    id: "so_code",
-    align: "left",
-    disablePadding: false,
-    label: "SO code",
-    sort: true,
-  },
-  {
-    id: "po_code",
-    align: "left",
-    disablePadding: false,
-    label: "PO code",
-    sort: true,
-  },
-  {
     id: "customer_name",
     align: "left",
     disablePadding: false,
@@ -48,17 +34,10 @@ const rows = [
     sort: true,
   },
   {
-    id: "created_at",
+    id: "no_of_items",
     align: "left",
     disablePadding: false,
-    label: "Created At",
-    sort: true,
-  },
-  {
-    id: "due_date",
-    align: "left",
-    disablePadding: false,
-    label: "Due Date",
+    label: "#Items",
     sort: true,
   },
   {
@@ -76,6 +55,13 @@ const rows = [
     sort: true,
   },
   {
+    id: "created_at",
+    align: "left",
+    disablePadding: false,
+    label: "Created At",
+    sort: true,
+  },
+  {
     id: "action",
     align: "left",
     disablePadding: false,
@@ -84,7 +70,7 @@ const rows = [
   },
 ];
 
-function MyInvoicesTableHead(props) {
+function InvoicesTableHead(props) {
   const { selectedProductIds } = props;
   const numSelected = selectedProductIds.length;
 
@@ -136,7 +122,7 @@ function MyInvoicesTableHead(props) {
                     onClick={createSortHandler(row.id)}
                     className="font-semibold"
                   >
-                    {row.id === "total_amount" ? `${row.label} (${!user.data.country !== "" && user.tenant_data.currency_code})` : row.label}
+                    {row.label}
                   </TableSortLabel>
                 </Tooltip>
               )}
@@ -148,4 +134,4 @@ function MyInvoicesTableHead(props) {
   );
 }
 
-export default MyInvoicesTableHead;
+export default InvoicesTableHead;

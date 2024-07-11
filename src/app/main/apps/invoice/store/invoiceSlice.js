@@ -1,55 +1,56 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { showMessage } from 'app/store/fuse/messageSlice';
 import axios from 'axios';
 
 
-export const getInvoice = createAsyncThunk('invoiceApp/invoice/getinvoice',
+export const getInvoice = createAsyncThunk('invoiceApp/invoice/getInvoice',
   async (get_invoice_obj) => {
-    const result = await axios.get('/invoice/getsingleinvoicedetails', {
-      params: {
-        tenant_id: get_invoice_obj.org_id,
-        invoice_id: get_invoice_obj.invoice_id
+
+    const result = await axios.get(
+      '/invoices/getinvoice',
+      {
+        params: {
+          invoice_id: get_invoice_obj.invoice_id
+        }
       }
-    })
-    if (result.status === 200) {
-      return result.data.response
-    } else {
-      console.log(result)
-    }
+    )
+
+    return result.data.response
+
   });
 
-export const removeInvoice = createAsyncThunk(
-  'invoiceApp/invoice',
-  () => {
+export const removeInvoice = createAsyncThunk('invoiceApp/invoice/removeInvoice',
+  async () => {
 
   }
 );
 
-export const saveInvoice = createAsyncThunk('invoiceApp/saveinvoice',
+export const saveInvoice = createAsyncThunk('invoiceApp/invoice/saveInvoice',
   async (invoiceData, { dispatch, getState }) => {
-    const result = await axios.post('/invoice/create',
+
+    const result = await axios.post(
+      '/invoices/create_invoice',
       {
         customer_id: invoiceData.data.customer_id,
-        sales_order_id: invoiceData.data.sales_order_id,
-        sales_order_code: invoiceData.data.sales_order_code,
-        purchase_order_id: invoiceData.data.purchase_order_id,
-        purchase_order_code: invoiceData.data.purchase_order_code,
-        due_date: invoiceData.data.due_date,
-        total_due: invoiceData.data.total_due,
+        item_list: invoiceData.data.item_list,
+        currency: invoiceData.data.currency,
         total_amount: invoiceData.data.total_amount
       }, {
       params: {
         tenant_id: invoiceData.tenant_id,
         stripe_account_id: invoiceData.stripe_account_id,
-        stripe_customer_id: invoiceData.stripe_customer_id
+        stripe_customer_id: invoiceData.data.stripe_customer_id
       }
-    })
+    }
+    )
     if (result.status === 201) {
+      dispatch(showMessage({ message: result.data.message, variant: "success" }))
       return result.data.response
     } else {
       console.log(result)
     }
-  }
-)
+
+  })
 
 const invoiceSlice = createSlice({
   name: 'invoiceApp/invoice',
@@ -61,12 +62,17 @@ const invoiceSlice = createSlice({
       prepare: (event) => ({
         payload: {
           customer_id: '',
-          sales_order_id: '',
-          sales_order_code: '',
-          purchase_order_id: '',
-          purchase_order_code: '',
-          due_date: '',
-          total_due: '',
+          item_list: [{
+            items_wishlist_id: "",
+            item_id: "",
+            item_name: "",
+            item_code: "",
+            unit: "",
+            rate: "",
+            quantity: "",
+            amount: "",
+          }],
+          currency: '',
           total_amount: ''
         },
       }),

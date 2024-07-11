@@ -2,8 +2,8 @@ import FusePageCarded from "@fuse/core/FusePageCarded";
 import withReducer from "app/store/withReducer";
 import useThemeMediaQuery from "@fuse/hooks/useThemeMediaQuery";
 import reducer from "../store";
-import InvoicesHeader from "./invoices_Header";
-import InvoicesTable from "./invoices_Table";
+import InvoicesHeader from "./invoicesHeader";
+import InvoicesTable from "./invoicesTable";
 import { useAuth } from "../../accounts/auth/AuthContext";
 import ConfirmOnboardingPage from "../../confirmonboarding/ConfirmOnboardingPage";
 

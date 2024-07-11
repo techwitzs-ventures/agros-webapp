@@ -1,12 +1,10 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import invoice from "./invoice_Slice";
-import invoices from "./received_invoices_Slice";
-import myinvoices from './my_invoices_Slice';
+import invoice from "./invoiceSlice";
+import invoices from './invoicesSlice';
 
 const reducer = combineReducers({
   invoice,
-  invoices,
-  myinvoices
+  invoices
 });
 
 export default reducer;

@@ -22,14 +22,13 @@ import { selectUser } from 'app/store/userSlice';
 import { getWishlistItems } from '../../apps/inventory/store/wishlistItemsSlice';
 import { getPurchaseOrders } from '../../apps/order/store/purchase_orders_Slice';
 import { getRecievedSalesOrders } from '../../apps/order/store/recieved_sales_orders_Slice';
-import { getInvoiceList } from '../../apps/invoice/store/received_invoices_Slice';
 import FuseLoading from '@fuse/core/FuseLoading';
 import { getAllPurchaseOrders } from 'app/store/allPurchaseOrdersSlice';
 import { getAllSalesOrders } from 'app/store/allSalesOrdersSlice';
 import { getAllInvoice } from 'app/store/allInvoicesSlice';
 import { getRecievedPurchaseOrders } from '../../apps/order/store/recieved_purchase_orders_Slice';
 import { getSalesOrders } from '../../apps/order/store/sales_orders_Slice';
-import { getMyInvoiceList } from '../../apps/invoice/store/my_invoices_Slice';
+import { getInvoiceList } from '../../apps/invoice/store/invoicesSlice';
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   '& .FusePageSimple-header': {
@@ -80,13 +79,10 @@ function ProjectDashboardApp(props) {
       dispatch(getWishlistItems({ tenant_id: user.tenant_id, active: false })).then((res) => {
         dispatch(setProductCount(res.payload))
       });
-      dispatch(getRecievedPurchaseOrders({ org_id: user.tenant_id })).then((res) => {
-        dispatch(setPurchaseOrderCount(res.payload));
-      });
       dispatch(getSalesOrders({ tenant_id: user.tenant_id, active: false })).then((res) => {
         dispatch(setSalesOrderCount(res.payload));
       });
-      dispatch(getMyInvoiceList({ org_id: user.tenant_id })).then((res) => {
+      dispatch(getInvoiceList({ org_id: user.tenant_id })).then((res) => {
         dispatch(setInvoiceCount(res.payload))
         setloading(false)
       })

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getUserByTenantId, selectUser } from "app/store/userSlice";
 import Box from "@mui/material/Box";
 import { alpha } from "@mui/material";
-import { getInvoice, selectInvoice } from "../store/invoice_Slice";
+import { getInvoice, selectInvoice } from "../store/invoiceSlice";
 import FuseLoading from "@fuse/core/FuseLoading";
 import InvoiceContentTable from "./invoice_content_Table";
 import Card from "@mui/material/Card";

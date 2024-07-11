@@ -2,27 +2,23 @@ import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import authRoles from "../accounts/auth/authRoles.js";
 
-const Invoice = lazy(() => import("./invoice_ui/invoice.js"));
-const Invoices = lazy(() => import("./received_invoices/invoices.js"));
-const MyInvoices = lazy(() => import('./my_invoices/my_invoices.js'));
-const AllInvoices=lazy(()=>import('./all_invoices/all_my_invoices.js'));
+const Invoice = lazy(() => import("./invoice/Invoice.js"));
+const Invoices = lazy(() => import('./invoices/invoices.js'));
+const AllInvoices=lazy(()=>import('./allInvoices/all_my_invoices.js'));
+
 const invoiceConfig = {
   settings: {
     layout: {},
   },
   routes: [
     {
-      path: "apps/invoice/:invoiceId/:tenantId",
-      element: <Invoice />,
-    },
-    {
-      path: "apps/invoice/receivedinvoices",
+      path: "apps/invoice/invoices",
       element: <Invoices />,
-      auth: authRoles.retailer
+      auth: authRoles.seller
     },
     {
-      path: "apps/invoice/myinvoices",
-      element: <MyInvoices />,
+      path: "apps/invoice/invoices/:invoiceId",
+      element: <Invoice />,
       auth: authRoles.seller
     },
     {

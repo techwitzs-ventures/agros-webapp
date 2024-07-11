@@ -73,58 +73,49 @@ const navigationConfig = [
       }
     ],
   },
+  // {
+  //   id: 'marketplace.my-purchase-orders',
+  //   title: 'Purchase Orders',
+  //   type: 'item',
+  //   auth: authRoles.retailer,
+  //   icon: 'material-outline:inventory',
+  //   url: 'apps/order/purchaseorder',
+  //   end: true,
+  // },
+  // {
+  //   id: 'marketplace.recieved-purchase-orders',
+  //   title: 'Purchase Orders',
+  //   type: 'item',
+  //   auth: authRoles.seller,
+  //   icon: 'material-outline:inventory',
+  //   url: 'apps/order/recievedpurchaseorder',
+  //   end: true,
+  // },
+  // {
+  //   id: 'marketplace.my-sales-orders',
+  //   title: 'Sales Orders',
+  //   type: 'item',
+  //   auth: authRoles.seller,
+  //   icon: 'material-outline:inventory_2',
+  //   url: 'apps/order/salesorder',
+  //   end: true,
+  // },
+  // {
+  //   id: "marketplace.revieved-sales-orders",
+  //   title: "Sales Orders",
+  //   type: "item",
+  //   auth: authRoles.retailer,
+  //   icon: 'material-outline:inventory_2',
+  //   url: "apps/order/recievedsalesorder",
+  //   end: true,
+  // },
   {
-    id: 'marketplace.my-purchase-orders',
-    title: 'Purchase Orders',
-    type: 'item',
-    auth: authRoles.retailer,
-    icon: 'material-outline:inventory',
-    url: 'apps/order/purchaseorder',
-    end: true,
-  },
-  {
-    id: 'marketplace.recieved-purchase-orders',
-    title: 'Purchase Orders',
-    type: 'item',
-    auth: authRoles.seller,
-    icon: 'material-outline:inventory',
-    url: 'apps/order/recievedpurchaseorder',
-    end: true,
-  },
-  {
-    id: 'marketplace.my-sales-orders',
-    title: 'Sales Orders',
-    type: 'item',
-    auth: authRoles.seller,
-    icon: 'material-outline:inventory_2',
-    url: 'apps/order/salesorder',
-    end: true,
-  },
-  {
-    id: "marketplace.revieved-sales-orders",
-    title: "Sales Orders",
-    type: "item",
-    auth: authRoles.retailer,
-    icon: 'material-outline:inventory_2',
-    url: "apps/order/recievedsalesorder",
-    end: true,
-  },
-  {
-    id: "marketplace.myinvoices",
+    id: "marketplace.invoices",
     title: "Invoices",
     type: "item",
     auth: authRoles.seller,
     icon: 'heroicons-outline:calculator',
-    url: "apps/invoice/myinvoices",
-    end: true,
-  },
-  {
-    id: "marketplace.receivedinvoices",
-    title: "Invoices",
-    type: "item",
-    auth: authRoles.retailer,
-    icon: 'heroicons-outline:calculator',
-    url: "apps/invoice/receivedinvoices",
+    url: "apps/invoice/invoices",
     end: true,
   },
   {
@@ -154,20 +145,6 @@ const navigationConfig = [
     url: "apps/invoice/allinvoices",
     end: true
   }
-  // {
-  //   id: 'marketplace.users',
-  //   title: 'Users',
-  //   type: 'item',
-  //   icon: 'heroicons-outline:user-group',
-  //   auth: authRoles.plateformadmin
-  // },
-  // {
-  //   id: 'marketplace.settings',
-  //   title: 'Settings',
-  //   type: 'item',
-  //   icon: 'settings',
-  //   disabled: true
-  // },
 ];
 
 export default navigationConfig;

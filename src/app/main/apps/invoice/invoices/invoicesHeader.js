@@ -9,35 +9,42 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import {
-  selectMyInvoicesSearchText,
-  setMyInvoicesSearchText,
-  setMyInvoiceActiveStatus,
-} from '../store/my_invoices_Slice';
+  selectInvoicesSearchText,
+  setInvoicesSearchText,
+  setInvoiceActiveStatus,
+} from '../store/invoicesSlice';
 import { useState } from 'react';
 import { selectUser } from 'app/store/userSlice';
 import { showMessage } from 'app/store/fuse/messageSlice';
 
 
-function MyInvoicesHeader(props) {
+function InvoicesHeader(props) {
 
   const navigate = useNavigate()
+
   const dispatch = useDispatch();
+
   const [checked, setchecked] = useState(false)
-  const searchText = useSelector(selectMyInvoicesSearchText);
+  const searchText = useSelector(selectInvoicesSearchText);
+
   const user = useSelector(selectUser)
 
   const handleActiveStatusChange = async (event) => {
     try {
       setchecked(event.target.checked)
-      dispatch(setMyInvoiceActiveStatus(event))
+      dispatch(setInvoiceActiveStatus(event))
     } catch (error) {
       console.log(error)
     }
   }
 
-  const handleOnRefresh = async (event) => {
+  const handleCreateInvoice = async () => {
     try {
-
+      if (user.data.country !== "") {
+        navigate("/apps/invoice/invoices/new")
+      } else {
+        dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
+      }
     } catch (error) {
       console.log(error)
     }
@@ -71,6 +78,7 @@ function MyInvoicesHeader(props) {
             />
           } label="Show active only" />
         </motion.div>
+        
         <Paper
           component={motion.div}
           initial={{ y: -20, opacity: 0 }}
@@ -88,12 +96,27 @@ function MyInvoicesHeader(props) {
             inputProps={{
               'aria-label': 'Search',
             }}
-            onChange={(ev) => dispatch(setMyInvoicesSearchText(ev))}
+            onChange={(ev) => dispatch(setInvoicesSearchText(ev))}
           />
         </Paper>
+
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
+        >
+          <Button
+            className=""
+            onClick={handleCreateInvoice}
+            variant="contained"
+            color="secondary"
+            startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
+          >
+            Create Invoice
+          </Button>
+        </motion.div>
       </div>
     </div>
   );
 }
 
-export default MyInvoicesHeader;
+export default InvoicesHeader;
