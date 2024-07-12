@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import { alpha } from "@mui/material";
 import { getInvoice, selectInvoice } from "../store/invoiceSlice";
 import FuseLoading from "@fuse/core/FuseLoading";
-import InvoiceContentTable from "./invoice_content_Table";
+import InvoiceContentTable from "./invoiceUIContentTable";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { motion } from "framer-motion";
@@ -16,29 +16,24 @@ import { selectTenant } from "app/store/tenantSlice";
 function InvoiceContentHeader(props) {
 
   const dispatch = useDispatch();
-  const tenants=useSelector(selectTenant)
+  const tenants = useSelector(selectTenant)
 
   const [loading, setLoading] = useState(true)
-  const [vendor,setVendor]=useState("");
+  const [vendor, setVendor] = useState("");
   const routeparams = useParams();
-  
+
   const { invoiceId, tenantId } = routeparams
   const invoice = useSelector(selectInvoice)
 
   useEffect(() => {
-    if (invoiceId !== undefined && tenantId !== undefined) {
-      dispatch(getInvoice({ org_id: tenantId, invoice_id: invoiceId })).then((response) => (
-        dispatch(getUserByTenantId(response.payload.invoice_data.tenant_id)).then((response)=>{
-          setVendor(response.payload)
-          setLoading(false)
-        })))
+    if (invoiceId !== undefined) {
+      dispatch(getInvoice({ invoice_id: invoiceId })).then((res) => {
+        console.log(res.payload)
+        setLoading(false)
+      })
     }
   }, [dispatch, routeparams])
 
-  const getTenant = (selectedId) => {
-    const selectedTenant = tenants.find(tenant => tenant.tenant_id === selectedId);
-    return selectedTenant;
-  };
 
   if (loading) {
     return (
@@ -66,7 +61,7 @@ function InvoiceContentHeader(props) {
                 >
                   INVOICE
                 </Typography>
-                <Typography className="text-4xl">{invoice.invoice_data.invoice_code}</Typography>
+                <Typography className="text-4xl">{invoice.invoice_code}</Typography>
                 <Typography
                   className="font-medium tracking-tight"
                   color="text.secondary"
@@ -74,7 +69,7 @@ function InvoiceContentHeader(props) {
                   INVOICE DATE
                 </Typography>
                 <Typography className="font-medium">{
-                  new Date(invoice.invoice_data.createdAt).toLocaleDateString("en-In", {
+                  new Date(invoice.createdAt).toLocaleDateString("en-In", {
                     timeZone: "Asia/Kolkata",
                     weekday: 'short',
                     month: 'short',
@@ -82,20 +77,6 @@ function InvoiceContentHeader(props) {
                     year: 'numeric',
                   })
                 }</Typography>
-                <Typography
-                  className="font-medium tracking-tight"
-                  color="text.secondary"
-                >
-                  DUE DATE
-                </Typography>
-                <Typography className="font-medium">{invoice.invoice_data.due_date}</Typography>
-                <Typography
-                  className="font-medium tracking-tight"
-                  color="text.secondary"
-                >
-                  TOTAL DUE
-                </Typography>
-                <Typography className="font-medium">{invoice.invoice_data.total_due} {`(${getTenant(vendor.tenant_id).currency_code})`}</Typography>
               </div>
 
               <Box
@@ -112,21 +93,21 @@ function InvoiceContentHeader(props) {
                       alpha(theme.palette.getContrastText(theme.palette.primary.dark), 0.25),
                   }}
                 >
-                  <Typography className="font-medium">{`${vendor.firstname} ${vendor.lastname}`}</Typography>
+                  {/* <Typography className="font-medium">{`${vendor.firstname} ${vendor.lastname}`}</Typography>
                   <Typography>{vendor.address1}</Typography>
                   <Typography>{vendor.address2}</Typography>
                   <Typography>{vendor.mobilenumber}</Typography>
-                  <Typography>{vendor.email}</Typography>
+                  <Typography>{vendor.email}</Typography> */}
                 </Box>
               </Box>
             </div>
-            <div className="text-md">
+            {/* <div className="text-md">
               <Typography className="text-xl font-medium">{`${invoice.customer_data[0].firstname} ${invoice.customer_data[0].lastname}`}</Typography>
               <Typography>{invoice.sales_order_data.delivery_address}</Typography>
               <Typography>{invoice.customer_data[0].email}</Typography>
               <Typography>{invoice.customer_data[0].mobilenumber}</Typography>
             </div>
-            <InvoiceContentTable salesorderitemdetails={invoice.sales_order_data} vendor={vendor}/>
+            <InvoiceContentTable salesorderitemdetails={invoice.sales_order_data} vendor={vendor} /> */}
 
           </CardContent>
         </Card>

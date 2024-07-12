@@ -7,15 +7,13 @@ import reducer from './store';
 
 const ProductsInfoTab = () => {
   return (
-    <div className='flex flex-col'>
-        <div>
-            <Card component={motion.div} className="flex flex-col mb-24">
-              <Typography className="text-15 md:text-15 font-extrabold tracking-tight ms-16 p-4">
-                Item Table
-              </Typography>
-              <SinglePurchaseOrderTableContent />
-            </Card>
-          </div>
+    <div className='w-full flex flex-col'>
+        <Card component={motion.div} className="flex flex-col mb-24">
+          <Typography className="text-15 md:text-15 font-extrabold tracking-tight ms-16 p-4">
+            Products
+          </Typography>
+          <SinglePurchaseOrderTableContent />
+        </Card>
     </div>
   )
 }

@@ -7,12 +7,15 @@ import { motion } from "framer-motion";
 function AdditonalInfoTab(props) {
 
     const methods = useFormContext();
-    const { control, formState } = methods;
+    const { control, formState, watch } = methods;
     const { errors } = formState;
+
+    const invoice_id = watch('invoice_id')
+
 
     return (
         <>
-            <div>
+            <div className="w-full">
                 <Card component={motion.div} className="flex mb-32">
                     <CardContent className="flex flex-col flex-1 px-32 py-24">
                         <form
@@ -30,6 +33,7 @@ function AdditonalInfoTab(props) {
                                         className="mb-24"
                                         label="Currency"
                                         type="text"
+                                        disabled={invoice_id !== undefined ? true : false}
                                         error={!!errors.currency}
                                         helperText={errors?.currency?.message}
                                         variant="outlined"

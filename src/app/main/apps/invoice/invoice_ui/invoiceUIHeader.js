@@ -25,7 +25,7 @@ function InvoiceHeader(props) {
             className="flex items-center sm:mb-12"
             component={Link}
             role="button"
-            to={`${user.role === "seller" ? "/apps/invoice/myinvoices" : "/apps/invoice/receivedinvoices"}`}
+            to="/apps/invoice/invoices"
             color="inherit"
           >
             <FuseSvgIcon size={20}>

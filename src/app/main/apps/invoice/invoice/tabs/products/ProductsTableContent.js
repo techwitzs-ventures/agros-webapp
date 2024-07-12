@@ -28,6 +28,7 @@ const SinglePurchaseOrderTableContent = () => {
     const user = useSelector(selectUser);
     const itemList = useSelector(selectItemsForPurchaseOrders);
     const itemList_array = useWatch({ name: 'item_list' });
+    const invoice_id = useWatch({ name: 'invoice_id' });
 
     useEffect(() => {
         if (user) {
@@ -74,8 +75,8 @@ const SinglePurchaseOrderTableContent = () => {
 
 
     return (
-        <div className="w-full flex flex-col min-h-full">
-            <FuseScrollbars className="grow overflow-x-auto">
+        <div className="flex flex-col min-h-full">
+            <FuseScrollbars className="grow overflow-x-auto py-8 lg:py-2 md:py-4 sm:py-8">
                 <Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
                     <SinglePurchaseOrderTableHead />
                     <TableBody>
@@ -96,6 +97,7 @@ const SinglePurchaseOrderTableContent = () => {
                                                     className="w-full"
                                                     style={{ width: "200px" }}
                                                     size="small"
+                                                    disabled={invoice_id !== undefined ? true : false}
                                                     onChange={(e) => handleItemChange(e.target.value, index)}
                                                 >
                                                     {
@@ -153,7 +155,7 @@ const SinglePurchaseOrderTableContent = () => {
                                                 variant="outlined"
                                                 size="small"
                                                 required
-                                                disabled={getValues(`item_list[${index}].item_id`) !== '' ? false : true}
+                                                disabled={getValues(`item_list[${index}].item_id`) !== '' && invoice_id === undefined ? false : true}
                                                 autoFocus={getValues(`item_list[${index}].item_id`) !== '' ? false : true}
                                                 onChange={(e) => {
                                                     const newQuantity = e.target.value;
@@ -210,7 +212,7 @@ const SinglePurchaseOrderTableContent = () => {
                                 </TableCell>
 
                                 <TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-                                    <IconButton className="mt-4" aria-label="delete" onClick={() => {
+                                    <IconButton disabled={invoice_id !== undefined ? true : itemList_array.length === 1 ? true : false} className="mt-4" aria-label="delete" onClick={() => {
                                         for (let i = index; i < fields.length; i++) {
                                             const currentItemValues = getValues(`item_list[${i + 1}]`);
                                             if (currentItemValues) {
@@ -235,32 +237,32 @@ const SinglePurchaseOrderTableContent = () => {
 
                     </TableBody>
                 </Table>
-                <Stack direction="row" spacing={2} justifyContent={"space-between"} className="px-16 mb-8 mt-4">
-                    <Stack direction="row" spacing={2}>
-                        <Button
-                            variant="outlined"
-                            startIcon={<AddIcon />}
-                            onClick={() => append(
-                                {
-                                    items_wishlist_id: '',
-                                    item_id: '',
-                                    item_name: '',
-                                    item_code: '',
-                                    unit: '',
-                                    rate: '',
-                                    quantity: '',
-                                    amount: '',
-                                }
-                            )}
-                        >
-                            Add
-                        </Button>
-                    </Stack>
-                    <div style={{ fontWeight: "bold" }}>
-                        Total Amount: {calculateTotalAmount().toFixed(2)}
-                    </div>
-                </Stack>
             </FuseScrollbars>
+            <Stack direction="row" spacing={2} justifyContent={`${invoice_id !== undefined ? 'end' : 'space-between'}`} alignItems={"center"} className="px-16 mb-8 mt-8">
+                {invoice_id === undefined && <Stack direction="row" spacing={2}>
+                    <Button
+                        variant="outlined"
+                        startIcon={<AddIcon />}
+                        onClick={() => append(
+                            {
+                                items_wishlist_id: '',
+                                item_id: '',
+                                item_name: '',
+                                item_code: '',
+                                unit: '',
+                                rate: '',
+                                quantity: '',
+                                amount: '',
+                            }
+                        )}
+                    >
+                        Add
+                    </Button>
+                </Stack>}
+                <div style={{ fontWeight: "bold" }}>
+                    Total Amount: {calculateTotalAmount().toFixed(2)}
+                </div>
+            </Stack>
         </div>
     )
 }

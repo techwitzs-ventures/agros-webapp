@@ -1,4 +1,3 @@
-import TextField from "@mui/material/TextField";
 import { Controller, useFormContext } from "react-hook-form";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -8,10 +7,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  FormControlLabel,
-  RadioGroup,
-  Radio,
-  FormHelperText
+  Typography
 } from "@mui/material";
 import { useSelector } from 'react-redux';
 import { selectUser } from 'app/store/userSlice';
@@ -26,11 +22,14 @@ function BasicInfoTab(props) {
     email: '',
     mobilenumber: ''
   })
+
   const dispatch = useDispatch();
 
   const methods = useFormContext();
-  const { control, formState, setValue } = methods;
+  const { control, formState, setValue, watch } = methods;
   const { errors } = formState;
+
+  const invoice_id = watch('invoice_id')
 
   const user = useSelector(selectUser);
 
@@ -48,7 +47,7 @@ function BasicInfoTab(props) {
 
   return (
     <>
-      <div>
+      <div className="w-full">
         <Card component={motion.div} className="flex mb-32">
           <CardContent className="flex flex-col flex-1 px-32 py-24">
             <form
@@ -68,6 +67,7 @@ function BasicInfoTab(props) {
                       label="Customer"
                       error={!!errors.customer_id}
                       required
+                      disabled={invoice_id !== undefined ? true : false}
                       onChange={(e) => {
                         field.onChange(e.target.value);
                         getCustomerDetails(e.target.value)
@@ -86,10 +86,42 @@ function BasicInfoTab(props) {
 
             </form>
 
-            <div>Email</div>
-            {customerDetails.email !== '' && <div>{customerDetails.email}</div>}
-            <div>Mobile No.</div>
-            {customerDetails.mobilenumber !== '' && <div>{customerDetails.mobilenumber}</div>}
+            <motion.div
+              className="flex flex-col sm:items-start min-w-0 mx-8 sm:mx-16"
+              initial={{ x: -20 }}
+              animate={{ x: 0, transition: { delay: 0.3 } }}
+            >
+              <Typography className="text-16 sm:text-20 truncate font-semibold">
+                Email
+              </Typography>
+              {customerDetails.email !== '' ?
+                <Typography variant="caption" className="font-medium my-2">
+                  {customerDetails.email}
+                </Typography> :
+                <span className='my-12 flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
+                  <span style={{ borderBottom: "1px solid black" }} className='w-12'></span>
+                </span>
+              }
+            </motion.div>
+
+            <motion.div
+              className="flex flex-col sm:items-start min-w-0 mx-8 sm:mx-16"
+              initial={{ x: -20 }}
+              animate={{ x: 0, transition: { delay: 0.3 } }}
+            >
+              <Typography className="text-16 sm:text-20 truncate font-semibold">
+                Mobile No.
+              </Typography>
+              {customerDetails.mobilenumber !== '' ?
+                <Typography variant="caption" className="font-medium my-2">
+                  {customerDetails.mobilenumber}
+                </Typography> :
+                <span className='my-12 flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
+                  <span style={{ borderBottom: "1px solid black" }} className='w-12'></span>
+                </span>
+              }
+            </motion.div>
+
           </CardContent>
         </Card>
       </div>
