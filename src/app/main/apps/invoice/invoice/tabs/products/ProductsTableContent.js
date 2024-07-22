@@ -9,10 +9,8 @@ import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import SinglePurchaseOrderTableHead from "./ProductsTableHeadContent"
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { selectUser } from "app/store/userSlice";
-import { getWishlistItems } from "src/app/main/apps/inventory/store/wishlistItemsSlice";
-import { selectItemsForPurchaseOrders, setItemsForPurchaseOrders } from "./store/itemlistforPO_Slice";
+import { useSelector } from "react-redux";
+import { selectItemsForPurchaseOrders } from "./store/itemlistforPO_Slice";
 
 
 const SinglePurchaseOrderTableContent = () => {
@@ -24,23 +22,10 @@ const SinglePurchaseOrderTableContent = () => {
         control,
         name: 'item_list',
     });
-    const dispatch = useDispatch();
-    const user = useSelector(selectUser);
+
     const itemList = useSelector(selectItemsForPurchaseOrders);
     const itemList_array = useWatch({ name: 'item_list' });
     const invoice_id = useWatch({ name: 'invoice_id' });
-
-    useEffect(() => {
-        if (user) {
-            const queryparams = {
-                tenant_id: user.tenant_id,
-                active: true
-            }
-            dispatch(getWishlistItems(queryparams)).then((response) => {
-                dispatch(setItemsForPurchaseOrders(response.payload))
-            })
-        }
-    }, [dispatch])
 
     const handleItemChange = (selected_item_id, index) => {
         const selectedItem = itemList.find((item) => item.item_id === selected_item_id);
@@ -72,7 +57,6 @@ const SinglePurchaseOrderTableContent = () => {
     useEffect(() => {
         setValue('total_amount', calculateTotalAmount());
     }, [itemList_array, setValue]);
-
 
     return (
         <div className="flex flex-col min-h-full">

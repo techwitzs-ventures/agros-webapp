@@ -22,6 +22,8 @@ import { Box, Step, StepLabel, Stepper, styled } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import { LoadingButton } from '@mui/lab';
 import { selectUser } from 'app/store/userSlice';
+import InvoiceUI from '../invoiceUI/invoiceUI';
+import InvoiceContentHeader from '../invoiceUI/invoiceUIContentHeader';
 
 const steps = ['Basic Info', 'Products Info', 'Additional Info'];
 
@@ -205,7 +207,6 @@ function Invoice(props) {
     console.log("Invoice Downloaded!");
   }
 
-
   return (
     <FormProvider {...methods}>
       <FusePageCarded
@@ -244,7 +245,7 @@ function Invoice(props) {
                 })}
               </Stepper>
 
-              <Box className="flex flex-col lg:items-center w-5/6 sm:w-3/4 md:w-2/5 lg:w-3/5" sx={{ mt: 6 }}>
+              <Box className={`flex flex-col lg:items-center sm:w-3/4 md:w-2/5 ${activeStep === 1 && 'lg:w-5/6'}`} sx={{ mt: 6 }}>
 
                 {activeStep === 0 && <BasicInfoTab />}
                 {activeStep === 1 && <ProductsInfoTab />}
@@ -256,16 +257,17 @@ function Invoice(props) {
                     animate={{ opacity: 1, x: 0, transition: { delay: 0.3 } }}
                   >
 
-                    <LoadingButton
+                    {invoice_id === undefined ? <LoadingButton
                       className="whitespace-nowrap mx-4"
                       variant="contained"
                       color="secondary"
                       loading={loading}
-                      disabled={invoice_id !== undefined ? false : (_.isEmpty(dirtyFields) || !isValid)}
-                      onClick={invoice_id !== undefined ? downloadInvoice : handleSubmit(onSubmitNew)}
+                      disabled={(_.isEmpty(dirtyFields) || !isValid)}
+                      onClick={handleSubmit(onSubmitNew)}
                     >
-                      {invoice_id !== undefined ? 'Download Invoice' : 'Save Invoice'}
-                    </LoadingButton>
+                      Save Invoice
+                    </LoadingButton> :
+                      <InvoiceContentHeader />}
                   </motion.div>}
 
                 <Box className="w-full" sx={{
@@ -275,7 +277,7 @@ function Invoice(props) {
                   justifyContent: activeStep === 0 || activeStep === steps.length ? "end" : "space-between"
                 }}>
 
-                  {activeStep !== 0 &&
+                  {((activeStep !== steps.length || invoice_id === undefined) && activeStep !== 0) &&
                     <Button
                       variant='contained'
                       color="secondary"
@@ -296,7 +298,7 @@ function Invoice(props) {
                         :
                         activeStep === 1
                           ?
-                          form.item_list[0].item_id !== '' && form.item_list[0].quantity !== '' ? false : true
+                          form.item_list[form.item_list.length - 1].item_id !== '' && form.item_list[form.item_list.length - 1].quantity !== '' ? false : true
                           :
                           activeStep === 2
                             &&

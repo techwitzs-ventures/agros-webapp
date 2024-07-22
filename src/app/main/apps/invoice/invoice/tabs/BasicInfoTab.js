@@ -14,14 +14,13 @@ import { selectUser } from 'app/store/userSlice';
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getCustomers } from "../../../customers/store/customersSlice";
+import FuseLoading from "@fuse/core/FuseLoading";
 
 function BasicInfoTab(props) {
 
   const [Customers, setCustomers] = useState([])
-  const [customerDetails, setcustomerDetails] = useState({
-    email: '',
-    mobilenumber: ''
-  })
+  const [customerDetails, setcustomerDetails] = useState({ email: '', mobilenumber: '' })
+  const [loading, setloading] = useState(true)
 
   const dispatch = useDispatch();
 
@@ -29,13 +28,15 @@ function BasicInfoTab(props) {
   const { control, formState, setValue, watch } = methods;
   const { errors } = formState;
 
-  const invoice_id = watch('invoice_id')
+  const invoice_id = watch('invoice_id');
+  const customer_id = watch('customer_id');
 
   const user = useSelector(selectUser);
 
   useEffect(() => {
     dispatch(getCustomers({ tenant_id: user.tenant_id })).then((res) => {
       setCustomers(res.payload);
+      setloading(false)
     })
   }, [dispatch])
 
@@ -43,6 +44,12 @@ function BasicInfoTab(props) {
     const customer = Customers.find((customer) => customer.customer_id === customerId)
     setValue('stripe_customer_id', customer.stripe_customer_id);
     setcustomerDetails((prev) => ({ ...prev, email: customer.email, mobilenumber: customer.mobilenumber }))
+  }
+
+  if (loading) {
+    return (
+      <FuseLoading />
+    )
   }
 
   return (
@@ -114,7 +121,7 @@ function BasicInfoTab(props) {
               </Typography>
               {customerDetails.mobilenumber !== '' ?
                 <Typography variant="caption" className="font-medium my-2">
-                  {customerDetails.mobilenumber}
+                  {customerDetails.mobilenumber.slice(0, 3)} {customerDetails.mobilenumber.slice(3)}
                 </Typography> :
                 <span className='my-12 flex items-center sm:items-start space-y-8 sm:space-y-0 w-full sm:max-w-full min-w-0'>
                   <span style={{ borderBottom: "1px solid black" }} className='w-12'></span>
