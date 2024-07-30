@@ -53,6 +53,22 @@ class JwtService extends FuseUtils.EventEmitter {
     }
   };
 
+  createTenant = (data) => {
+    return new Promise((resolve, reject) => {
+      axios.post('/onboarding', data).then((response) => {
+        if (response.status === 200) {
+          resolve(response.data)
+        } else {
+          console.log(response)
+          reject("Error in 'creating user'!")
+        }
+      }).catch((err) => {
+        console.log(err)
+        reject(err)
+      })
+    })
+  };
+
   // User Table Enpoints
 
   // Fetching user's details from the user dynamodb or table

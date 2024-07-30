@@ -263,7 +263,7 @@ function SignInWithMobileNumberPage() {
                         <Typography>Don't have an account?</Typography>
                         <Link
                             className="ml-4"
-                            to={config.signup_url}>
+                            to="/onboard">
                             Create Account
                         </Link>
                     </div>

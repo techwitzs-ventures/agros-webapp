@@ -8,12 +8,14 @@ import SignOutConfig from '../main/apps/accounts/sign-out/SignOutConfig';
 import dashboardsConfigs from '../main/dashboards/dashboardsConfigs';
 import ForgotPasswordConfig from '../main/apps/accounts/forgot-password/ForgotPasswordConfig';
 import EmailVerificationConfig from '../main/apps/accounts/email-verfication/EmailVerificationConfig';
+import SignUpConfig from '../main/apps/accounts/sign-up/SignUpConfig';
 
 const routeConfigs = [
   ...appsConfigs,
   ...dashboardsConfigs,
   SignOutConfig,
   SignInConfig,
+  SignUpConfig,
   ForgotPasswordConfig,
   EmailVerificationConfig
 ];
