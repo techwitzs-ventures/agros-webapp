@@ -8,8 +8,13 @@ export const getItem = createAsyncThunk('inventoryApp/item/getItem',
   async (queryparams) => {
     try {
 
-      const result = await axios.get('/item/getitem', { params: queryparams })
-      return result.data.response
+      const result = await axios.get('/products/getProductById', { params: queryparams })
+      
+      if (result.status === 200) {
+        return result.data.response[0]
+      } else {
+        console.log(result.data.response)
+      }
 
     } catch (error) {
 

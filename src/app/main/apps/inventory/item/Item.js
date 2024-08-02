@@ -28,23 +28,9 @@ import AdditionalInfoTab from './tabs/AdditionalInfoTab';
  * Form Validation Schema
  */
 const schema = yup.object().shape({
-  items_cat_id: yup.string().required("Select item category"),
-  items_cat_name: yup
-    .string()
-    .required('You must enter a item category name')
-    .min(2, 'The item category name must be at least 2 characters'),
-  item_name: yup
-    .string()
-    .required('You must enter a item name')
-    .min(2, 'The item name must be at least 2 characters'),
-  rate: yup.number().required('Enter item rate')
-    .typeError("Rate must be a numeric value")
-    .test('is-number', 'Rate must be a numeric value', value => !isNaN(value)),
-  purchase_rate: yup.number().required('Enter item purchase rate')
-    .typeError("Purchase rate must be a numeric value")
-    .test('is-number', 'Purchase rate must be a numeric value', value => !isNaN(value)),
-  unit: yup.string().required('Enter item unit'),
-  sku: yup.string().required('Enter item unique SKU'),
+  id: yup.number().required('product id is required')
+    .typeError("id must be a numeric value")
+    .test('is-number', 'id must be a numeric value', value => !isNaN(value))
 });
 
 function Item(props) {
@@ -94,7 +80,7 @@ function Item(props) {
          * Get Product data
          */
         const queryparams = {
-          item_id: itemId
+          id: itemId
         }
         dispatch(getItem(queryparams)).then((action) => {
           /**
@@ -148,7 +134,7 @@ function Item(props) {
         className="flex flex-col flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          There is no such item!
+          There is no such product!
         </Typography>
         <Button
           className="mt-24"
@@ -157,7 +143,7 @@ function Item(props) {
           to="/apps/inventory/items"
           color="inherit"
         >
-          Go to Items Page
+          Go to Products Page
         </Button>
       </motion.div>
     );

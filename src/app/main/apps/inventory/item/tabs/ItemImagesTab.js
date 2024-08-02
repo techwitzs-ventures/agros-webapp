@@ -44,15 +44,18 @@ const Root = styled('div')(({ theme }) => ({
 }));
 
 function ItemImagesTab(props) {
+
   const methods = useFormContext();
   const { control, watch } = methods;
-  const images = watch('images');
 
+  const productImages = watch('productImages');
+  const images = productImages[0].images
+  
   return (
     <Root>
       <div className="flex justify-center sm:justify-start flex-wrap -mx-16">
-        <Controller
-          name="images"
+        {/* <Controller
+          name='productImages[0].images'
           control={control}
           render={({ field: { onChange, value } }) => (
             <Box
@@ -104,7 +107,7 @@ function ItemImagesTab(props) {
               </FuseSvgIcon>
             </Box>
           )}
-        />
+        /> */}
 
         <Controller
           name="featuredImageId"

@@ -10,24 +10,23 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Tooltip from '@mui/material/Tooltip';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Box } from '@mui/system';
 import TableHead from '@mui/material/TableHead';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { lighten } from '@mui/material/styles';
-import { removeProducts } from '../store/itemsCategoriesSlice';
-import { selectUser } from 'app/store/userSlice';
+// import { removeProducts } from '../store/productsSlice';
 
 const rows = [
   {
     id: 'image',
     align: 'left',
     disablePadding: true,
-    label: 'Image',
+    label: '',
     sort: false,
   },
   {
-    id: 'item_name',
+    id: 'name',
     align: 'left',
     disablePadding: false,
     label: 'Name',
@@ -41,31 +40,31 @@ const rows = [
     sort: true,
   },
   {
-    id: 'rate',
+    id: 'ean',
     align: 'left',
     disablePadding: false,
-    label: 'Rate',
+    label: 'EAN',
     sort: true,
   },
   {
-    id: 'unit',
-    align: 'left',
+    id: 'retailPrice',
+    align: 'right',
     disablePadding: false,
-    label: 'Unit',
+    label: 'Retail Price',
     sort: true,
   },
   {
-    id: 'status',
-    align: 'left',
+    id: 'wholesalePrice',
+    align: 'right',
     disablePadding: false,
-    label: 'Status',
+    label: 'Wholesale Price',
     sort: true,
   },
   {
-    id: 'action',
+    id: 'active',
     align: 'left',
     disablePadding: false,
-    label: 'Action',
+    label: 'Active',
     sort: true,
   },
 ];
@@ -77,7 +76,6 @@ function ItemsTableHead(props) {
   const [selectedProductsMenu, setSelectedProductsMenu] = useState(null);
 
   const dispatch = useDispatch();
-  const user = useSelector(selectUser);
 
   const createSortHandler = (property) => (event) => {
     props.onRequestSort(event, property);
@@ -94,6 +92,60 @@ function ItemsTableHead(props) {
   return (
     <TableHead>
       <TableRow className="h-48 sm:h-64">
+        <TableCell
+          sx={{
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'light'
+                ? lighten(theme.palette.background.default, 0.4)
+                : lighten(theme.palette.background.default, 0.02),
+          }}
+          padding="none"
+          className="w-40 md:w-64 text-center z-99"
+        >
+          <Checkbox
+            indeterminate={numSelected > 0 && numSelected < props.rowCount}
+            checked={props.rowCount !== 0 && numSelected === props.rowCount}
+            onChange={props.onSelectAllClick}
+          />
+          {numSelected > 0 && (
+            <Box
+              className="flex items-center justify-center absolute w-64 top-0 ltr:left-0 rtl:right-0 mx-56 h-64 z-10 border-b-1"
+              sx={{
+                background: (theme) => theme.palette.background.default,
+              }}
+            >
+              <IconButton
+                aria-owns={selectedProductsMenu ? 'selectedProductsMenu' : null}
+                aria-haspopup="true"
+                onClick={openSelectedProductsMenu}
+                size="large"
+              >
+                <FuseSvgIcon>heroicons-outline:dots-horizontal</FuseSvgIcon>
+              </IconButton>
+              <Menu
+                id="selectedProductsMenu"
+                anchorEl={selectedProductsMenu}
+                open={Boolean(selectedProductsMenu)}
+                onClose={closeSelectedProductsMenu}
+              >
+                <MenuList>
+                  <MenuItem
+                    onClick={() => {
+                      // dispatch(removeProducts(selectedProductIds));
+                      props.onMenuItemClick();
+                      closeSelectedProductsMenu();
+                    }}
+                  >
+                    <ListItemIcon className="min-w-40">
+                      <FuseSvgIcon>heroicons-outline:trash</FuseSvgIcon>
+                    </ListItemIcon>
+                    <ListItemText primary="Remove" />
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </Box>
+          )}
+        </TableCell>
         {rows.map((row) => {
           return (
             <TableCell
@@ -121,11 +173,7 @@ function ItemsTableHead(props) {
                     onClick={createSortHandler(row.id)}
                     className="font-semibold"
                   >
-                    {
-                      row.id === 'rate' ?
-                        `${row.label} (${!user.data.country !== "" && user.tenant_data.currency_code})` :
-                        row.label
-                    }
+                    {row.label}
                   </TableSortLabel>
                 </Tooltip>
               )}

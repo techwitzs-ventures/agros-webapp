@@ -3,20 +3,12 @@ import { Controller, useFormContext } from "react-hook-form";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { motion } from "framer-motion";
-import { FormControl, FormControlLabel, FormHelperText, Checkbox } from "@mui/material";
-import { useSelector } from 'react-redux';
-import { selectUser } from 'app/store/userSlice';
 
 function PricingTab(props) {
 
     const methods = useFormContext();
-
-    const { control, formState, watch } = methods;
+    const { control, formState } = methods;
     const { errors } = formState;
-
-    const user = useSelector(selectUser);
-
-    const is_taxable = watch('is_taxable');
 
     return (
         <>
@@ -30,16 +22,17 @@ function PricingTab(props) {
                         >
 
                             <Controller
-                                name="rate"
+                                name="wholesalePrice"
                                 control={control}
                                 render={({ field }) => (
                                     <TextField
                                         {...field}
                                         className="mb-24"
-                                        label={`Rate ( ${user.tenant_data.currency_code} )`}
+                                        label='Wholesale Price'
                                         type="number"
-                                        error={!!errors.rate}
-                                        helperText={errors?.rate?.message}
+                                        disabled
+                                        error={!!errors.wholesalePrice}
+                                        helperText={errors?.wholesalePrice?.message}
                                         variant="outlined"
                                         fullWidth
                                         required
@@ -48,16 +41,17 @@ function PricingTab(props) {
                             />
 
                             <Controller
-                                name="purchase_rate"
+                                name="retailPrice"
                                 control={control}
                                 render={({ field }) => (
                                     <TextField
                                         {...field}
                                         className="mb-24"
-                                        label={`Purchase rate ( ${user.tenant_data.currency_code} )`}
+                                        label='Retail Price'
                                         type="number"
-                                        error={!!errors.purchase_rate}
-                                        helperText={errors?.purchase_rate?.message}
+                                        disabled
+                                        error={!!errors.retailPrice}
+                                        helperText={errors?.retailPrice?.message}
                                         variant="outlined"
                                         fullWidth
                                         required
@@ -66,39 +60,41 @@ function PricingTab(props) {
                             />
 
                             <Controller
-                                name="is_taxable"
+                                name="taxRate"
                                 control={control}
                                 render={({ field }) => (
-                                    <FormControl
+                                    <TextField
+                                        {...field}
                                         className="mb-24"
-                                        error={!!errors.is_taxable}>
-                                        <FormControlLabel
-                                            label="Enable Tax"
-                                            control={
-                                                <Checkbox size="small" {...field} />
-                                            }
-                                        />
-                                        <FormHelperText>{errors?.is_taxable?.message}</FormHelperText>
-                                    </FormControl>
+                                        label='Tax Rate'
+                                        type="number"
+                                        disabled
+                                        error={!!errors.taxRate}
+                                        helperText={errors?.taxRate?.message}
+                                        variant="outlined"
+                                        fullWidth
+                                        required
+                                    />
                                 )}
                             />
 
-                            {is_taxable && <Controller
-                                name="tax_id"
+                            <Controller
+                                name="taxId"
                                 control={control}
                                 render={({ field }) => (
                                     <TextField
                                         {...field}
                                         className="mb-24"
                                         label="Tax Id"
-                                        type="text"
-                                        error={!!errors.tax_id}
-                                        helperText={errors?.tax_id?.message}
+                                        type="number"
+                                        disabled
+                                        error={!!errors.taxId}
+                                        helperText={errors?.taxId?.message}
                                         variant="outlined"
                                         fullWidth
                                     />
                                 )}
-                            />}
+                            />
 
                         </form>
                     </CardContent>

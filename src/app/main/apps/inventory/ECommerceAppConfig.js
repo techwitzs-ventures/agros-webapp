@@ -20,7 +20,13 @@ const ECommerceAppConfig = {
     {
       path: 'apps/inventory/items',
       element: <Items />,
-      auth: authRoles.plateformadmin
+      auth: authRoles.plateformadmin,
+      children: [
+        {
+          path: ':itemId',
+          element: <Item />
+        }
+      ],
     },
     {
       path: 'apps/inventory/itemscategory',
@@ -37,16 +43,11 @@ const ECommerceAppConfig = {
       element: <WishlistItems />,
       auth: authRoles.onlySellerAndRetailer
     },
-    {
-      path: 'apps/inventory/items/:itemId/*',
-      element: <Item />,
-      auth: authRoles.plateformadmin
-    },
-    {
-      path: 'apps/inventory/items/:itemId/:wishlistId',
-      element: <Item />,
-      auth: authRoles.plateformadmin
-    },
+    // {
+    //   path: 'apps/inventory/items/:itemId/:wishlistId',
+    //   element: <Item />,
+    //   auth: authRoles.plateformadmin
+    // },
     {
       path: "apps/inventory/itemscategory/:itemscategoryId/*",
       element: <ItemsCategory />,

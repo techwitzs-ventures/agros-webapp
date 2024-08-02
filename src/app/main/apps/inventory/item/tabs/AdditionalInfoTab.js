@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 function AdditonalInfoTab(props) {
 
     const methods = useFormContext();
-
     const { control, formState } = methods;
     const { errors } = formState;
 
@@ -23,41 +22,7 @@ function AdditonalInfoTab(props) {
                         >
 
                             <Controller
-                                name="sku"
-                                control={control}
-                                render={({ field }) => (
-                                    <TextField
-                                        {...field}
-                                        className="mb-24"
-                                        label="SKU"
-                                        type="text"
-                                        error={!!errors.sku}
-                                        helperText={errors?.sku?.message}
-                                        variant="outlined"
-                                        fullWidth
-                                    />
-                                )}
-                            />
-
-                            <Controller
-                                name="upc"
-                                control={control}
-                                render={({ field }) => (
-                                    <TextField
-                                        {...field}
-                                        className="mb-24"
-                                        label="UPC"
-                                        type="text"
-                                        error={!!errors.upc}
-                                        helperText={errors?.upc?.message}
-                                        variant="outlined"
-                                        fullWidth
-                                    />
-                                )}
-                            />
-
-                            <Controller
-                                name="ean"
+                                name="ean13"
                                 control={control}
                                 render={({ field }) => (
                                     <TextField
@@ -65,8 +30,9 @@ function AdditonalInfoTab(props) {
                                         className="mb-24"
                                         label="EAN"
                                         type="text"
-                                        error={!!errors.ean}
-                                        helperText={errors?.ean?.message}
+                                        disabled
+                                        error={!!errors.ean13}
+                                        helperText={errors?.ean13?.message}
                                         variant="outlined"
                                         fullWidth
                                     />
@@ -74,16 +40,17 @@ function AdditonalInfoTab(props) {
                             />
 
                             <Controller
-                                name="isbn"
+                                name="weight"
                                 control={control}
                                 render={({ field }) => (
                                     <TextField
                                         {...field}
                                         className="mb-24"
-                                        label="ISBN"
-                                        type="text"
-                                        error={!!errors.isbn}
-                                        helperText={errors?.isbn?.message}
+                                        label="Weight"
+                                        type="number"
+                                        disabled
+                                        error={!!errors.weight}
+                                        helperText={errors?.weight?.message}
                                         variant="outlined"
                                         fullWidth
                                     />
@@ -91,16 +58,17 @@ function AdditonalInfoTab(props) {
                             />
 
                             <Controller
-                                name="asinno"
+                                name="height"
                                 control={control}
                                 render={({ field }) => (
                                     <TextField
                                         {...field}
                                         className="mb-24"
-                                        label="ASIN"
-                                        type="text"
-                                        error={!!errors.asinno}
-                                        helperText={errors?.asinno?.message}
+                                        label="Height"
+                                        type="number"
+                                        disabled
+                                        error={!!errors.height}
+                                        helperText={errors?.height?.message}
                                         variant="outlined"
                                         fullWidth
                                     />
@@ -108,16 +76,17 @@ function AdditonalInfoTab(props) {
                             />
 
                             <Controller
-                                name="part_number"
+                                name="width"
                                 control={control}
                                 render={({ field }) => (
                                     <TextField
                                         {...field}
                                         className="mb-24"
-                                        label="Part Number"
-                                        type="text"
-                                        error={!!errors.part_number}
-                                        helperText={errors?.part_number?.message}
+                                        label="Width"
+                                        type="number"
+                                        disabled
+                                        error={!!errors.width}
+                                        helperText={errors?.width?.message}
                                         variant="outlined"
                                         fullWidth
                                     />
@@ -125,55 +94,23 @@ function AdditonalInfoTab(props) {
                             />
 
                             <Controller
-                                name="hsn_or_sac"
+                                name="depth"
                                 control={control}
                                 render={({ field }) => (
                                     <TextField
                                         {...field}
                                         className="mb-24"
-                                        label="HSN or SAC"
-                                        type="text"
-                                        error={!!errors.hsn_or_sac}
-                                        helperText={errors?.hsn_or_sac?.message}
+                                        label="Depth"
+                                        type="number"
+                                        disabled
+                                        error={!!errors.depth}
+                                        helperText={errors?.depth?.message}
                                         variant="outlined"
                                         fullWidth
                                     />
                                 )}
                             />
 
-                            <Controller
-                                name="sat_item_key_code"
-                                control={control}
-                                render={({ field }) => (
-                                    <TextField
-                                        {...field}
-                                        className="mb-24"
-                                        label="SAT Item Key Code"
-                                        type="text"
-                                        error={!!errors.sat_item_key_code}
-                                        helperText={errors?.sat_item_key_code?.message}
-                                        variant="outlined"
-                                        fullWidth
-                                    />
-                                )}
-                            />
-
-                            <Controller
-                                name="unitkey_code"
-                                control={control}
-                                render={({ field }) => (
-                                    <TextField
-                                        {...field}
-                                        className="mb-24"
-                                        label="Unit Key Code"
-                                        type="text"
-                                        error={!!errors.unitkey_code}
-                                        helperText={errors?.unitkey_code?.message}
-                                        variant="outlined"
-                                        fullWidth
-                                    />
-                                )}
-                            />
 
                         </form>
                     </CardContent>
