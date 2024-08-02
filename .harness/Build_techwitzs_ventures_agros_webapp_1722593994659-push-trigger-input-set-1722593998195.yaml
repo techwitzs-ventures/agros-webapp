@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_techwitzs_ventures_agros_webapp_1722593994659-push-trigger-input-set
+  identifier: Build_techwitzs_ventures_agros_webapp_1722593994659pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: AgrosHub_App
+  pipeline:
+    identifier: Build_techwitzs_ventures_agros_webapp_1722593994659
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
