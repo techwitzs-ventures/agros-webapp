@@ -1,6 +1,6 @@
 pipeline:
   identifier: Build_techwitzs_ventures_agros_webapp_1722593994659
-  name: Build agros-webapp
+  name: Agros Webapp
   orgIdentifier: default
   projectIdentifier: AgrosHub_App
   properties:
@@ -40,3 +40,4 @@ pipeline:
             type: Cloud
             spec: {}
         type: CI
+  tags: {}
