@@ -14,6 +14,7 @@ import { Manager, Popper, Reference } from 'react-popper';
 import withRouter from '@fuse/core/withRouter';
 import FuseNavItem from '../../FuseNavItem';
 import FuseSvgIcon from '../../../FuseSvgIcon';
+import { useAuth } from 'src/app/main/apps/accounts/auth/AuthContext';
 
 const StyledListItem = styled(ListItem)(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -68,6 +69,8 @@ function FuseNavHorizontalGroup(props) {
     setOpened(open);
   }, 150);
 
+  const { onboardingStatus } = useAuth();
+
   return useMemo(() => {
     let popperPlacement = 'left';
 
@@ -99,7 +102,7 @@ function FuseNavHorizontalGroup(props) {
                 end={item.end}
                 role="button"
                 sx={item.sx}
-                disabled={item.disabled}
+                disabled={item.disabled || !onboardingStatus}
               >
                 {item.icon && (
                   <FuseSvgIcon

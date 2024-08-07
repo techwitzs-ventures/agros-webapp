@@ -6,6 +6,7 @@ import { useMemo } from 'react';
 import ListItem from '@mui/material/ListItem';
 import { ListItemText } from '@mui/material';
 import FuseNavItem from '../../FuseNavItem';
+import { useAuth } from 'src/app/main/apps/accounts/auth/AuthContext';
 
 const Root = styled(ListItem)(({ theme, itempadding, ...props }) => ({
   minminHeight: 44,
@@ -26,6 +27,9 @@ function FuseNavVerticalGroup(props) {
 
   const itempadding = nestedLevel > 0 ? 38 + nestedLevel * 16 : 16;
 
+
+  const { onboardingStatus } = useAuth();
+
   return useMemo(
     () => (
       <>
@@ -41,7 +45,7 @@ function FuseNavVerticalGroup(props) {
           end={item.end}
           role="button"
           sx={item.sx}
-          disabled={item.disabled}
+          disabled={item.disabled || !onboardingStatus}
         >
           <ListItemText
             className="fuse-list-subheader-text"

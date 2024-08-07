@@ -7,6 +7,7 @@ import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import FuseNavBadge from '../../FuseNavBadge';
 import FuseSvgIcon from '../../../FuseSvgIcon';
+import { useAuth } from 'src/app/main/apps/accounts/auth/AuthContext';
 
 const Root = styled(ListItem)(({ theme, ...props }) => ({
   minHeight: 44,
@@ -43,6 +44,8 @@ function FuseNavVerticalLink(props) {
 
   const itempadding = nestedLevel > 0 ? 38 + nestedLevel * 16 : 16;
 
+  const { onboardingStatus } = useAuth();
+
   return useMemo(
     () => (
       <Root
@@ -55,7 +58,7 @@ function FuseNavVerticalLink(props) {
         role="button"
         itempadding={itempadding}
         sx={item.sx}
-        disabled={item.disabled}
+        disabled={item.disabled || !onboardingStatus}
       >
         {item.icon && (
           <FuseSvgIcon

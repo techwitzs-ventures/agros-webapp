@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import FuseNavBadge from '../../FuseNavBadge';
 import FuseSvgIcon from '../../../FuseSvgIcon';
+import { useAuth } from 'src/app/main/apps/accounts/auth/AuthContext';
 
 const Root = styled(ListItem)(({ theme, ...props }) => ({
   minHeight: 44,
@@ -50,6 +51,8 @@ function FuseNavVerticalItem(props) {
 
   const itempadding = nestedLevel > 0 ? 38 + nestedLevel * 16 : 16;
 
+  const { onboardingStatus } = useAuth();
+
   return useMemo(
     () => (
       <Root
@@ -63,7 +66,7 @@ function FuseNavVerticalItem(props) {
         itempadding={itempadding}
         role="button"
         sx={item.sx}
-        disabled={item.disabled}
+        disabled={item.disabled || !onboardingStatus}
       >
         {item.icon && (
           <FuseSvgIcon

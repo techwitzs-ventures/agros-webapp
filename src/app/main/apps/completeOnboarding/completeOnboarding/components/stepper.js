@@ -7,18 +7,17 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import AccountVerification from './accountverification/accountVerification';
 import { useAuth } from '../../../accounts/auth/AuthContext';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'app/store/userSlice';
 import FuseLoading from '@fuse/core/FuseLoading';
 import { styled } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
-import BusinessVerification from './businessverification/businessVerification';
 import CheckAndFinish from './checkandfinish/checkAndFinish';
 import JwtService from '../../../accounts/auth/services/jwtService';
 import withRouter from '@fuse/core/withRouter';
+import AddressUpdation from './addressupdation/addressUpdation';
 
-const steps = ['Account Verification', 'Business Verification', 'Review & Confirm', 'Check & Finish'];
+const steps = ['Account Verification', 'Address Verification', 'Check & Finish'];
 
 const CustomStepIconRoot = styled('div')(({ theme, onboardingStep }) => ({
     display: 'flex',
@@ -53,10 +52,6 @@ function CustomStepIcon(props) {
 
 function AppStepper(props) {
 
-    const [stripeAccountConfirmationStatus, setStripeAccountConfirmationStatus] = React.useState();
-
-    const [stripeAccountDetails, setStripeAccountDetails] = React.useState();
-
     const [activeStep, setActiveStep] = React.useState();
 
     const user = useSelector(selectUser);
@@ -66,56 +61,21 @@ function AppStepper(props) {
         emailVerificationStatus
     } = useAuth();
 
-
     React.useEffect(() => {
 
-        const fetch_Stripe_accountDetails = async () => {
-
-            const response = await axios.post('/stripe/retrieve_stripe_account', {
-                account_id: user.tenant_data.account_id
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (response.status === 200) {
-
-                setStripeAccountConfirmationStatus(response.data.response.details_submitted)
-                setStripeAccountDetails(response.data.response)
-                return response.data.response
-
-            } else {
-
-                console.log("error", response.data.error)
-
-            }
-
+        if (user.data.zipCode !== '') {
+            setActiveStep(2)
+        } else if (mobileNumberVerificationStatus && emailVerificationStatus) {
+            setActiveStep(1)
+        } else {
+            setActiveStep(0)
         }
 
-        fetch_Stripe_accountDetails();
-
-    }, [])
-
-    React.useEffect(() => {
-
-        if (stripeAccountConfirmationStatus !== undefined) {
-
-            if (stripeAccountConfirmationStatus) {
-                setActiveStep(2)
-            } else if (mobileNumberVerificationStatus && emailVerificationStatus) {
-                setActiveStep(1)
-            } else {
-                setActiveStep(0)
-            }
-
-        }
-
-    }, [mobileNumberVerificationStatus, emailVerificationStatus, stripeAccountConfirmationStatus])
+    }, [mobileNumberVerificationStatus, emailVerificationStatus, user])
 
     const handleNext = async () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        if (activeStep === 3) {
+        if (activeStep === 2) {
             await updateOnboardingStatus();
         }
     };
@@ -123,12 +83,6 @@ function AppStepper(props) {
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
-
-    if (stripeAccountConfirmationStatus === undefined) {
-        return (
-            <FuseLoading />
-        )
-    }
 
     const updateOnboardingStatus = async () => {
         try {
@@ -187,18 +141,17 @@ function AppStepper(props) {
                     <Box className="flex flex-col lg:items-center w-full md:w-1/2 lg:w-3/5" sx={{ mt: 6 }}>
 
                         {activeStep === 0 && <AccountVerification />}
-                        {activeStep === 1 && <BusinessVerification setStripeAccountConfirmationStatus={setStripeAccountConfirmationStatus} />}
-                        {activeStep === 2 && <BusinessVerification setStripeAccountConfirmationStatus={setStripeAccountConfirmationStatus} />}
-                        {activeStep === 3 && <CheckAndFinish stripeAccountDetails={stripeAccountDetails} />}
+                        {activeStep === 1 && <AddressUpdation />}
+                        {activeStep === 2 && <CheckAndFinish />}
 
                         <Box className="w-full" sx={{
                             display: 'flex',
                             flexDirection: 'row',
                             pt: 2,
-                            justifyContent: activeStep === 3 ? "space-between" : "end"
+                            justifyContent: activeStep > 0 ? "space-between" : "end"
                         }}>
 
-                            {activeStep === 3 && <Button
+                            {activeStep > 0 && <Button
                                 variant='contained'
                                 color="secondary"
                                 onClick={handleBack}
@@ -212,7 +165,7 @@ function AppStepper(props) {
                                 onClick={handleNext}
                                 disabled={
                                     activeStep === 1 ?
-                                        stripeAccountConfirmationStatus ? false : true :
+                                        user.data.zipCode !== '' ? false : true :
                                         activeStep === 0 ?
                                             mobileNumberVerificationStatus && emailVerificationStatus ? false : true :
                                             false

@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom';
 import { Box } from '@mui/system';
 import FuseNavBadge from '../../FuseNavBadge';
 import FuseSvgIcon from '../../../FuseSvgIcon';
+import { useAuth } from 'src/app/main/apps/accounts/auth/AuthContext';
 
 const Root = styled(Box)(({ theme }) => ({
   '& > .fuse-list-item': {
@@ -70,6 +71,8 @@ function FuseNavVerticalTab(props) {
 
   const { item, onItemClick, firstLevel, dense, selectedId } = props;
 
+  const { onboardingStatus } = useAuth();
+
   return useMemo(
     () => (
       <Root sx={item.sx}>
@@ -86,7 +89,7 @@ function FuseNavVerticalTab(props) {
           )}
           onClick={() => onItemClick && onItemClick(item)}
           role="button"
-          disabled={item.disabled}
+          disabled={item.disabled || !onboardingStatus}
         >
           {dense ? (
             <Tooltip title={item.title || ''} placement="right">

@@ -12,6 +12,7 @@ import List from '@mui/material/List';
 import FuseNavBadge from '../../FuseNavBadge';
 import FuseNavItem from '../../FuseNavItem';
 import FuseSvgIcon from '../../../FuseSvgIcon';
+import { useAuth } from 'src/app/main/apps/accounts/auth/AuthContext';
 
 const Root = styled(List)(({ theme, ...props }) => ({
   padding: 0,
@@ -65,6 +66,8 @@ function FuseNavVerticalCollapse(props) {
   const { item, nestedLevel, onItemClick } = props;
   const itempadding = nestedLevel > 0 ? 38 + nestedLevel * 16 : 16;
 
+  const { onboardingStatus } = useAuth();
+
   const location = useLocation();
 
   useEffect(() => {
@@ -74,7 +77,7 @@ function FuseNavVerticalCollapse(props) {
       }
     }
     // eslint-disable-next-line
-	}, [location, props.item]);
+  }, [location, props.item]);
 
   return useMemo(
     () => (
@@ -87,7 +90,7 @@ function FuseNavVerticalCollapse(props) {
           to={item.url}
           end={item.end}
           role="button"
-          disabled={item.disabled}
+          disabled={item.disabled || !onboardingStatus}
         >
           {item.icon && (
             <FuseSvgIcon

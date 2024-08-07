@@ -8,6 +8,7 @@ import { memo, useMemo } from 'react';
 import withRouter from '@fuse/core/withRouter';
 import FuseNavBadge from '../../FuseNavBadge';
 import FuseSvgIcon from '../../../FuseSvgIcon';
+import { useAuth } from 'src/app/main/apps/accounts/auth/AuthContext';
 
 const StyledListItem = styled(ListItem)(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -33,6 +34,8 @@ const StyledListItem = styled(ListItem)(({ theme }) => ({
 function FuseNavHorizontalItem(props) {
   const { item } = props;
 
+  const { onboardingStatus } = useAuth();
+
   return useMemo(
     () => (
       <StyledListItem
@@ -44,7 +47,7 @@ function FuseNavHorizontalItem(props) {
         end={item.end}
         role="button"
         sx={item.sx}
-        disabled={item.disabled}
+        disabled={item.disabled || !onboardingStatus}
       >
         {item.icon && (
           <FuseSvgIcon
