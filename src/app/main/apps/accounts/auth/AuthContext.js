@@ -9,6 +9,7 @@ import { getAllTenant } from 'app/store/tenantSlice';
 import { getAllItems } from 'app/store/allItemsSlice';
 import { getAllItemsCategories } from 'app/store/allItemsCategoriesSlice';
 import { getAllWishlistItems } from 'app/store/allWishlistItemsSlice';
+import { setOnboardingStatus } from 'app/store/statusSlice';
 
 const AuthContext = React.createContext();
 
@@ -18,7 +19,7 @@ function AuthProvider({ children }) {
   const [waitAuthCheck, setWaitAuthCheck] = useState(true);
   const [mobileNumberVerificationStatus, setMobileNumberVerificationStatus] = useState(false)
   const [emailVerificationStatus, setEmailVerificationStatus] = useState(false)
-  const [onboardingStatus, setOnboardingStatus] = useState(false)
+  const [onboardingStatus, setUserOnboardingStatus] = useState(false)
 
   const dispatch = useDispatch();
 
@@ -70,7 +71,7 @@ function AuthProvider({ children }) {
     })
 
     jwtService.on('onCompleteOnboard', (status) => {
-      setOnboardingStatus(status)
+      setUserOnboardingStatus(status)
     })
 
     jwtService.init();
@@ -101,6 +102,10 @@ function AuthProvider({ children }) {
     }
 
   }, [dispatch]);
+
+  useEffect(()=>{
+    dispatch(setOnboardingStatus(onboardingStatus))
+  },[onboardingStatus])
 
   return waitAuthCheck ? (
     <FuseSplashScreen />

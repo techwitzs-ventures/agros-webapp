@@ -16,11 +16,12 @@ import withAppProviders from './withAppProviders';
 import { AuthProvider } from './main/apps/accounts/auth/AuthContext';
 import axios from 'axios';
 import awsmobile from 'src/aws-exports';
+import { selectUserOnboardingStatus } from './store/statusSlice';
 
 if (process.env.REACT_APP_ENV_NAME === 'develop' && process.env.REACT_APP_ENABLE_MOCK_API === "true") {
 
   import('@mock-api')
-  
+
 } else {
   /**
    * Axios HTTP Request defaults
@@ -45,6 +46,7 @@ const emotionCacheOptions = {
 
 function App() {
   const user = useSelector(selectUser);
+  const onboardingStatus = useSelector(selectUserOnboardingStatus);
   const langDirection = useSelector(selectCurrentLanguageDirection);
   const mainTheme = useSelector(selectMainTheme);
 
@@ -56,6 +58,7 @@ function App() {
             <FuseAuthorization
               userRole={user.role}
               loginRedirectUrl={settingsConfig.loginRedirectUrl}
+              onboardingStatus={onboardingStatus}
             >
               <SnackbarProvider
                 maxSnack={5}

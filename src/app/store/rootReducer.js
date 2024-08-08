@@ -2,6 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import fuse from './fuse';
 import i18n from './i18nSlice';
 import user from './userSlice';
+import status from './statusSlice';
 import tenant from './tenantSlice';
 import items from './allItemsSlice';
 import itemscategories from './allItemsCategoriesSlice';
@@ -15,6 +16,7 @@ const createReducer = (asyncReducers) => (state, action) => {
     fuse,
     i18n,
     user,
+    status,
     tenant,
     items,
     wishlistitems,

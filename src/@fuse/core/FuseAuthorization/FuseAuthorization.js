@@ -58,8 +58,9 @@ class FuseAuthorization extends Component {
   }
 
   redirectRoute() {
-    const { userRole } = this.props;
-    const redirectUrl = getSessionRedirectUrl() || this.props.loginRedirectUrl;
+    const { userRole, onboardingStatus } = this.props;
+    
+    const redirectUrl = getSessionRedirectUrl() || (onboardingStatus ? this.props.loginRedirectUrl : "/completeonboarding")
 
     /*
         User is guest
