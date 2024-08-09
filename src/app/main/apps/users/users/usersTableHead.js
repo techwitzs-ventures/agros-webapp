@@ -39,12 +39,12 @@ const rows = [
   },
 ];
 
-function VendorsTableHead(props) {
+function UsersTableHead(props) {
 
-  const { selectedVendorIds } = props;
-  // const numSelected = selectedVendorIds.length;
+  const { selectedUserIds } = props;
+  // const numSelected = selectedUserIds.length;
 
-  const [selectedVendorsMenu, setSelectedVendorsMenu] = useState(null);
+  const [selectedUsersMenu, setSelectedUsersMenu] = useState(null);
 
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
@@ -53,12 +53,12 @@ function VendorsTableHead(props) {
     props.onRequestSort(event, property);
   };
 
-  function openSelectedVendorsMenu(event) {
-    setSelectedVendorsMenu(event.currentTarget);
+  function openSelectedUsersMenu(event) {
+    setSelectedUsersMenu(event.currentTarget);
   }
 
-  function closeSelectedVendorsMenu() {
-    setSelectedVendorsMenu(null);
+  function closeSelectedUsersMenu() {
+    setSelectedUsersMenu(null);
   }
 
   return (
@@ -103,4 +103,4 @@ function VendorsTableHead(props) {
   );
 }
 
-export default VendorsTableHead;
+export default UsersTableHead;

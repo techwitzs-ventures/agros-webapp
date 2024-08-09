@@ -37,7 +37,7 @@ class FuseAuthorization extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { location, userRole } = props;
+    const { location, userRole, onboardingStatus } = props;
     const { pathname } = location;
 
     const matchedRoutes = matchRoutes(state.routes, pathname);
@@ -49,7 +49,7 @@ class FuseAuthorization extends Component {
     const ignoredPaths = ['/', '/callback', '/sign-in', '/sign-out', '/logout', '/404'];
 
     if (matched && !userHasPermission && !ignoredPaths.includes(pathname)) {
-      setSessionRedirectUrl("/");
+      onboardingStatus ? setSessionRedirectUrl("completeonboarding") : setSessionRedirectUrl("/");
     }
 
     return {
@@ -59,8 +59,7 @@ class FuseAuthorization extends Component {
 
   redirectRoute() {
     const { userRole, onboardingStatus } = this.props;
-    
-    const redirectUrl = getSessionRedirectUrl() || (onboardingStatus ? this.props.loginRedirectUrl : "/completeonboarding")
+    const redirectUrl = !onboardingStatus ? "/completeonboarding" : getSessionRedirectUrl() || this.props.loginRedirectUrl
 
     /*
         User is guest

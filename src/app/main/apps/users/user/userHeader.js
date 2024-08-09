@@ -9,11 +9,11 @@ import { useState } from 'react';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { selectUser } from 'app/store/userSlice';
 import { LoadingButton } from '@mui/lab';
-import { getVendorByEmail, saveVendor } from '../store/userSlice';
+import { getUserByEmail, saveUser } from '../store/userSlice';
 import { showMessage } from 'app/store/fuse/messageSlice';
 
 
-function VendorHeader(props) {
+function UserHeader(props) {
 
     const [loading, setloading] = useState(false)
 
@@ -34,20 +34,20 @@ function VendorHeader(props) {
 
         setloading(true)
 
-        dispatch(getVendorByEmail(data.email)).then((action) => {
-            if (action.payload) {
-                dispatch(showMessage({ message: "Email already added!" }));
-                setloading(false)
-            } else {
-                dispatch(saveVendor({
+        // dispatch(getUserByEmail(data.email)).then((action) => {
+        //     if (action.payload) {
+        //         dispatch(showMessage({ message: "Email already added!" }));
+        //         setloading(false)
+        //     } else {
+                dispatch(saveUser({
                     data,
                     tenant_id: user.tenant_id,
                 })).then(() => {
-                    navigate('/apps/vendors/vendors')
+                    navigate('/apps/users/users')
                     setloading(false)
                 })
-            }
-        });
+        //     }
+        // });
 
     }
 
@@ -62,7 +62,7 @@ function VendorHeader(props) {
                         className="flex items-center sm:mb-12"
                         component={Link}
                         role="button"
-                        to='/apps/vendors/vendors'
+                        to='/apps/users/users'
                         color="inherit"
                     >
                         <FuseSvgIcon size={20}>
@@ -70,7 +70,7 @@ function VendorHeader(props) {
                                 ? 'heroicons-outline:arrow-sm-left'
                                 : 'heroicons-outline:arrow-sm-right'}
                         </FuseSvgIcon>
-                        <span className="flex mx-4 font-medium">Vendor</span>
+                        <span className="flex mx-4 font-medium">User</span>
                     </Typography>
                 </motion.div>
 
@@ -84,7 +84,7 @@ function VendorHeader(props) {
                             {firstname} {lastname}
                         </Typography>
                         <Typography variant="caption" className="font-medium">
-                            Vendor Details
+                            User Details
                         </Typography>
                     </motion.div>
                 </div>
@@ -110,4 +110,4 @@ function VendorHeader(props) {
     );
 }
 
-export default VendorHeader;
+export default UserHeader;

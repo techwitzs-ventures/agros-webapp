@@ -4,6 +4,7 @@ import ECommerceAppConfig from './inventory/ECommerceAppConfig';
 import invoiceConfig from './invoice/invoiceConfig';
 import orderConfig from './order/orderConfig';
 import ProfileAppConfig from './profile/profileAppConfig';
+import UsersAppConfig from './users/usersAppConfig';
 import VendorsAppConfig from './vendors/vendorsAppConfig';
 
 const appsConfigs = [
@@ -11,6 +12,7 @@ const appsConfigs = [
   ECommerceAppConfig,
   CustomersAppConfig,
   VendorsAppConfig,
+  UsersAppConfig,
   orderConfig,
   invoiceConfig,
   CompleteOnboardingConfig,

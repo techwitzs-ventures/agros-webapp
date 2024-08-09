@@ -8,21 +8,21 @@ import { useNavigate } from 'react-router-dom';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { selectUser } from 'app/store/userSlice';
 import { showMessage } from 'app/store/fuse/messageSlice';
-import { selectVendorsSearchText, setVendorsSearchText } from '../store/usersSlice';
+import { selectUsersSearchText, setUsersSearchText } from '../store/usersSlice';
 
 
-function VendorsHeader(props) {
+function UsersHeader(props) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
-  const searchText = useSelector(selectVendorsSearchText);
+  const searchText = useSelector(selectUsersSearchText);
   const user = useSelector(selectUser)
 
-  const handleAddVendor = async () => {
+  const handleAddUser = async () => {
     try {
       if (user.data.country !== "") {
-        navigate("/apps/vendors/vendors/new")
+        navigate("/apps/users/users/new")
       } else {
         dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
       }
@@ -40,7 +40,7 @@ function VendorsHeader(props) {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Vendors
+        Users
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -53,7 +53,7 @@ function VendorsHeader(props) {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Search vendors by name"
+            placeholder="Search users by name"
             className="flex flex-1"
             disableUnderline
             fullWidth
@@ -61,7 +61,7 @@ function VendorsHeader(props) {
             inputProps={{
               'aria-label': 'Search',
             }}
-            onChange={(ev) => dispatch(setVendorsSearchText(ev))}
+            onChange={(ev) => dispatch(setUsersSearchText(ev))}
           />
         </Paper>
         <motion.div
@@ -70,12 +70,12 @@ function VendorsHeader(props) {
         >
           <Button
             className=""
-            onClick={handleAddVendor}
+            onClick={handleAddUser}
             variant="contained"
             color="secondary"
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >
-            Add Vendor
+            Add User
           </Button>
         </motion.div>
       </div>
@@ -83,4 +83,4 @@ function VendorsHeader(props) {
   );
 }
 
-export default VendorsHeader;
+export default UsersHeader;

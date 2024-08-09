@@ -19,25 +19,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import withRouter from '@fuse/core/withRouter';
 import FuseLoading from '@fuse/core/FuseLoading';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import VendorsTableHead from './usersTableHead';
+import UsersTableHead from './usersTableHead';
 import { showMessage } from 'app/store/fuse/messageSlice';
-import { getVendors, selectVendors, selectVendorsSearchText } from '../store/usersSlice';
+import { getUsers, selectUsers, selectUsersSearchText } from '../store/usersSlice';
 
-function VendorsTable(props) {
+function UsersTable(props) {
 
   const dispatch = useDispatch();
-  const vendors = useSelector(selectVendors);
+  const users = useSelector(selectUsers);
   const user = useSelector(selectUser);
 
-  const searchText = useSelector(selectVendorsSearchText);
+  const searchText = useSelector(selectUsersSearchText);
 
-  const [selectedVendorsMenu, setSelectedVendorsMenu] = useState(null);
-  const [selectedVendor, setSelectedVendor] = useState("")
+  const [selectedUsersMenu, setSelectedUsersMenu] = useState(null);
+  const [selectedUser, setSelectedUser] = useState("")
 
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState([]);
 
-  const [data, setData] = useState(vendors);
+  const [data, setData] = useState(users);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [order, setOrder] = useState({
@@ -49,23 +49,23 @@ function VendorsTable(props) {
     if (user) {
       user.data.country === "" && dispatch(showMessage({ message: "Address Not Updated!", variant: "warning" }))
       setLoading(true)
-      const get_vendors_obj = {
+      const get_users_obj = {
         tenant_id: user.tenant_id,
       }
-      dispatch(getVendors(get_vendors_obj)).then(() => setLoading(false));
+      dispatch(getUsers(get_users_obj)).then(() => setLoading(false));
     }
   }, [dispatch]);
 
   useEffect(() => {
     if (searchText.length !== 0) {
       setData(
-        _.filter(vendors, (item) => item.firstname.toLowerCase().includes(searchText.toLowerCase()))
+        _.filter(users, (item) => item.firstname.toLowerCase().includes(searchText.toLowerCase()))
       );
       setPage(0);
     } else {
-      setData(vendors);
+      setData(users);
     }
-  }, [vendors, searchText]);
+  }, [users, searchText]);
 
   function handleRequestSort(event, property) {
     const id = property;
@@ -121,18 +121,18 @@ function VendorsTable(props) {
     setRowsPerPage(event.target.value);
   }
 
-  function openSelectedVendorsMenu(event, vendor) {
-    setSelectedVendor(vendor)
-    setSelectedVendorsMenu(event.currentTarget);
+  function openSelectedUsersMenu(event, user) {
+    setSelectedUser(user)
+    setSelectedUsersMenu(event.currentTarget);
   }
 
-  function closeSelectedVendorsMenu() {
-    setSelectedVendorsMenu(null);
-    setSelectedVendor("")
+  function closeSelectedUsersMenu() {
+    setSelectedUsersMenu(null);
+    setSelectedUser("")
   }
 
-  function handleViewVendorDetails(selectedVendor) {
-    props.navigate(`/apps/vendors/vendors/${selectedVendor.vendor_id}`)
+  function handleViewUserDetails(selectedUser) {
+    props.navigate(`/apps/users/users/${selectedUser.user_id}`)
   }
 
   if (loading) {
@@ -151,7 +151,7 @@ function VendorsTable(props) {
         className="flex flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          There are no vendors!
+          There are no users!
         </Typography>
       </motion.div>
     );
@@ -161,7 +161,7 @@ function VendorsTable(props) {
     <div className="w-full flex flex-col min-h-full">
       <FuseScrollbars className="grow overflow-x-auto">
         <Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
-          <VendorsTableHead
+          <UsersTableHead
             selectedProductIds={selected}
             order={order}
             onSelectAllClick={handleSelectAllClick}
@@ -197,7 +197,7 @@ function VendorsTable(props) {
                     role="checkbox"
                     aria-checked={isSelected}
                     tabIndex={-1}
-                    key={n.id}
+                    key={n.uuid}
                     selected={isSelected}
                   >
                     <TableCell className="p-4 md:p-16" component="th" scope="row">
@@ -230,23 +230,23 @@ function VendorsTable(props) {
 
                     <TableCell className='p-4 md:p-16' component="th" scope="row" align="left">
                       <IconButton
-                        aria-owns={selectedVendorsMenu ? 'selectedVendorsMenu' : null}
+                        aria-owns={selectedUsersMenu ? 'selectedUsersMenu' : null}
                         aria-haspopup="true"
-                        onClick={(event) => openSelectedVendorsMenu(event, n)}
+                        onClick={(event) => openSelectedUsersMenu(event, n)}
                         size="small">
                         <FuseSvgIcon>heroicons-outline:dots-horizontal</FuseSvgIcon>
                       </IconButton>
 
-                      {selectedVendor !== "" && <Menu
-                        id="selectedVendorsMenu"
-                        anchorEl={selectedVendorsMenu}
-                        open={Boolean(selectedVendorsMenu)}
-                        onClose={closeSelectedVendorsMenu}
+                      {selectedUser !== "" && <Menu
+                        id="selectedUsersMenu"
+                        anchorEl={selectedUsersMenu}
+                        open={Boolean(selectedUsersMenu)}
+                        onClose={closeSelectedUsersMenu}
                       >
                         <MenuList>
                           <MenuItem onClick={() => {
-                            handleViewVendorDetails(selectedVendor);
-                            closeSelectedVendorsMenu();
+                            handleViewUserDetails(selectedUser);
+                            closeSelectedUsersMenu();
                           }}>
                             <ListItemText primary="View Details" />
                           </MenuItem>
@@ -281,4 +281,4 @@ function VendorsTable(props) {
   );
 }
 
-export default withRouter(VendorsTable);
+export default withRouter(UsersTable);

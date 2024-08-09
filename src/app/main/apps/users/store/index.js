@@ -1,10 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import vendors from './usersSlice'
-import vendor from './userSlice'
+import users from './usersSlice'
+import user from './userSlice'
 
 const reducer = combineReducers({
-    vendors,
-    vendor
+    users,
+    user
 })
 
 export default reducer

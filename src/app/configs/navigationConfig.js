@@ -73,6 +73,14 @@ const navigationConfig = [
       }
     ],
   },
+  {
+    id: 'users',
+    title: 'Users',
+    type: 'item',
+    auth: authRoles.plateformadmin,
+    icon: 'heroicons-outline:user-group',
+    url: 'apps/users/users'
+  },
   // {
   //   id: 'marketplace.my-purchase-orders',
   //   title: 'Purchase Orders',

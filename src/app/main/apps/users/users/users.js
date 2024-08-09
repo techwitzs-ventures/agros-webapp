@@ -2,19 +2,19 @@ import FusePageCarded from '@fuse/core/FusePageCarded';
 import withReducer from 'app/store/withReducer';
 import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
 import reducer from '../store';
-import VendorsHeader from './usersHeader';
-import VendorsTable from './usersTable';
+import UsersHeader from './usersHeader';
+import UsersTable from './usersTable';
 
-function Vendors() {
+function Users() {
     const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
 
     return (
         <FusePageCarded
-            header={<VendorsHeader />}
-            content={<VendorsTable />}
+            header={<UsersHeader />}
+            content={<UsersTable />}
             scroll={isMobile ? 'normal' : 'content'}
         />
     );
 }
 
-export default withReducer('vendorsApp', reducer)(Vendors);
+export default withReducer('usersApp', reducer)(Users);

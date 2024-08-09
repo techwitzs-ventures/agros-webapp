@@ -74,7 +74,7 @@ class JwtService extends FuseUtils.EventEmitter {
   // Fetching user's details from the user dynamodb or table
   getSingleUserDetailsByUUID = async (data) => {
     return new Promise((resolve, reject) => {
-      axios.get('/user/getuserbyuuid', {
+      axios.get('/user/getuserbycognitoid', {
         params: data
       }).then((res) => {
         if (res.status === 200) {
@@ -91,9 +91,9 @@ class JwtService extends FuseUtils.EventEmitter {
   };
 
   // Fetching User Details by Tenant Id
-  getUserByTenantId = (tenant_id) => {
+  getUsersByTenantId = (tenant_id) => {
     return new Promise((resolve, reject) => {
-      axios.get('/user/getuserbytenantid', {
+      axios.get('/user/getusersbytenantid', {
         params: { tenant_id }
       }).then((res) => {
         if (res.status === 200) {
@@ -159,9 +159,9 @@ class JwtService extends FuseUtils.EventEmitter {
 
           if (response) {
 
-            const result = await axios.patch('/user/updateuserbyuuid', data, {
+            const result = await axios.patch('/user/updateuserbycognitoid', data, {
               params: {
-                uuid: response.signInUserSession.accessToken.payload.sub,
+                cognito_id: response.signInUserSession.accessToken.payload.sub,
                 tenant_id
               }
             })
@@ -408,7 +408,7 @@ class JwtService extends FuseUtils.EventEmitter {
             this.emit("onCompleteOnboard", onboardingstatus);
 
             const user = await this.getSingleUserDetailsByUUID({
-              uuid: response.signInUserSession.accessToken.payload.sub,
+              cognito_id: response.signInUserSession.accessToken.payload.sub,
             });
 
             this.setSession(response.signInUserSession.accessToken.jwtToken);
@@ -449,7 +449,7 @@ class JwtService extends FuseUtils.EventEmitter {
         this.emit("onCompleteOnboard", onboardingstatus);
 
         const user = await this.getSingleUserDetailsByUUID({
-          uuid: result.signInUserSession.accessToken.payload.sub
+          cognito_id: result.signInUserSession.accessToken.payload.sub
         });
 
         this.setSession(result.signInUserSession.accessToken.jwtToken);

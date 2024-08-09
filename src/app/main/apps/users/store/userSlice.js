@@ -3,16 +3,16 @@ import { showMessage } from 'app/store/fuse/messageSlice';
 import axios from 'axios';
 
 
-export const getVendor = createAsyncThunk('vendorsApp/vendor/getVendor',
+export const getUser = createAsyncThunk('usersApp/user/getUser',
 
     async (queryparams, { dispatch, getState }) => {
 
         try {
             const result = await axios.get(
-                '/vendor/getvendor',
+                '/user/getuser',
                 {
                     params: {
-                        vendor_id: queryparams.vendor_id
+                        user_id: queryparams.user_id
                     }
                 }
             );
@@ -33,11 +33,11 @@ export const getVendor = createAsyncThunk('vendorsApp/vendor/getVendor',
 
     });
 
-export const getVendorByEmail = createAsyncThunk('vendorsApp/vendor/getVendorByEmail',
+export const getUserByEmail = createAsyncThunk('usersApp/user/getUserByEmail',
     async (email, { dispatch, getState }) => {
         try {
             const result = await axios.get(
-                '/vendor/vendorsbyemail',
+                '/user/usersbyemail',
                 {
                     params: {
                         email
@@ -58,27 +58,26 @@ export const getVendorByEmail = createAsyncThunk('vendorsApp/vendor/getVendorByE
     }
 )
 
-export const saveVendor = createAsyncThunk('vendorsApp/vendor/saveVendor',
+export const saveUser = createAsyncThunk('usersApp/user/saveUser',
 
-    async (vendorData, { dispatch, getState }) => {
+    async (userData, { dispatch, getState }) => {
 
         const body = {
-            email: vendorData.data.email,
-            mobilenumber: `${vendorData.data.countrycode}${vendorData.data.mobilenumber}`,
-            firstname: vendorData.data.firstname,
-            lastname: vendorData.data.lastname
+            email: userData.data.email,
+            mobilenumber: `${userData.data.countrycode}${userData.data.mobilenumber}`,
+            firstname: userData.data.firstname,
+            lastname: userData.data.lastname
         }
         try {
-            const result = await axios.post(
-                '/vendor/create_vendor',
+            const result = await axios.post('/tenant/adduser',
                 body,
                 {
                     params: {
-                        tenant_id: vendorData.tenant_id,
+                        tenant_id: userData.tenant_id,
                     }
                 }
             )
-            if (result.status === 201) {
+            if (result.status === 200) {
                 dispatch(showMessage({ message: result.data.message, variant: "success" }));
                 return result.data.response
             }
@@ -89,12 +88,12 @@ export const saveVendor = createAsyncThunk('vendorsApp/vendor/saveVendor',
 
     });
 
-const vendorSlice = createSlice({
-    name: 'vendorsApp/vendor',
+const userSlice = createSlice({
+    name: 'usersApp/user',
     initialState: null,
     reducers: {
-        resetVendor: () => null,
-        newVendor: {
+        resetUser: () => null,
+        newUser: {
             reducer: (state, action) => action.payload,
             prepare: (event) => ({
                 payload: {
@@ -107,13 +106,13 @@ const vendorSlice = createSlice({
         },
     },
     extraReducers: {
-        [getVendor.fulfilled]: (state, action) => action.payload,
-        [saveVendor.fulfilled]: (state, action) => action.payload,
+        [getUser.fulfilled]: (state, action) => action.payload,
+        [saveUser.fulfilled]: (state, action) => action.payload,
     },
 });
 
-export const { newVendor, resetVendor } = vendorSlice.actions;
+export const { newUser, resetUser } = userSlice.actions;
 
-export const selectVendor = ({ vendorsApp }) => vendorsApp.vendor;
+export const selectUser = ({ usersApp }) => usersApp.user;
 
-export default vendorSlice.reducer;
+export default userSlice.reducer;

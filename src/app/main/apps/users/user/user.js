@@ -17,19 +17,19 @@ import * as yup from 'yup';
 import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
 import reducer from '../store';
 import BasicInfoTab from './tabs/BasicInfoTab';
-import { getVendor, newVendor, resetVendor, selectVendor } from '../store/userSlice';
-import VendorHeader from './userHeader';
+import { getUser, newUser, resetUser, selectUser } from '../store/userSlice';
+import UserHeader from './userHeader';
 
 /**
  * Form Validation Schema
  */
 const schema = yup.object().shape({
-    email: yup.string().email('Enter a valid email').required(`Enter vendor's Email`).matches(
+    email: yup.string().email('Enter a valid email').required(`Enter user's Email`).matches(
         /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$/,
         'Invalid email format'
     ),
     countrycode: yup.string().required('Select country code'),
-    mobilenumber: yup.string().required(`Enter vendor's Mob.no`).test('is-valid-phone', function (value) {
+    mobilenumber: yup.string().required(`Enter user's Mob.no`).test('is-valid-phone', function (value) {
 
         const { countrycode } = this.parent;
 
@@ -47,8 +47,8 @@ const schema = yup.object().shape({
         return true;
 
     }),
-    firstname: yup.string().required('Enter vendor first name').min(2, 'First name must be at least 2 characters'),
-    lastname: yup.string().required('Enter vendor last name').min(2, 'Last name must be at least 2 characters'),
+    firstname: yup.string().required('Enter user first name').min(2, 'First name must be at least 2 characters'),
+    lastname: yup.string().required('Enter user last name').min(2, 'Last name must be at least 2 characters'),
 
 });
 
@@ -60,16 +60,16 @@ const defaultValues = {
     lastname: '',
 }
 
-function Vendor(props) {
+function User(props) {
 
     const dispatch = useDispatch();
-    const vendor = useSelector(selectVendor);
+    const user = useSelector(selectUser);
 
     const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
     const routeParams = useParams();
 
     const [tabValue, setTabValue] = useState(0);
-    const [noVendor, setNoVendor] = useState(false);
+    const [noUser, setNoUser] = useState(false);
 
     const methods = useForm({
         mode: 'onChange',
@@ -81,53 +81,53 @@ function Vendor(props) {
     const form = watch();
 
     useDeepCompareEffect(() => {
-        function updateVendorState() {
+        function updateUserState() {
 
-            const { vendorId } = routeParams;
+            const { userId } = routeParams;
 
-            if (vendorId === 'new') {
+            if (userId === 'new') {
                 /**
-                 * Create New Vendor data
+                 * Create New User data
                  */
-                dispatch(newVendor());
+                dispatch(newUser());
             } else {
                 /**
-                 * Get Vendor data
+                 * Get User data
                  */
                 const queryparams = {
-                    vendor_id: vendorId
+                    user_id: userId
                 }
-                dispatch(getVendor(queryparams)).then((action) => {
+                dispatch(getUser(queryparams)).then((action) => {
                     /**
-                     * If the requested vendor is not exist show message
+                     * If the requested user is not exist show message
                      */
                     if (!action.payload) {
-                        setNoVendor(true);
+                        setNoUser(true);
                     }
                 });
             }
         }
 
-        updateVendorState();
+        updateUserState();
     }, [dispatch, routeParams]);
 
     useEffect(() => {
-        if (!vendor) {
+        if (!user) {
             return;
         }
         /**
-         * Reset the form on vendor state changes
+         * Reset the form on user state changes
          */
-        reset(vendor);
-    }, [vendor, reset]);
+        reset(user);
+    }, [user, reset]);
 
     useEffect(() => {
         return () => {
             /**
-             * Reset Vendor on component unload
+             * Reset User on component unload
              */
-            dispatch(resetVendor());
-            setNoVendor(false);
+            dispatch(resetUser());
+            setNoUser(false);
         };
     }, [dispatch]);
 
@@ -139,9 +139,9 @@ function Vendor(props) {
     }
 
     /**
-     * Show Message if the requested vendors is not exists
+     * Show Message if the requested users is not exists
      */
-    if (noVendor) {
+    if (noUser) {
         return (
             <motion.div
                 initial={{ opacity: 0 }}
@@ -149,23 +149,23 @@ function Vendor(props) {
                 className="flex flex-col flex-1 items-center justify-center h-full"
             >
                 <Typography color="text.secondary" variant="h5">
-                    There is no such vendor!
+                    There is no such user!
                 </Typography>
                 <Button
                     className="mt-24"
                     component={Link}
                     variant="outlined"
-                    to="/apps/vendors/vendors"
+                    to="/apps/users/users"
                     color="inherit"
                 >
-                    Go to Vendors Page
+                    Go to Users Page
                 </Button>
             </motion.div>
         );
     }
 
     /**
-     * Wait while vendor data is loading and form is setted
+     * Wait while user data is loading and form is setted
      */
     if (
         _.isEmpty(form)
@@ -176,7 +176,7 @@ function Vendor(props) {
     return (
         <FormProvider {...methods}>
             <FusePageCarded
-                header={<VendorHeader />}
+                header={<UserHeader />}
                 content={
                     <>
                         <Tabs
@@ -188,7 +188,7 @@ function Vendor(props) {
                             scrollButtons="auto"
                             classes={{ root: 'w-full h-64 border-b-1' }}
                         >
-                            <Tab className="h-64" label="Vendor Info" />
+                            <Tab className="h-64" label="User Info" />
                         </Tabs>
                         <div className="p-16 sm:p-24 max-w-3xl">
                             <div className={tabValue !== 0 ? 'hidden' : ''}>
@@ -203,4 +203,4 @@ function Vendor(props) {
     );
 }
 
-export default withReducer('vendorsApp', reducer)(Vendor);
+export default withReducer('usersApp', reducer)(User);
